@@ -20,5 +20,13 @@ public class TestController {
         return "Hello test!";
     }
 	
+	//返回首页
+	@RequestMapping("/home")
+	public String home()
+	{ 
+		return "home";
+	  	
+	}
+	
 	
 }

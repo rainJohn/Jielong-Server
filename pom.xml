@@ -59,6 +59,12 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 
 		</dependency>
+		
+		<!-- thymeleaf模板引擎 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
@@ -73,6 +79,16 @@
 		</dependency>
 
 	</dependencies>
+	
+	<build>
+	   <plugins>
+	     <!-- 打成jar包插件 -->
+	      <plugin>
+	          <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+	      </plugin>
+	   </plugins>
+	</build>
 
 
 </project>
