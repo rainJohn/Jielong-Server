@@ -9,35 +9,40 @@
 	<packaging>jar</packaging>
 
 	<name>springboot-mybatis-annotation</name>
-	<description>Springboot-mybatis :: 整合Mybatis Annotation Demo</description>
+	<description>Springboot-mybatis 接龙小程序</description>
 
+	
 	<!-- Spring Boot 启动父依赖 -->
 	<parent>
-		<groupId>org.mybatis.spring.boot</groupId>
-		<artifactId>mybatis-spring-boot</artifactId>
-		
-		<version>2.0.0-SNAPSHOT</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.1.RELEASE</version>
 	</parent>
 
 	<properties>
+		<mybatis-spring-boot>1.2.0</mybatis-spring-boot>
 		<mysql-connector>5.1.39</mysql-connector>
 	</properties>
 
 	<dependencies>
-
 		<!-- Spring Boot Web 依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-
+		<!-- Spring Boot Test 依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Spring Boot Mybatis 依赖 -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
-
+			<version>${mybatis-spring-boot}</version>
 		</dependency>
 
 		<!-- MySQL 连接驱动依赖 -->
@@ -47,38 +52,12 @@
 			<version>${mysql-connector}</version>
 		</dependency>
 
+		<!-- Junit -->
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20080701</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
 		</dependency>
-
-		<dependency>
-
-			<groupId>org.springframework.boot</groupId>
-
-			<artifactId>spring-boot-starter-actuator</artifactId>
-
-		</dependency>
-		
-		<!-- thymeleaf模板引擎 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<!-- test dependencies -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 	
 	<build>
