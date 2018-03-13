@@ -28,5 +28,10 @@ public class TestController {
 	  	
 	}
 	
+	@RequestMapping("/upload")
+	public String upload() {
+		return "upload";
+	}
+	
 	
 }

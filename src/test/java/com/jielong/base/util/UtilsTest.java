@@ -16,6 +16,13 @@ public class UtilsTest {
 		}
 	}
 	
+/*	public double[] test(double a,double b,double a1, double b1, double sum1,double sum2) {
+		double x=0,y=0;
+		double tempX=(sum1-b*y)/a;
+		
+		
+	}*/
+	
 	
 
 }
