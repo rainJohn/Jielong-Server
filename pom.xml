@@ -51,11 +51,18 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector}</version>
 		</dependency>
-		
+		<!-- thymeleaf 模板引擎 -->
 		<dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        
+        <dependency>
+        	<groupId>com.vaadin.external.google</groupId>
+		    <artifactId>android-json</artifactId>
+		    <version>0.0.20131108.vaadin1</version>
+        </dependency>
+        
 
 		<!-- 热部署 -->
 		<dependency>
