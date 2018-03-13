@@ -4,7 +4,7 @@
 
 	<!-- classPathEntry:数据库的JDBC驱动的jar包地址 -->
 	<classPathEntry
-		location="C:\Users\BHQH\.m2\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar" />
+		location="C:\Users\cxy\.m2\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar" />
 
 	<context id="MysqlTables" targetRuntime="MyBatis3">
 
