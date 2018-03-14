@@ -11,11 +11,11 @@
 	<name>springboot-mybatis-annotation</name>
 	<description>Springboot-mybatis 接龙小程序</description>
 
-	
+
 	<!-- Spring Boot 启动父依赖 -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>  
+		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.0.RELEASE</version>
 	</parent>
 
@@ -53,32 +53,38 @@
 		</dependency>
 		<!-- thymeleaf 模板引擎 -->
 		<dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        
-        <dependency>
-        	<groupId>com.vaadin.external.google</groupId>
-		    <artifactId>android-json</artifactId>
-		    <version>0.0.20131108.vaadin1</version>
-        </dependency>
-        
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin.external.google</groupId>
+			<artifactId>android-json</artifactId>
+			<version>0.0.20131108.vaadin1</version>
+		</dependency>
+
 
 		<!-- Junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			</dependency>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
-	   <plugins>
-	     <!-- 打成jar包插件 -->
-	      <plugin>
-	          <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-maven-plugin</artifactId>
-	      </plugin>
-	   </plugins>
+		<plugins>
+			<!-- 打成jar包插件 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 
 
