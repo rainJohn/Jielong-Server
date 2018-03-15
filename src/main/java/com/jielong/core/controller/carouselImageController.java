@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import com.jielong.base.util.Constant;
 import com.jielong.core.domain.Carousel;
 import com.jielong.core.service.CarouselImageService;
 
@@ -34,12 +35,12 @@ public class carouselImageController {
 	 * @param file 前台上传的文件对象
 	 * @return
 	 * */
-	@RequestMapping(value="/upload",method=RequestMethod.POST)
+	@RequestMapping(value="/uploadCarousel",method=RequestMethod.POST)
 	@ResponseBody
 	public String upLoad(HttpServletRequest request,MultipartFile file){
 		try{
 			   //上传目录地址
-			   String uploadDir = request.getSession().getServletContext().getRealPath("/")+"upload/";
+			   String uploadDir = Constant.UPLOADED_FOLDER;
 			   System.out.println(uploadDir);
 			   //如果目录不存在，自动创建文件夹
 			   File dir = new File(uploadDir);

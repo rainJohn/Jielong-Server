@@ -18,25 +18,25 @@
 		</commentGenerator>
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://192.168.16.110:3306/jielong" password="123456"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/jielong" password="123456"
 			userId="root" />
 
 		<!-- 生成model模型 -->
 		<javaModelGenerator targetPackage="com.jielong.core.domain"
-			targetProject="Jielong-Server/src/main/java">
+			targetProject="bohai-jielongServer/src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!--对应的xml mapper文件 -->
 		<sqlMapGenerator targetPackage="com.jielong.core.dao"
-			targetProject="Jielong-Server/src/main/resources">
+			targetProject="bohai-jielongServer/src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 对应的dao接口 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.jielong.core.dao" targetProject="Jielong-Server/src/main/java">
+			targetPackage="com.jielong.core.dao" targetProject="bohai-jielongServer/src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
