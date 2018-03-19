@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Jielong {
     private Integer id;
+    
+    private Integer userId;
 
     private String topic;
 
@@ -33,94 +35,102 @@ public class Jielong {
 
     //商品列表
     private List<Goods> goodsList;
-    
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getTopic() {
-        return topic;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setTopic(String topic) {
-        this.topic = topic == null ? null : topic.trim();
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public String getTopic() {
+		return topic;
+	}
 
-    public String getAddressName() {
-        return addressName;
-    }
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
 
-    public void setAddressName(String addressName) {
-        this.addressName = addressName == null ? null : addressName.trim();
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getAddressDetail() {
-        return addressDetail;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail == null ? null : addressDetail.trim();
-    }
+	public String getAddressName() {
+		return addressName;
+	}
 
-    public Integer getSetFinishTime() {
-        return setFinishTime;
-    }
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
 
-    public void setSetFinishTime(Integer setFinishTime) {
-        this.setFinishTime = setFinishTime;
-    }
+	public String getAddressDetail() {
+		return addressDetail;
+	}
 
-    public Date getFinishTime() {
-        return finishTime;
-    }
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
+	}
 
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-    }
+	public Integer getSetFinishTime() {
+		return setFinishTime;
+	}
 
-    public String getIntroImages() {
-        return introImages;
-    }
+	public void setSetFinishTime(Integer setFinishTime) {
+		this.setFinishTime = setFinishTime;
+	}
 
-    public void setIntroImages(String introImages) {
-        this.introImages = introImages == null ? null : introImages.trim();
-    }
+	public Date getFinishTime() {
+		return finishTime;
+	}
 
-    public String getGoodsAddresses() {
-        return goodsAddresses;
-    }
+	public void setFinishTime(Date finishTime) {
+		this.finishTime = finishTime;
+	}
 
-    public void setGoodsAddresses(String goodsAddresses) {
-        this.goodsAddresses = goodsAddresses == null ? null : goodsAddresses.trim();
-    }
+	public String getIntroImages() {
+		return introImages;
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setIntroImages(String introImages) {
+		this.introImages = introImages;
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public String getGoodsAddresses() {
+		return goodsAddresses;
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setGoodsAddresses(String goodsAddresses) {
+		this.goodsAddresses = goodsAddresses;
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	public List<Goods> getGoodsList() {
 		return goodsList;
@@ -129,5 +139,8 @@ public class Jielong {
 	public void setGoodsList(List<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
+    
+   
+	
     
 }

@@ -34,6 +34,7 @@ public class UserAddressController {
 		return userAddressService.updateById(userAddress);
 	}
 	
+	@RequestMapping("/selectByUserId")
 	public ResponseBean<List<UserAddress>> selectByUserId(@RequestParam("userId") Integer userId){
 		return userAddressService.selectByUserId(userId);
 	}

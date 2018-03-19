@@ -1,6 +1,10 @@
 package com.jielong.core.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.jielong.core.domain.Jielong;
 
@@ -17,4 +21,10 @@ public interface JielongMapper {
     int updateByPrimaryKeySelective(Jielong record);
 
     int updateByPrimaryKey(Jielong record);
+    
+    @Select("select * from jielong")
+    List<Jielong> selectAll();
+    
+    @Select("select * from jielong where user_id= #{userId}")
+    List<Jielong> selectByUserId(@Param("userId") Integer userId);
 }

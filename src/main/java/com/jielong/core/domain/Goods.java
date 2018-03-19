@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Goods {
     private Integer id;
 
-    private String jielongId;
+    private Integer jielongId;
 
     private String name;
 
@@ -42,14 +42,9 @@ public class Goods {
         this.id = id;
     }
 
-    public String getJielongId() {
-        return jielongId;
-    }
+    
 
-    public void setJielongId(String jielongId) {
-        this.jielongId = jielongId == null ? null : jielongId.trim();
-    }
-
+   
     public String getName() {
         return name;
     }
@@ -137,4 +132,13 @@ public class Goods {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Integer getJielongId() {
+		return jielongId;
+	}
+
+	public void setJielongId(Integer jielongId) {
+		this.jielongId = jielongId;
+	}
+    
 }

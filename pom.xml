@@ -44,6 +44,12 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis-spring-boot}</version>
 		</dependency>
+        <!-- pagehelper分页插件 -->   
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
+		</dependency>
 
 		<!-- MySQL 连接驱动依赖 -->
 		<dependency>

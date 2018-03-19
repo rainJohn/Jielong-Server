@@ -22,13 +22,8 @@ public interface  GoodsClassDao{
 	 * 插入一条记录
 	 * @param goodsClassDao
 	 */
-	@Insert("insert into goods_class(className,createdAt,updatedAt) values(#{className},now(),now())")
+	@Insert("insert into goods_class(class_name,created_at,updated_at) values(#{className},now(),now())")
     void insert(GoodsClass goodsClass); 
 	
-	/**
-	 * 根据id查询单条记录
-	 * @param id
-	 * @return
-	 */
-	GoodsClass selectById(Integer id);
+    
 }

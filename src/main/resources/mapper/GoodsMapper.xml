@@ -3,7 +3,7 @@
 <mapper namespace="com.jielong.core.dao.GoodsMapper">
   <resultMap id="BaseResultMap" type="com.jielong.core.domain.Goods">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="jielong_id" jdbcType="VARCHAR" property="jielongId" />
+    <result column="jielong_id" jdbcType="INTEGER" property="jielongId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent_class_id" jdbcType="INTEGER" property="parentClassId" />
     <result column="sub_class_id" jdbcType="INTEGER" property="subClassId" />
@@ -36,7 +36,7 @@
       price, repertory, is_set_group, 
       group_sum, server_paths, created_at, 
       updated_at)
-    values (#{id,jdbcType=INTEGER}, #{jielongId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{jielongId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{parentClassId,jdbcType=INTEGER}, #{subClassId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
       #{price,jdbcType=DECIMAL}, #{repertory,jdbcType=INTEGER}, #{isSetGroup,jdbcType=INTEGER}, 
       #{groupSum,jdbcType=VARCHAR}, #{serverPaths,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
@@ -90,7 +90,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="jielongId != null">
-        #{jielongId,jdbcType=VARCHAR},
+        #{jielongId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -131,7 +131,7 @@
     update goods
     <set>
       <if test="jielongId != null">
-        jielong_id = #{jielongId,jdbcType=VARCHAR},
+        jielong_id = #{jielongId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -171,7 +171,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.Goods">
     update goods
-    set jielong_id = #{jielongId,jdbcType=VARCHAR},
+    set jielong_id = #{jielongId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       parent_class_id = #{parentClassId,jdbcType=INTEGER},
       sub_class_id = #{subClassId,jdbcType=INTEGER},

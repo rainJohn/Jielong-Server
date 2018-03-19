@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.jielong.base.util.ErrorCode;
+import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
@@ -42,6 +44,7 @@ public class JielongServiceImpl implements JielongService{
 			
 			//插入该接龙对应的所有商品
 			for(Goods goods : goodsList) {
+			   goods.setJielongId(jieLongId);	
 			   goodsMapper.insertSelective(goods) ; 			
 				
 			}
@@ -56,6 +59,33 @@ public class JielongServiceImpl implements JielongService{
 			return responseBean;
 		
      }
+	
+	@Transactional
+	@Override
+	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
+	    PageHelper.startPage(pageBean.getPageNum(),pageBean.getPageSize()); 
+	    List<Jielong> jielongs=jielongMapper.selectAll();
+	    
+	    for(Jielong jielong : jielongs) {
+	      List<Goods> goodsList=goodsMapper.selectByJielongId(jielong.getId());
+	      jielong.setGoodsList(goodsList);
+	    }
+	    
+	    ResponseBean<List<Jielong>> responseBean=new ResponseBean<List<Jielong>>(jielongs);
+		return responseBean;
+	}
+	
+	@Transactional
+	@Override
+	public ResponseBean<List<Jielong>> selectByUserId(Integer userId) {
+		
+		List<Jielong> jielongs=jielongMapper.selectByUserId(userId);
+		for(Jielong jielong : jielongs) {
+			List<Goods> goodsList=goodsMapper.selectByJielongId(jielong.getId());
+			jielong.setGoodsList(goodsList);
+		}
+		return new ResponseBean<List<Jielong>>(jielongs);
+	}
 	
 	
 
