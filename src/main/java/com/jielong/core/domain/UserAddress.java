@@ -2,8 +2,6 @@ package com.jielong.core.domain;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class UserAddress {
     private Integer id;
 
@@ -13,11 +11,13 @@ public class UserAddress {
 
     private String detail;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Integer longitude;
+
     private Date createdAt;
-    
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+
     private Date updatedAt;
+
+    private Integer latitude;
 
     public Integer getId() {
         return id;
@@ -51,6 +51,14 @@ public class UserAddress {
         this.detail = detail == null ? null : detail.trim();
     }
 
+    public Integer getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Integer longitude) {
+        this.longitude = longitude;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -65,5 +73,13 @@ public class UserAddress {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Integer latitude) {
+        this.latitude = latitude;
     }
 }

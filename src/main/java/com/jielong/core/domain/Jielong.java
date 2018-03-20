@@ -17,6 +17,11 @@ public class Jielong {
     private String addressName;
 
     private String addressDetail;
+    
+    private Integer addressLongitude;  //经度
+    
+    private Integer addressLatitude;   //纬度
+   
 
     private Integer setFinishTime;
     
@@ -28,6 +33,8 @@ public class Jielong {
     private String goodsAddresses;
     
     private String phoneNumber;
+    
+   
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
@@ -149,6 +156,23 @@ public class Jielong {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+	public Integer getAddressLongitude() {
+		return addressLongitude;
+	}
+
+	public void setAddressLongitude(Integer addressLongitude) {
+		this.addressLongitude = addressLongitude;
+	}
+
+	public Integer getAddressLatitude() {
+		return addressLatitude;
+	}
+
+	public void setAddressLatitude(Integer addressLatitude) {
+		this.addressLatitude = addressLatitude;
+	}
+	
 	
 	
     

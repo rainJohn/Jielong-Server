@@ -7,6 +7,8 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="address_name" jdbcType="VARCHAR" property="addressName" />
     <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="address_longitude" jdbcType="INTEGER" property="addressLongitude" />
+    <result column="address_latitude" jdbcType="INTEGER" property="addressLatitude" />
     <result column="set_finish_time" jdbcType="INTEGER" property="setFinishTime" />
     <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
     <result column="intro_images" jdbcType="VARCHAR" property="introImages" />
@@ -17,7 +19,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id,topic, description, address_name, address_detail, set_finish_time, finish_time, 
+    id, user_id,topic, description, address_name, address_detail, address_longitude,address_latitude,set_finish_time, finish_time, 
     intro_images, goods_addresses, phone_number, created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,11 +34,11 @@
   </delete>
   <insert id="insert" parameterType="com.jielong.core.domain.Jielong">
     insert into jielong (id,user_id, topic, description, 
-      address_name, address_detail, set_finish_time, 
+      address_name, address_detail,address_longitude, address_latitude, set_finish_time, 
       finish_time, intro_images, goods_addresses,phone_number, 
       created_at, updated_at)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{topic,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{addressName,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, #{setFinishTime,jdbcType=INTEGER}, 
+      #{addressName,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, #{addressLongitude,jdbcType=INTEGER},#{addressLatitude,jdbcType=INTEGER},#{setFinishTime,jdbcType=INTEGER}, 
       #{finishTime,jdbcType=TIMESTAMP}, #{introImages,jdbcType=VARCHAR}, #{goodsAddresses,jdbcType=VARCHAR},#{phoneNumber,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
@@ -60,6 +62,12 @@
       </if>
       <if test="addressDetail != null">
         address_detail,
+      </if>
+      <if test="addressLongitude != null">
+        address_longitude,
+      </if>
+      <if test="addressLatitude != null">
+        address_latitude,
       </if>
       <if test="setFinishTime != null">
         set_finish_time,
@@ -102,6 +110,12 @@
       <if test="addressDetail != null">
         #{addressDetail,jdbcType=VARCHAR},
       </if>
+      <if test="addressLongitude != null">         
+        #{addressLongitude,jdbcType=INTEGER},
+      </if>
+      <if test="addressLatitude != null">
+        #{addressLatitude,jdbcType=INTEGER},
+      </if>
       <if test="setFinishTime != null">
         #{setFinishTime,jdbcType=INTEGER},
       </if>
@@ -143,6 +157,15 @@
       <if test="addressDetail != null">
         address_detail = #{addressDetail,jdbcType=VARCHAR},
       </if>
+  
+       <if test="addressLongitude != null">
+        address_longitude = #{addressLongitude,jdbcType=INTEGER},
+      </if>
+       <if test="addressLatitude != null">
+        address_latitude = #{addressLatitude,jdbcType=INTEGER},
+      </if>
+
+      
       <if test="setFinishTime != null">
         set_finish_time = #{setFinishTime,jdbcType=INTEGER},
       </if>
@@ -174,6 +197,8 @@
       description = #{description,jdbcType=VARCHAR},
       address_name = #{addressName,jdbcType=VARCHAR},
       address_detail = #{addressDetail,jdbcType=VARCHAR},
+      address_longitude = #{addressLongitude,jdbcType=INTEGER},
+      address_latitude = #{addressLatitude,jdbcType=INTEGER},
       set_finish_time = #{setFinishTime,jdbcType=INTEGER},
       finish_time = #{finishTime,jdbcType=TIMESTAMP},
       intro_images = #{introImages,jdbcType=VARCHAR},
