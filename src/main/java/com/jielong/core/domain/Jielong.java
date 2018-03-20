@@ -26,6 +26,8 @@ public class Jielong {
     private String introImages;
 
     private String goodsAddresses;
+    
+    private String phoneNumber;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
@@ -139,6 +141,16 @@ public class Jielong {
 	public void setGoodsList(List<Goods> goodsList) {
 		this.goodsList = goodsList;
 	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	
     
    
 	
