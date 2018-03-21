@@ -1,5 +1,6 @@
 package com.jielong.core.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	
 	@Override
 	public ResponseBean<Integer> insert(UserInfo userIfo) {
-	    Integer result=userInfoMapper.insert(userIfo); 	
+	    Integer result=userInfoMapper.insertSelective(userIfo); 	
 		return new ResponseBean<>(result);
 	}
 
@@ -39,6 +40,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResponseBean<Integer> update(UserInfo userIfo) {
+		userIfo.setUpdatedAt(new Date());
 		Integer result=userInfoMapper.updateByPrimaryKeySelective(userIfo);
 		return new ResponseBean<Integer>(result);
 	}

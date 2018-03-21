@@ -12,12 +12,13 @@ public class UserAddress {
     private String detail;
 
     private Integer longitude;
+    private Integer latitude;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Integer latitude;
+    
 
     public Integer getId() {
         return id;

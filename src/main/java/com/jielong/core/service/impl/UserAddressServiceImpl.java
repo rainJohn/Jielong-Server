@@ -1,5 +1,6 @@
 package com.jielong.core.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public ResponseBean<Integer> updateById(UserAddress address) {
+		address.setUpdatedAt(new Date());
 		int result=userAddressMapper.updateByPrimaryKeySelective(address);
 		ResponseBean<Integer> responseBean=new ResponseBean<Integer>(result);
 		return responseBean;
