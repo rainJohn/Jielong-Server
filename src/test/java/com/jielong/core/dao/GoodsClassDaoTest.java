@@ -29,11 +29,7 @@ public class GoodsClassDaoTest {
 	  
    }
    
-   @Test
-   public void testInsertById() {
-	   String className=goodsClassDao.selectById(14).getClassName();
-	   Assert.assertEquals("测试分类", className);
-   }
+   
    
    
 }

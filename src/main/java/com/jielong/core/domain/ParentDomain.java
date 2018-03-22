@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ParentDomain {
 	protected Integer id;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createdAt;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date updatedAt;
 
 	public Integer getId() {

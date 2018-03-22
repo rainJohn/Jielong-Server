@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jielong.core.dao.JielongMapper">
+  <resultMap id="BaseResultMap" type="com.jielong.core.domain.Jielong">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="address_name" jdbcType="VARCHAR" property="addressName" />
+    <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="set_finish_time" jdbcType="INTEGER" property="setFinishTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="intro_images" jdbcType="VARCHAR" property="introImages" />
+    <result column="goods_addresses" jdbcType="VARCHAR" property="goodsAddresses" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id,topic, description, address_name, address_detail, set_finish_time, finish_time, 
+    intro_images, goods_addresses, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jielong
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jielong
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jielong.core.domain.Jielong">
+    insert into jielong (id,user_id, topic, description, 
+      address_name, address_detail, set_finish_time, 
+      finish_time, intro_images, goods_addresses, 
+      created_at, updated_at)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{topic,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{addressName,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, #{setFinishTime,jdbcType=INTEGER}, 
+      #{finishTime,jdbcType=TIMESTAMP}, #{introImages,jdbcType=VARCHAR}, #{goodsAddresses,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jielong.core.domain.Jielong">
+    insert into jielong
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+       <if test="userId != null">
+        user_id,
+      </if>
+      <if test="topic != null">
+        topic,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="addressName != null">
+        address_name,
+      </if>
+      <if test="addressDetail != null">
+        address_detail,
+      </if>
+      <if test="setFinishTime != null">
+        set_finish_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="introImages != null">
+        intro_images,
+      </if>
+      <if test="goodsAddresses != null">
+        goods_addresses,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+       <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="addressName != null">
+        #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="setFinishTime != null">
+        #{setFinishTime,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introImages != null">
+        #{introImages,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAddresses != null">
+        #{goodsAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.Jielong">
+    update jielong
+    <set>
+     <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="addressName != null">
+        address_name = #{addressName,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        address_detail = #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="setFinishTime != null">
+        set_finish_time = #{setFinishTime,jdbcType=INTEGER},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introImages != null">
+        intro_images = #{introImages,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAddresses != null">
+        goods_addresses = #{goodsAddresses,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.Jielong">
+    update jielong
+    set user_id=#{userId,jdbcType=INTEGER},
+      topic = #{topic,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      address_name = #{addressName,jdbcType=VARCHAR},
+      address_detail = #{addressDetail,jdbcType=VARCHAR},
+      set_finish_time = #{setFinishTime,jdbcType=INTEGER},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      intro_images = #{introImages,jdbcType=VARCHAR},
+      goods_addresses = #{goodsAddresses,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

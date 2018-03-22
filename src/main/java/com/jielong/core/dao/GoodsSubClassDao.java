@@ -16,6 +16,6 @@ public interface GoodsSubClassDao {
 	 * @param parentId
 	 * @return
 	 */
-	@Select("select * from goods_sub_class where parentClassId = #{parentId}")
+	@Select("select * from goods_sub_class where parent_class_id = #{parentId}")
 	public List<GoodsSubClass> findByParentId(@Param("parentId") Integer parentId);
 }

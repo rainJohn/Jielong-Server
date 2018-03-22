@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jielong.core.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.jielong.core.domain.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="jielong_id" jdbcType="INTEGER" property="jielongId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_class_id" jdbcType="INTEGER" property="parentClassId" />
+    <result column="sub_class_id" jdbcType="INTEGER" property="subClassId" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="repertory" jdbcType="INTEGER" property="repertory" />
+    <result column="is_set_group" jdbcType="INTEGER" property="isSetGroup" />
+    <result column="group_sum" jdbcType="VARCHAR" property="groupSum" />
+    <result column="server_paths" jdbcType="VARCHAR" property="serverPaths" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, jielong_id, name, parent_class_id, sub_class_id, specification, price, repertory, 
+    is_set_group, group_sum, server_paths, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jielong.core.domain.Goods">
+    insert into goods (id, jielong_id, name, 
+      parent_class_id, sub_class_id, specification, 
+      price, repertory, is_set_group, 
+      group_sum, server_paths, created_at, 
+      updated_at)
+    values (#{id,jdbcType=INTEGER}, #{jielongId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{parentClassId,jdbcType=INTEGER}, #{subClassId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{repertory,jdbcType=INTEGER}, #{isSetGroup,jdbcType=INTEGER}, 
+      #{groupSum,jdbcType=VARCHAR}, #{serverPaths,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jielong.core.domain.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="jielongId != null">
+        jielong_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentClassId != null">
+        parent_class_id,
+      </if>
+      <if test="subClassId != null">
+        sub_class_id,
+      </if>
+      <if test="specification != null">
+        specification,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="repertory != null">
+        repertory,
+      </if>
+      <if test="isSetGroup != null">
+        is_set_group,
+      </if>
+      <if test="groupSum != null">
+        group_sum,
+      </if>
+      <if test="serverPaths != null">
+        server_paths,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jielongId != null">
+        #{jielongId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentClassId != null">
+        #{parentClassId,jdbcType=INTEGER},
+      </if>
+      <if test="subClassId != null">
+        #{subClassId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="repertory != null">
+        #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="isSetGroup != null">
+        #{isSetGroup,jdbcType=INTEGER},
+      </if>
+      <if test="groupSum != null">
+        #{groupSum,jdbcType=VARCHAR},
+      </if>
+      <if test="serverPaths != null">
+        #{serverPaths,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.Goods">
+    update goods
+    <set>
+      <if test="jielongId != null">
+        jielong_id = #{jielongId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentClassId != null">
+        parent_class_id = #{parentClassId,jdbcType=INTEGER},
+      </if>
+      <if test="subClassId != null">
+        sub_class_id = #{subClassId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="repertory != null">
+        repertory = #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="isSetGroup != null">
+        is_set_group = #{isSetGroup,jdbcType=INTEGER},
+      </if>
+      <if test="groupSum != null">
+        group_sum = #{groupSum,jdbcType=VARCHAR},
+      </if>
+      <if test="serverPaths != null">
+        server_paths = #{serverPaths,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.Goods">
+    update goods
+    set jielong_id = #{jielongId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      parent_class_id = #{parentClassId,jdbcType=INTEGER},
+      sub_class_id = #{subClassId,jdbcType=INTEGER},
+      specification = #{specification,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      repertory = #{repertory,jdbcType=INTEGER},
+      is_set_group = #{isSetGroup,jdbcType=INTEGER},
+      group_sum = #{groupSum,jdbcType=VARCHAR},
+      server_paths = #{serverPaths,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
