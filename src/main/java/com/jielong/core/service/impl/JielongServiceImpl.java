@@ -25,8 +25,6 @@ import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.service.JielongService;
 
-import net.bytebuddy.description.ByteCodeElement.Token.TokenList;
-
 @Service
 public class JielongServiceImpl implements JielongService {
 

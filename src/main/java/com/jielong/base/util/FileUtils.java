@@ -1,6 +1,10 @@
 package com.jielong.base.util;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +18,7 @@ import com.jielong.core.beans.ResponseBean;
  * @author cxy
  *
  */
-public class FileUpload {
+public class FileUtils {
 	
 	/**
 	 * 上传单个文件
@@ -34,10 +38,16 @@ public class FileUpload {
             String[] originalName=file.getOriginalFilename().split("\\.");
             //文件后缀名
             String fileSuffix=originalName[originalName.length-1];
-            Path path = Paths.get(Constant.UPLOADED_FOLDER +Utils.createFileName() +"."+fileSuffix);
+            String fileName=Utils.createFileName() +"."+fileSuffix;
+            File parentFile=new File(Constant.UPLOADED_FOLDER);
+            if (!(parentFile.exists()&& parentFile.isDirectory())) {
+				parentFile.mkdirs();
+			}
+            Path path = Paths.get(Constant.UPLOADED_FOLDER +fileName);
             
             Files.write(path, bytes);
-            responseBean.setData("上传文件成功！");
+            responseBean.setData("\\getImage\\"+fileName);
+            
             System.out.println("上传文件成功！");
 
           
@@ -52,5 +62,25 @@ public class FileUpload {
 
       
 	}
+	
+	/** 
+     * 获取URL图片流 
+     * @param urlString 
+     * @return 
+     */  
+    public static InputStream createPic(String urlString){  
+        InputStream is = null;  
+        try {  
+            // 构造URL  
+            URL url = new URL(urlString);  
+            // 打开连接  
+            URLConnection con = url.openConnection();  
+            // 输入流  
+            is = con.getInputStream();  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+        return is;  
+    }  
 
 }
