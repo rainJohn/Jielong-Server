@@ -28,11 +28,14 @@ public class FileUpload {
         }
 
         try {
-
           
             byte[] bytes = file.getBytes();
-         
-            Path path = Paths.get(Constant.UPLOADED_FOLDER + file.getOriginalFilename());
+            
+            String[] originalName=file.getOriginalFilename().split("\\.");
+            //文件后缀名
+            String fileSuffix=originalName[originalName.length-1];
+            Path path = Paths.get(Constant.UPLOADED_FOLDER +Utils.createFileName() +"."+fileSuffix);
+            
             Files.write(path, bytes);
             responseBean.setData("上传文件成功！");
             System.out.println("上传文件成功！");

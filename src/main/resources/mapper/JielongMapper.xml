@@ -17,10 +17,11 @@
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id,topic, description, address_name, address_detail, address_longitude,address_latitude,set_finish_time, finish_time, 
-    intro_images, goods_addresses, phone_number, created_at, updated_at
+    intro_images, goods_addresses, phone_number, created_at, updated_at,status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -36,11 +37,11 @@
     insert into jielong (id,user_id, topic, description, 
       address_name, address_detail,address_longitude, address_latitude, set_finish_time, 
       finish_time, intro_images, goods_addresses,phone_number, 
-      created_at, updated_at)
+      created_at, updated_at,status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{topic,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{addressName,jdbcType=VARCHAR}, #{addressDetail,jdbcType=VARCHAR}, #{addressLongitude,jdbcType=INTEGER},#{addressLatitude,jdbcType=INTEGER},#{setFinishTime,jdbcType=INTEGER}, 
       #{finishTime,jdbcType=TIMESTAMP}, #{introImages,jdbcType=VARCHAR}, #{goodsAddresses,jdbcType=VARCHAR},#{phoneNumber,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jielong.core.domain.Jielong">
     insert into jielong
@@ -90,7 +91,11 @@
       <if test="updatedAt != null">
         updated_at,
       </if>
+       <if test="status != null">
+        status,
+      </if>
     </trim>
+    
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
@@ -136,6 +141,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -187,6 +195,9 @@
       <if test="updatedAt != null">
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+       <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +216,8 @@
       goods_addresses = #{goodsAddresses,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      status=#{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

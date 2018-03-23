@@ -1,5 +1,7 @@
 package com.jielong.base.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import org.junit.Test;
@@ -22,6 +24,32 @@ public class UtilsTest {
 		
 		
 	}*/
+	
+	@Test
+	public void testAddress() {
+	   String s1="001.png,002.png,003.png";
+	   String s2="001.png";
+	   
+	   String[] imgs=s1.split(",");
+	   for(int i=0;i<imgs.length;i++) {
+		   System.out.println(imgs[i]);
+	   }
+	
+	   
+		
+	}
+	
+	@Test
+	public void testDir() {
+		System.out.println(System.getProperty("user.dir")+"\\uploadFiles\\") ;
+	}
+	@Test
+	public void dateStr() {
+		LocalDateTime dateTime=LocalDateTime.now();
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		String dateTimeStr=dateTime.format(formatter);
+		System.out.println(dateTimeStr);
+	}
 	
 	
 
