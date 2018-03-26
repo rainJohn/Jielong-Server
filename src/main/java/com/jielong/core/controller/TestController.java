@@ -28,7 +28,7 @@ public class TestController {
 	  	
 	}
 	
-	@RequestMapping("/upload")
+	@RequestMapping("/uploadCarousel")
 	public String upload() {
 		return "upload";
 	}

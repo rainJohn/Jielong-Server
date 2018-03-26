@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jielong.core.dao.CarouselMapper" >
+  <resultMap id="BaseResultMap" type="com.jielong.core.domain.Carousel" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="carouselAddress" property="carouseladdress" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, carouselAddress, type, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from carousel
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from carousel
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jielong.core.domain.Carousel" >
+    insert into carousel (Id, carouselAddress, type, 
+      createTime, updateTime)
+    values (#{id,jdbcType=INTEGER}, #{carouseladdress,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jielong.core.domain.Carousel" >
+    insert into carousel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="carouseladdress != null" >
+        carouselAddress,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="carouseladdress != null" >
+        #{carouseladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.Carousel" >
+    update carousel
+    <set >
+      <if test="carouseladdress != null" >
+        carouselAddress = #{carouseladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.Carousel" >
+    update carousel
+    set carouselAddress = #{carouseladdress,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryCarousels" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from carousel
+  </select>
+  
+  <update id="forbiddenCarouselByKey" parameterType="java.lang.Integer" >
+  update carousel
+  set type = "1"
+  where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="startCarouselByKey" parameterType="java.lang.Integer" >
+  update carousel
+  set type = "0"
+  where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
