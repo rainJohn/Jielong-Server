@@ -2,6 +2,8 @@ package com.jielong.core.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UserInfo {
     private Integer id;
 
@@ -9,14 +11,20 @@ public class UserInfo {
 
     private String name;
 
+    private String nickName;
+
+    private String avatarUrl;
+
     private String phoneNumber;
 
     private String email;
 
     private String deliveryAddress;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
 
     public Integer getId() {
@@ -41,6 +49,22 @@ public class UserInfo {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
     }
 
     public String getPhoneNumber() {

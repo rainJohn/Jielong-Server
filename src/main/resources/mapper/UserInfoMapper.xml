@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="delivery_address" jdbcType="VARCHAR" property="deliveryAddress" />
@@ -12,7 +14,8 @@
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, name, phone_number, email, delivery_address, created_at, updated_at
+    id, user_id, name, nick_name, avatar_url, phone_number, email, delivery_address, 
+    created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,11 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.jielong.core.domain.UserInfo">
     insert into user_info (id, user_id, name, 
-      phone_number, email, delivery_address, 
-      created_at, updated_at)
+      nick_name, avatar_url, phone_number, 
+      email, delivery_address, created_at, 
+      updated_at)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{phoneNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{deliveryAddress,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{nickName,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{deliveryAddress,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jielong.core.domain.UserInfo">
     insert into user_info
@@ -43,6 +48,12 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
       </if>
       <if test="phoneNumber != null">
         phone_number,
@@ -70,6 +81,12 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="phoneNumber != null">
         #{phoneNumber,jdbcType=VARCHAR},
       </if>
@@ -96,6 +113,12 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="phoneNumber != null">
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
       </if>
@@ -118,6 +141,8 @@
     update user_info
     set user_id = #{userId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       delivery_address = #{deliveryAddress,jdbcType=VARCHAR},

@@ -1,8 +1,24 @@
 package com.jielong.base.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class Utils {
+	
+	
+	/**
+	 * 文件名称：由当前时间戳+4位随机数组成
+	 * @return
+	 */
+	public static String createFileName() {
+		LocalDateTime dateTime=LocalDateTime.now();
+		DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		String fileName=dateTime.format(formatter)+createRandomNum(4);
+		
+		return fileName;
+		
+	}
 	
 	//根据指定长度生成字母和数字的随机数
     //0~9的ASCII为48~57

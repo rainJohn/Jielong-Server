@@ -26,3 +26,5 @@ hs_err_pid*
 /.classpath
 /.settings
 /.project
+/src/main/resources/generatorConfig.xml
+/uploadFiles/
