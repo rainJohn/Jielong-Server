@@ -24,4 +24,5 @@ public interface UserAddressMapper {
     
     @Select("select * from user_address where user_id = #{userId}")
     List<UserAddress> selectByUserId(@Param("userId") Integer userId);
+    
 }

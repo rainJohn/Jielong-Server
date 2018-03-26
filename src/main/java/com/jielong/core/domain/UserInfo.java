@@ -2,23 +2,22 @@ package com.jielong.core.domain;
 
 import java.util.Date;
 
-public class UserAddress {
+public class UserInfo {
     private Integer id;
 
     private Integer userId;
 
     private String name;
 
-    private String detail;
+    private String phoneNumber;
 
-    private Integer longitude;
-    private Integer latitude;
+    private String email;
+
+    private String deliveryAddress;
 
     private Date createdAt;
 
     private Date updatedAt;
-
-    
 
     public Integer getId() {
         return id;
@@ -44,20 +43,28 @@ public class UserAddress {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDetail() {
-        return detail;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 
-    public Integer getLongitude() {
-        return longitude;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLongitude(Integer longitude) {
-        this.longitude = longitude;
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress == null ? null : deliveryAddress.trim();
     }
 
     public Date getCreatedAt() {
@@ -74,13 +81,5 @@ public class UserAddress {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Integer getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Integer latitude) {
-        this.latitude = latitude;
     }
 }

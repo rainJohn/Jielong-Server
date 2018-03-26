@@ -1,10 +1,12 @@
 package com.jielong.core.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jielong.base.util.ErrorCode;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.UserAddressMapper;
 import com.jielong.core.domain.UserAddress;
@@ -32,6 +34,7 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public ResponseBean<Integer> updateById(UserAddress address) {
+		address.setUpdatedAt(new Date());
 		int result=userAddressMapper.updateByPrimaryKeySelective(address);
 		ResponseBean<Integer> responseBean=new ResponseBean<Integer>(result);
 		return responseBean;
@@ -50,9 +53,17 @@ public class UserAddressServiceImpl implements UserAddressService {
 	 */
 	@Override
 	public ResponseBean<List<UserAddress>> selectByUserId(Integer userId) {
+		ResponseBean<List<UserAddress>> responseBean=new ResponseBean<List<UserAddress>>();
 		List<UserAddress> list=userAddressMapper.selectByUserId(userId);
-		ResponseBean<List<UserAddress>> responseBean=new ResponseBean<List<UserAddress>>(list);
-		return responseBean;
+		if (list!=null&&list.size()>0) {
+			responseBean.setData(list);
+			return responseBean;
+		}else {
+			responseBean.setErrorCode(ErrorCode.NO_DATA_EXCEPTION);
+			responseBean.setErrorMessage("没有查询到相关数据");
+			return responseBean;
+		}
+		
 	}
 
 }

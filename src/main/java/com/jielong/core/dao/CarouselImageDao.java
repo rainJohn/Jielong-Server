@@ -12,6 +12,6 @@ public interface CarouselImageDao {
 	 * 插入一条记录
 	 * @param carouselImageDao
 	 */
-	@Insert("insert into carousel(carouselAddress) values(#{carouselAddress})")
+	@Insert("insert into carousel(carouseladdress) values(#{carouseladdress})")
     Boolean insert(Carousel carousle); 
 }
