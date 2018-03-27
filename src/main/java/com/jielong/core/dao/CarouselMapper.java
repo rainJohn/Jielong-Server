@@ -2,8 +2,11 @@ package com.jielong.core.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.jielong.core.domain.Carousel;
 
+@Mapper
 public interface CarouselMapper {
     
 	int deleteByPrimaryKey(Integer id);

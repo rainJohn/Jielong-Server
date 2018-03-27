@@ -115,10 +115,5 @@
     where Id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="queryAdminByUsername" resultMap="BaseResultMap" parameterType="String" >
-   select 
-    <include refid="Base_Column_List" />
-    from admin
-    where userName = #{userName,jdbcType=String}
-  </select>
+ 
 </mapper>

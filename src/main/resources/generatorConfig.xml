@@ -4,7 +4,7 @@
 
 	<!-- classPathEntry:数据库的JDBC驱动的jar包地址 -->
 	<classPathEntry
-		location="C:\Users\BHQH\.m2\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar" />
+		location="C:\Users\cxy\.m2\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar" />
 
 	<context id="MysqlTables" targetRuntime="MyBatis3">
 
@@ -18,35 +18,34 @@
 		</commentGenerator>
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://192.168.16.110:3306/jielong" password="123456"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/jielong" password="123456"
 			userId="root" />
 
 		<!-- 生成model模型 -->
 		<javaModelGenerator targetPackage="com.jielong.core.domain"
-			targetProject="src/main/java">
+			targetProject="baihai-jielong-server/src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!--对应的xml mapper文件 -->
-
 		<sqlMapGenerator targetPackage="mapper"
-			targetProject="src/main/resources">
+			targetProject="baihai-jielong-server/src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 对应的dao接口 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.jielong.core.dao" targetProject="src/main/java">
+			targetPackage="com.jielong.core.dao" targetProject="baihai-jielong-server/src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-
-		<table schema="" tableName="carousel" domainObjectName="Carousel"
+		<table schema="" tableName="help_message" domainObjectName="HelpMessage"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false">
 		</table>
+		
 	</context>
 
 </generatorConfiguration>

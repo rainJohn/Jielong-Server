@@ -21,7 +21,7 @@ import com.jielong.core.service.CarouselImageService;
 
 
 @Controller
-public class carouselImageController {
+public class CarouselImageController {
 
 	@Autowired
 	CarouselImageService carouselImageService;
