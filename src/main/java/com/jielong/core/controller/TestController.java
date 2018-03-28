@@ -28,10 +28,10 @@ public class TestController {
 	  	
 	}
 	
-	@RequestMapping("/uploadCarousel")
-	public String upload() {
-		return "upload";
-	}
+//	@RequestMapping("/uploadCarousel")
+//	public String upload() {
+//		return "upload";
+//	}
 	
 	
 }
