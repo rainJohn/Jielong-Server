@@ -18,15 +18,15 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.0.RELEASE</version>
 	</parent>
-	
-      
-   
+
+
+
 
 	<properties>
 		<mybatis-spring-boot>1.2.0</mybatis-spring-boot>
 		<mysql-connector>5.1.39</mysql-connector>
 		<!-- The main class to start by executing java -jar -->
-       <start-class>com.jielong.Application</start-class>
+		<start-class>com.jielong.Application</start-class>
 	</properties>
 
 	<dependencies>
@@ -49,7 +49,7 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis-spring-boot}</version>
 		</dependency>
-        <!-- pagehelper分页插件 -->   
+		<!-- pagehelper分页插件 -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			</dependency>
+		</dependency>
 		<!-- thymeleaf 模板引擎 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -72,7 +72,7 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
 			<artifactId>android-json</artifactId>
@@ -80,20 +80,25 @@
 		</dependency>
 
 		<dependency>
-        	<groupId>org.apache.shiro</groupId>
-        	<artifactId>shiro-spring</artifactId>
-       		<version>1.3.2</version>	
-   		</dependency>
-    
-    	<dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-security</artifactId>          
-         </dependency>
-    	<dependency>
-        	<groupId>com.alibaba</groupId>
-       		<artifactId>fastjson</artifactId>
-        	<version>1.2.16</version>
-    	</dependency>		
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>		
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.16</version>
+		</dependency>
 
 
 
@@ -103,25 +108,25 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 
-	   <plugins>
-	     <!-- 打成jar包插件 -->
-	      <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
-        
-        <plugin>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-maven-plugin</artifactId>
-            <version>1.3.2</version>
-            <configuration>
-                <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
-            </configuration>
-        </plugin> 
-	   </plugins>
+		<plugins>
+			<!-- 打成jar包插件 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+				</configuration>
+			</plugin>
+		</plugins>
 
 	</build>
 

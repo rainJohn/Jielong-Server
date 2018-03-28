@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
 <title>欢迎登录</title>
+<link rel="stylesheet" th:href="@{/css/login.css}" />
 </head>
 <body>
+  <p th:if="${loginError}"  class="error">Wrong user or password</p>
   <form name="loginForm" th:action="@{/login}" method="POST">
             <table>
                 <tr>
