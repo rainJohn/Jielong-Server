@@ -1,7 +1,12 @@
 package com.jielong.core.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import com.jielong.core.domain.Admin;
 
+@Mapper
 public interface AdminMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -15,5 +20,6 @@ public interface AdminMapper {
 
     int updateByPrimaryKey(Admin record);
 
-	Admin queryAdminByUsername(String userName);
+    @Select("select * from admin where userName=#{userName}")
+	Admin queryAdminByUserName(@Param("userName") String userName);
 }
