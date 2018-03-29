@@ -1,5 +1,6 @@
 package com.jielong.core.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class Jielong {
     private String goodsAddresses;
     
     private String phoneNumber;
+    
+    private Integer browseSum;
+    private Integer joinSum;
+    private BigDecimal joinMoney;
     
    
 
@@ -215,6 +220,34 @@ public class Jielong {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public Integer getBrowseSum() {
+		return browseSum;
+	}
+
+	public Integer getJoinSum() {
+		return joinSum;
+	}
+
+
+
+	public void setBrowseSum(Integer browseSum) {
+		this.browseSum = browseSum;
+	}
+
+	public void setJoinSum(Integer joinSum) {
+		this.joinSum = joinSum;
+	}
+
+	public BigDecimal getJoinMoney() {
+		return joinMoney;
+	}
+
+	public void setJoinMoney(BigDecimal joinMoney) {
+		this.joinMoney = joinMoney;
+	}
+
+
 
 	
 	

@@ -22,10 +22,6 @@ public class CarouselImageController {
 	@Autowired
 	CarouselImageService carouselImageService;
 
-	@RequestMapping(value="/carouselImage",method=RequestMethod.GET)
-	public String carouselImage(){
-		return "carouselImage";
-	}
 	
 	
 	/**

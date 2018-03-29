@@ -1,5 +1,6 @@
 package com.jielong.core.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -196,5 +197,32 @@ public class JielongServiceImpl implements JielongService {
 		}
 		return new ResponseBean<List<Jielong>>(jielongs);
 	}
+
+	@Override
+	public ResponseBean<Integer> updateBrowse(Integer id) {
+		ResponseBean<Integer> responseBean = new ResponseBean<>();
+		Integer result=jielongMapper.updateBrowse(id);
+		if (result!=0) {  //更新成功
+			responseBean.setData(result);			
+		}else {
+		   responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
+		   responseBean.setErrorMessage("更新数据错误");
+		}
+		return responseBean;
+	}
+
+	@Override
+	public ResponseBean<Integer> updateJoin(Integer id,BigDecimal joinMoney) {
+		ResponseBean<Integer> responseBean = new ResponseBean<>();
+		Integer result=jielongMapper.updateJoin(id,joinMoney);
+		if (result!=0) {  //更新成功
+			responseBean.setData(result);			
+		}else {
+		   responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
+		   responseBean.setErrorMessage("更新数据错误");
+		}
+		return responseBean;
+	}
+	
 
 }
