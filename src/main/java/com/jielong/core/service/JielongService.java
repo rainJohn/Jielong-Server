@@ -16,5 +16,7 @@ public interface JielongService {
    
    ResponseBean<List<Jielong>> selectByUserId(Integer userId);
    
+   ResponseBean<Integer> update(Jielong jielong);
+   
 
 }

@@ -1,14 +1,7 @@
 package com.jielong.core.service.impl;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +16,8 @@ public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	AdminMapper adminMapper;
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		Admin admin=adminMapper.queryAdminByUserName(userName);
