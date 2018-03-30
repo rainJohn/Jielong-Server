@@ -19,15 +19,15 @@ public class Jielong {
 
     private String addressDetail;
     
-    private Integer addressLongitude;  //经度
+    private Double addressLongitude;  //经度
     
-    private Integer addressLatitude;   //纬度
+    private Double addressLatitude;   //纬度
    
 
     private Integer setFinishTime;
     
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date finishTime;
+    private String finishTime;
 
     private String introImages;
 
@@ -117,11 +117,28 @@ public class Jielong {
 		this.setFinishTime = setFinishTime;
 	}
 
-	public Date getFinishTime() {
+	
+	public Double getAddressLongitude() {
+		return addressLongitude;
+	}
+
+	public void setAddressLongitude(Double addressLongitude) {
+		this.addressLongitude = addressLongitude;
+	}
+
+	public Double getAddressLatitude() {
+		return addressLatitude;
+	}
+
+	public void setAddressLatitude(Double addressLatitude) {
+		this.addressLatitude = addressLatitude;
+	}
+
+	public String getFinishTime() {
 		return finishTime;
 	}
 
-	public void setFinishTime(Date finishTime) {
+	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
 	}
 
@@ -173,22 +190,7 @@ public class Jielong {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Integer getAddressLongitude() {
-		return addressLongitude;
-	}
-
-	public void setAddressLongitude(Integer addressLongitude) {
-		this.addressLongitude = addressLongitude;
-	}
-
-	public Integer getAddressLatitude() {
-		return addressLatitude;
-	}
-
-	public void setAddressLatitude(Integer addressLatitude) {
-		this.addressLatitude = addressLatitude;
-	}
-
+	
 	public List<String> getImageList() {
 		return imageList;
 	}
