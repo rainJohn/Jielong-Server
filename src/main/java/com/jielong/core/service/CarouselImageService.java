@@ -2,6 +2,7 @@ package com.jielong.core.service;
 
 import java.util.List;
 
+import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Carousel;
 
 public interface CarouselImageService {
@@ -10,9 +11,9 @@ public interface CarouselImageService {
 	
 	public List<Carousel> queryCarousels();
 
-	public Boolean deleteCarouselByKey(int id);
+	public ResponseBean<Integer> deleteCarouselByKey(int id);
 
-	public Boolean forbiddenCarouselByKey(int id);
+	public ResponseBean<Integer> forbiddenCarouselByKey(int id);
 
-	public Boolean startCarouselByKey(int id);
+	public ResponseBean<Integer> startCarouselByKey(int id);
 }
