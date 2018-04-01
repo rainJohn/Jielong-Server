@@ -20,8 +20,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 	
 	@Override
 	public ResponseBean<Integer> insert(UserInfo userIfo) {
-	    Integer result=userInfoMapper.insertSelective(userIfo); 	
-		return new ResponseBean<>(result);
+		ResponseBean<Integer>  responseBean=new ResponseBean<Integer>();
+		List<UserInfo> userInfos=userInfoMapper.selectByUserId(userIfo.getUserId());
+		if(userInfos.size()<=0) {
+			 Integer result=userInfoMapper.insertSelective(userIfo); 	
+			 responseBean.setData(result);
+		}else {
+			responseBean.setData(0);
+		}
+		return responseBean;
+	   
 	}
 
 	@Override
