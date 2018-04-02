@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jielong.base.util.ErrorCode;
+import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CarouselImageDao;
 import com.jielong.core.dao.CarouselMapper;
 import com.jielong.core.domain.Carousel;
@@ -19,14 +21,18 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	@Autowired
 	CarouselMapper carouselMapper;
 	
-	public Boolean insert(Carousel carousel) {
+	public ResponseBean<Integer> insert(Carousel carousel) {
 		// TODO Auto-generated method stub
-		Boolean call = carouselImageDao.insert(carousel);
-		if(call==true){
-		return call;
+		Integer i=carouselImageDao.insert(carousel);
+		ResponseBean<Integer> call = new ResponseBean<Integer>();
+		if(i!=0){
+			call.setData(i);
 		}else{
-			return call;
+			call.setErrorCode(ErrorCode.INSERT_EXCEPTION);
+			call.setErrorMessage("插入数据错误");
 		}
+		
+		return call;
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	}
 
 	@Override
-	public Boolean deleteCarouselByKey(int id) {
+	public ResponseBean<Integer> deleteCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.deleteByPrimaryKey(id);
 		if(i != 0){
@@ -46,7 +52,7 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	}
 
 	@Override
-	public Boolean forbiddenCarouselByKey(int id) {
+	public ResponseBean<Integer> forbiddenCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.forbiddenCarouselByKey(id);
 		if(i !=0){
@@ -56,7 +62,7 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	}
 
 	@Override
-	public Boolean startCarouselByKey(int id) {
+	public ResponseBean<Integer> startCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.startCarouselByKey(id);
 		if(i !=0){

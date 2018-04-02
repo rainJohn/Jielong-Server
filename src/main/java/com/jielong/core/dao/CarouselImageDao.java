@@ -3,6 +3,7 @@ package com.jielong.core.dao;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
+import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Carousel;
 
 @Mapper
@@ -13,5 +14,5 @@ public interface CarouselImageDao {
 	 * @param carouselImageDao
 	 */
 	@Insert("insert into carousel(carouseladdress) values(#{carouseladdress})")
-    Boolean insert(Carousel carousle); 
+	Integer insert(Carousel carousle); 
 }

@@ -9,21 +9,21 @@ import com.jielong.core.domain.Carousel;
 @Mapper
 public interface CarouselMapper {
     
-	int deleteByPrimaryKey(Integer id);
+	Integer deleteByPrimaryKey(Integer id);
 
-    int insert(Carousel record);
+	Integer insert(Carousel record);
 
-    int insertSelective(Carousel record);
+	Integer insertSelective(Carousel record);
 
     Carousel selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Carousel record);
+    Integer updateByPrimaryKeySelective(Carousel record);
 
-    int updateByPrimaryKey(Carousel record);
+    Integer updateByPrimaryKey(Carousel record);
     
     List<Carousel> queryCarousels();
 
-	int forbiddenCarouselByKey(int id);
+    Integer forbiddenCarouselByKey(int id);
 
-	int startCarouselByKey(int id);
+    Integer startCarouselByKey(int id);
 }
