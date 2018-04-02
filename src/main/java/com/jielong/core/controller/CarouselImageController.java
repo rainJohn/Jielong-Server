@@ -22,10 +22,6 @@ public class CarouselImageController {
 	@Autowired
 	CarouselImageService carouselImageService;
 
-	@RequestMapping(value="/carouselImage",method=RequestMethod.GET)
-	public String carouselImage(){
-		return "carouselImage";
-	}
 	
 	
 	/**
@@ -83,12 +79,8 @@ public class CarouselImageController {
 	 * */
 	@RequestMapping(value="/deleteCarouselByKey")
 	@ResponseBody
-	public String deleteCarouselByKey(int id){
-		Boolean result = this.carouselImageService.deleteCarouselByKey(id);
-		if(result==false){
-		return "删除失败!";
-		}
-		return "删除成功!";
+	public ResponseBean<Integer> deleteCarouselByKey(int id){
+		return this.carouselImageService.deleteCarouselByKey(id);
 	}
 	
 	/**
@@ -96,24 +88,16 @@ public class CarouselImageController {
 	 * */
 	@RequestMapping(value="/forbiddenCarouselByKey")
 	@ResponseBody
-	public String forbiddenCarouselByKey(int id){
-		Boolean result = this.carouselImageService.forbiddenCarouselByKey(id);
-		if(result == false){
-			return "禁用失败！";
-		}
-		return "禁用成功！";
+	public ResponseBean<Integer> forbiddenCarouselByKey(int id){
+		return this.carouselImageService.forbiddenCarouselByKey(id);
 	}
 	/**
 	 * 启用
 	 * */
 	@RequestMapping(value="/updateCarouselTypeByKey")
 	@ResponseBody
-	public String startCarouselByKey(int id){
-		Boolean result = this.carouselImageService.startCarouselByKey(id);
-		if(result == false){
-			return "启用失败！";
-		}
-		return "启用成功！";
+	public ResponseBean<Integer> startCarouselByKey(int id){
+		return this.carouselImageService.startCarouselByKey(id);
 	}
 }
 	

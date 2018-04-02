@@ -42,6 +42,24 @@ public class JielongController {
 	public ResponseBean<List<Jielong>> selectByUserId(@RequestParam("userId") Integer userId){
 		return jielongService.selectByUserId(userId);
 	}
-    
+    /**
+     * 更新接龙
+     * 
+     */
+	@RequestMapping("/update")
+	public ResponseBean<Integer> update(@RequestBody Jielong jielong){
+		return jielongService.update(jielong);
+	}
+	
+	/**
+	 * 更新浏览人数
+	 * @param jieLongId
+	 * @return
+	 */
+	@RequestMapping("/updateBrowse")
+	public ResponseBean<Integer> updateBrowse(@RequestParam("id") Integer jieLongId){
+		return jielongService.updateBrowse(jieLongId);
+	}
+	
     	
 }

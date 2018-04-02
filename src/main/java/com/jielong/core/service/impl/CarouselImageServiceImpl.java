@@ -45,30 +45,42 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	public ResponseBean<Integer> deleteCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.deleteByPrimaryKey(id);
-		if(i != 0){
-		return true;
+		ResponseBean<Integer> call = new ResponseBean<Integer>(i);
+		if(i!=0) {
+			
+		}else {
+			call.setErrorMessage("删除失败");
+			call.setErrorCode(ErrorCode.DELETE_EXCEPTION);
 		}
-		return false;
+		return call;
 	}
 
 	@Override
 	public ResponseBean<Integer> forbiddenCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.forbiddenCarouselByKey(id);
+		ResponseBean<Integer> call = new ResponseBean<Integer>(i);
 		if(i !=0){
-		return true;
+		
+		}else {
+			call.setErrorCode(ErrorCode.UPDATE_EXCEPTION);
+			call.setErrorMessage("禁用轮播图失败");
 		}
-		return false;
+		return call;
 	}
 
 	@Override
 	public ResponseBean<Integer> startCarouselByKey(int id) {
 		// TODO Auto-generated method stub
 		int i = carouselMapper.startCarouselByKey(id);
+		ResponseBean<Integer> call = new ResponseBean<Integer>(i);
 		if(i !=0){
-		return true;
+		
+		}else {
+			call.setErrorCode(ErrorCode.UPDATE_EXCEPTION);
+			call.setErrorMessage("启用轮播图失败");
 		}
-		return false;
+		return call;
 	}
 
 
