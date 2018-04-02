@@ -5,25 +5,26 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.jielong.core.domain.Carousel;
-
 @Mapper
 public interface CarouselMapper {
-    
-	Integer deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer id);
 
-	Integer insert(Carousel record);
+    int insert(Carousel record);
 
-	Integer insertSelective(Carousel record);
+    int insertSelective(Carousel record);
 
     Carousel selectByPrimaryKey(Integer id);
 
-    Integer updateByPrimaryKeySelective(Carousel record);
+    int updateByPrimaryKeySelective(Carousel record);
 
-    Integer updateByPrimaryKey(Carousel record);
+    int updateByPrimaryKey(Carousel record);
     
     List<Carousel> queryCarousels();
+    
+    int forbiddenCarouselByKey(Integer id);
+    
+    int startCarouselByKey(Integer id);
 
-    Integer forbiddenCarouselByKey(int id);
+	List<Carousel> queryStartCarousels();
 
-    Integer startCarouselByKey(int id);
 }

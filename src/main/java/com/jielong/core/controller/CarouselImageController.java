@@ -1,6 +1,9 @@
 package com.jielong.core.controller;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jielong.base.util.FileUtils;
@@ -30,8 +34,17 @@ public class CarouselImageController {
 	 * @return
 	 * */
 	@RequestMapping("/uploadCarousel")
-	public ResponseBean<String> uploadCarousel(@RequestParam("carousel") MultipartFile file){
-		return FileUtils.uploadSingleFile(file);
+	@ResponseBody
+	public ResponseBean<Integer> uploadCarousel(@RequestParam("carousel") MultipartFile file){
+		 FileUtils.uploadSingleFile(file);
+		 Carousel carousel = new Carousel();
+		 if(FileUtils.uploadSingleFile(file).getErrorCode() == 0){
+		 carousel.setCarouseladdress(FileUtils.uploadSingleFile(file).getData());
+		 carousel.setType("0");
+//		 carousel.setCreatetime(new Date());
+//		 carousel.setUpdatetime(new Date());
+		 }
+		 return this.carouselImageService.insert(carousel);
 	}
 //	@RequestMapping(value="/uploadCarousel",method=RequestMethod.POST)
 //	@ResponseBody
@@ -75,6 +88,16 @@ public class CarouselImageController {
 	}
 	
 	/**
+	 * 查询启用状态轮播图
+	 * */
+	@RequestMapping(value="/queryStartCarousels")
+	@ResponseBody
+	public List<Carousel> queryStartCarousels(){
+		List<Carousel> startCarousels = this.carouselImageService.queryStartCarousels();
+		return startCarousels;
+	}
+	
+	/**
 	 * 删除轮转图
 	 * */
 	@RequestMapping(value="/deleteCarouselByKey")
@@ -94,10 +117,19 @@ public class CarouselImageController {
 	/**
 	 * 启用
 	 * */
-	@RequestMapping(value="/updateCarouselTypeByKey")
+	@RequestMapping(value="/startCarouselByKey")
 	@ResponseBody
 	public ResponseBean<Integer> startCarouselByKey(int id){
 		return this.carouselImageService.startCarouselByKey(id);
+	}
+	
+	/**
+	 * 添加备注
+	 * */
+	@RequestMapping(value="/addRemarkById")
+	@ResponseBody
+	public ResponseBean<Integer> addRemarkById(int id,String remark){
+		return this.carouselImageService.addRemarkById(id,remark);
 	}
 }
 	

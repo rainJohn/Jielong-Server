@@ -13,6 +13,6 @@ public interface CarouselImageDao {
 	 * 插入一条记录
 	 * @param carouselImageDao
 	 */
-	@Insert("insert into carousel(carouseladdress) values(#{carouseladdress})")
+	@Insert("insert into carousel(carouseladdress,createtime,updatetime) values(#{carouseladdress},now(),now())")
 	Integer insert(Carousel carousle); 
 }
