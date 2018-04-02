@@ -14,7 +14,7 @@ public interface  GoodsClassDao{
 	 * 返回所有父类别
 	 * @return
 	 */
-	@Select("Select * from goods_class ")
+	@Select("Select * from goods_class where flag=0")
 	List<GoodsClass> selectAllClasses() ;
 	
 	/**

@@ -28,7 +28,7 @@ public class GoodsClassController {
 	 * */
 	@RequestMapping("/addGoodsClass")
 	public ResponseBean<Integer> addGoodsClass(@RequestBody GoodsClass goodsClass){
-		goodsClass.setFlag("0");
+		goodsClass.setFlag(0);
 		return goodsClassService.addGoodsClass(goodsClass);
 	}
 	
