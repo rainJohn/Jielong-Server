@@ -8,6 +8,8 @@ public class GoodsClass extends ParentDomain{
 	private String className;
 	private List<GoodsSubClass> goodsSubClasses;
 	
+	private Integer flag;
+	
 	public GoodsClass(String className) {
 		
 		this.className = className;
@@ -28,10 +30,11 @@ public class GoodsClass extends ParentDomain{
 		this.goodsSubClasses = goodsSubClasses;
 	}
 	
+	public int getFlag() {
+		return flag;
+	}
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
 	
-	
-	
-	
-	
-
 }

@@ -13,7 +13,6 @@ public class ParentDomain {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date updatedAt;
 
-	protected String flag;
 	
 	public Integer getId() {
 		return id;
@@ -39,12 +38,5 @@ public class ParentDomain {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getFlag() {
-		return flag;
-	}
-
-	public void setFlag(String flag) {
-		this.flag = flag;
-	}
 	
 }

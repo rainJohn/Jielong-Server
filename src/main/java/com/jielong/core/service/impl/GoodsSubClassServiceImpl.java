@@ -34,7 +34,7 @@ public class GoodsSubClassServiceImpl implements GoodsSubClassService{
 	public ResponseBean<Integer> updateGoodsSubClass(GoodsSubClass goodsSubClass) {
 		// TODO Auto-generated method stub
 		goodsSubClass.setUpdatedAt(new Date());
-		goodsSubClass.setFlag("0");
+		goodsSubClass.setFlag(0);
 		int i = goodsSubClassDao.update(goodsSubClass);
 		ResponseBean<Integer>  call= new ResponseBean<>(i);
 		if(i!=0){}else{
@@ -48,7 +48,7 @@ public class GoodsSubClassServiceImpl implements GoodsSubClassService{
 	public ResponseBean<Integer> deleteGoodsSubClassById(Integer id) {
 		// TODO Auto-generated method stub
 		GoodsSubClass goodsSubClass = goodsSubClassDao.findById(id);
-		goodsSubClass.setFlag("1");
+		goodsSubClass.setFlag(1);
 		int i =goodsSubClassDao.deleteById(goodsSubClass);
 		ResponseBean<Integer>  call= new ResponseBean<>(i);
 		if(i!=0){}else{

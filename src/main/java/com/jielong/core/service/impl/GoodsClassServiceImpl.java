@@ -54,7 +54,7 @@ public class GoodsClassServiceImpl implements GoodsClassService{
 	public ResponseBean<Integer> updateGoodsClass(GoodsClass goodsClass) {
 		// TODO Auto-generated method stub
 		goodsClass.setUpdatedAt(new Date());
-		goodsClass.setFlag("0");
+		goodsClass.setFlag(0);
 		int i = goodsClassDao.update(goodsClass);
 		ResponseBean<Integer>  call= new ResponseBean<>(i);
 		if(i!=0){}else{
@@ -71,7 +71,7 @@ public class GoodsClassServiceImpl implements GoodsClassService{
 		List<GoodsSubClass> goodsSubClassList = goodsSubClassDao.findByParentId(id);
 		//假删除子类的所有类别
 		for(int i=0;i<goodsSubClassList.size();i++){
-			goodsSubClassList.get(i).setFlag("1");
+			goodsSubClassList.get(i).setFlag(1);
 			
 			int j = goodsSubClassDao.deleteById(goodsSubClassList.get(i));
 			ResponseBean<Integer>  call= new ResponseBean<>(j);
@@ -86,7 +86,7 @@ public class GoodsClassServiceImpl implements GoodsClassService{
 		
 		GoodsClass goodsClass = goodsClassDao.findById(id); 
 		//假删除父类
-		goodsClass.setFlag("1");
+		goodsClass.setFlag(1);
 		
 		int k = goodsClassDao.deleteById(goodsClass);
 		ResponseBean<Integer>  orthercall= new ResponseBean<>(k);
