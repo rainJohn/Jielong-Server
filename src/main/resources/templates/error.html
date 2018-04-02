@@ -10,7 +10,7 @@
   <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
         <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
         <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-        <a href="index.html" th:href="@{/home}">Back to Home Page</a>
+        <a th:href="@{/home}">Back to Home Page</a>
     </body>
 </body>
 </html>

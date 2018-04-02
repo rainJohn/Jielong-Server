@@ -46,7 +46,7 @@ public class FileUtils {
             Path path = Paths.get(Constant.UPLOADED_FOLDER +fileName);
             
             Files.write(path, bytes);
-            responseBean.setData("\\getImage\\"+fileName);
+            responseBean.setData("/getImage/"+fileName);
             
             System.out.println("上传文件成功！");
 
