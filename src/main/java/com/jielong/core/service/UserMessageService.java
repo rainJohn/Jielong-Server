@@ -12,5 +12,6 @@ public interface UserMessageService {
 	ResponseBean<List<UserMessage>> selectAll();
 	ResponseBean<Integer> delete(Integer id);
 	ResponseBean<Integer> updateReadeState(Integer id);
+	ResponseBean<Integer> insertBatch(UserMessage userMessage);
 
 }
