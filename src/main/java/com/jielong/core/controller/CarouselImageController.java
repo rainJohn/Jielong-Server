@@ -41,8 +41,6 @@ public class CarouselImageController {
 		 if(FileUtils.uploadSingleFile(file).getErrorCode() == 0){
 		 carousel.setCarouseladdress(FileUtils.uploadSingleFile(file).getData());
 		 carousel.setType("0");
-//		 carousel.setCreatetime(new Date());
-//		 carousel.setUpdatetime(new Date());
 		 }
 		 return this.carouselImageService.insert(carousel);
 	}
