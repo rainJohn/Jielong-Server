@@ -40,7 +40,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-		<table schema="" tableName="help_message" domainObjectName="HelpMessage"
+		<table schema="" tableName="user_message" domainObjectName="UserMessage"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false">

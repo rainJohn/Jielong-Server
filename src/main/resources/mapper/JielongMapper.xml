@@ -147,7 +147,7 @@
       </if>
        <if test="status != null">
         #{status,jdbcType=INTEGER},
-      </if>   ---------
+      </if>  
       <if test="browseSum != null">
           #{browse_sum,jdbcType=INTEGER},
       </if>

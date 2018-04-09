@@ -1,89 +1,130 @@
 package com.jielong.core.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class UserMessage {
-    private Integer id;
+	private Integer id;
 
-    private Integer userId;
+	private Integer userId;
 
-    private String title;
+	private String title;
 
-    private String message;
+	private String message;
 
-    private Integer jielongId;
+	private Integer jielongId;
 
-    private Integer isRead=0;   //是否已读，默认为0，未读 
-    
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-    
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+	private Integer isRead = 0; // 是否已读，默认为0，未读
 
-    public Integer getId() {
-        return id;
-    }
+	protected String createTimeStr;
+	protected String updateTimeStr;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
-    public Integer getUserId() {
-        return userId;
-    }
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	private List<Integer> userIdList;
 
-    public String getTitle() {
-        return title;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setMessage(String message) {
-        this.message = message == null ? null : message.trim();
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public Integer getJielongId() {
-        return jielongId;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setJielongId(Integer jielongId) {
-        this.jielongId = jielongId;
-    }
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
 
-    public Integer getIsRead() {
-        return isRead;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public void setIsRead(Integer isRead) {
-        this.isRead = isRead;
-    }
+	public void setMessage(String message) {
+		this.message = message == null ? null : message.trim();
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public Integer getJielongId() {
+		return jielongId;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setJielongId(Integer jielongId) {
+		this.jielongId = jielongId;
+	}
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public Integer getIsRead() {
+		return isRead;
+	}
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setIsRead(Integer isRead) {
+		this.isRead = isRead;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public List<Integer> getUserIdList() {
+		return userIdList;
+	}
+
+	public void setUserIdList(List<Integer> userIdList) {
+		this.userIdList = userIdList;
+	}
+
+	public String getCreateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		simpleDateFormat.setTimeZone(timeZone);
+		if (getCreateTime() != null) {
+			return simpleDateFormat.format(getCreateTime());
+		} else {
+			return null;
+		}
+
+	}
+
+	public String getUpdateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		simpleDateFormat.setTimeZone(timeZone);
+		if (getUpdateTime() != null) {
+			return simpleDateFormat.format(getUpdateTime());
+		} else {
+			return null;
+		}
+
+	}
+
 }

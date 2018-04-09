@@ -25,6 +25,9 @@ public interface UserMessageMapper {
     
     @Update("update user_message set is_read=1,update_time=now() where id=#{id}")
     int updateReadState(@Param("id") Integer id); 
+    
+    //批量插入
+    int insertBatch(UserMessage userMessage);
 
     
 }

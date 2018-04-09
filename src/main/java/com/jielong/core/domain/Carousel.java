@@ -1,5 +1,9 @@
 package com.jielong.core.domain;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Carousel {
     private Integer id;
 
@@ -7,9 +11,13 @@ public class Carousel {
 
     private String type;
 
-    private String createtime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createtime;
 
-    private String updatetime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date updatetime;
+
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -35,19 +43,27 @@ public class Carousel {
         this.type = type == null ? null : type.trim();
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public String getUpdatetime() {
+    public Date getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(String updatetime) {
-        this.updatetime = updatetime == null ? null : updatetime.trim();
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

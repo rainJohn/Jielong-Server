@@ -23,6 +23,7 @@ public class GoodsSubClassController {
 	 * */
 	@RequestMapping("/addGoodsSubClass")
 	public ResponseBean<Integer> addGoodsSubClass(@RequestBody GoodsSubClass goodsSubClass){
+		goodsSubClass.setFlag(0);
 		return goodsSubClassService.addGoodsSubClass(goodsSubClass);
 	}
 	

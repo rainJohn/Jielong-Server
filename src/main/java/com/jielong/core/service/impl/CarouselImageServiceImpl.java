@@ -1,6 +1,7 @@
 package com.jielong.core.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,18 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	@Autowired
 	CarouselMapper carouselMapper;
 	
-	public Boolean insert(Carousel carousel) {
+	public ResponseBean<Integer> insert(Carousel carousel) {
 		// TODO Auto-generated method stub
-		Boolean call = carouselImageDao.insert(carousel);
-		if(call==true){
-		return call;
+		Integer i=carouselImageDao.insert(carousel);
+		ResponseBean<Integer> call = new ResponseBean<Integer>();
+		if(i!=0){
+			call.setData(i);
 		}else{
-			return call;
+			call.setErrorCode(ErrorCode.INSERT_EXCEPTION);
+			call.setErrorMessage("插入数据错误");
 		}
+		
+		return call;
 	}
 
 	@Override
@@ -79,6 +84,27 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 		return call;
 	}
 
+	@Override
+	public List<Carousel> queryStartCarousels() {
+		// TODO Auto-generated method stub
+		return carouselMapper.queryStartCarousels();
+	}
+
+	@Override
+	public ResponseBean<Integer> addRemarkById(int id, String remark) {
+		// TODO Auto-generated method stub
+		Carousel carousel = carouselMapper.selectByPrimaryKey(id);
+		carousel.setRemark(remark);
+		int i = carouselMapper.updateByPrimaryKey(carousel);
+		ResponseBean<Integer> call = new ResponseBean<Integer>(i);
+		if(i !=0){
+			
+		}else {
+			call.setErrorCode(ErrorCode.UPDATE_EXCEPTION);
+			call.setErrorMessage("添加备注信息失败");
+		}
+		return call;
+	}
 
 
 
