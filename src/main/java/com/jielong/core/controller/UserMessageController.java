@@ -42,5 +42,13 @@ public class UserMessageController {
 		return userMessageService.updateReadeState(id);
 	}
 	
+	//批量插入  userIdList
+	@RequestMapping("/insertBatch")
+	public ResponseBean<Integer> insertBatch(@RequestBody UserMessage userMessage){
+		
+		return userMessageService.insertBatch(userMessage);
+		
+	}
+	
 
 }

@@ -23,7 +23,7 @@ public interface JielongMapper {
 
   
     
-    @Select("select * from jielong")
+    @Select("select * from jielong order by created_at desc")
     List<Jielong> selectAll();
     
     @Select("select * from jielong where user_id= #{userId}")
@@ -37,4 +37,6 @@ public interface JielongMapper {
     @Update("update jielong set join_sum=join_sum+1,join_money=join_money+#{joinMoney} where id=#{id}")
     int updateJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
     
+    @Select("select count(*) from jielong")
+    Integer  selectCount();
 }

@@ -26,6 +26,10 @@ public interface JielongService {
    //更新参与人数和接龙金额
    ResponseBean<Integer> updateJoin(Integer id,BigDecimal joinMoney);
    
+   ResponseBean<Integer> selectCount(); 
+   
+   ResponseBean<Jielong> selectById(Integer id);
+   
    
 
 }

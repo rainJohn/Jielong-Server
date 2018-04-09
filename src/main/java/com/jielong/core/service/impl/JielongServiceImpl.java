@@ -224,5 +224,16 @@ public class JielongServiceImpl implements JielongService {
 		return responseBean;
 	}
 	
+	@Override
+	public ResponseBean<Integer> selectCount() {
+		return new ResponseBean<Integer>(jielongMapper.selectCount());
+	}
+
+	@Override
+	public ResponseBean<Jielong> selectById(Integer id) {
+		// TODO Auto-generated method stub
+		return new ResponseBean<Jielong>(jielongMapper.selectByPrimaryKey(id));
+	}
+	
 
 }

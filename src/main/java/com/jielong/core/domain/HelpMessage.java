@@ -1,6 +1,8 @@
 package com.jielong.core.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,6 +18,9 @@ public class HelpMessage {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+    
+    protected String createTimeStr;
+	protected String updateTimeStr;
 
     public Integer getId() {
         return id;
@@ -56,4 +61,32 @@ public class HelpMessage {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+    
+   
+    public String getCreateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if(getCreatedTime()!=null) {
+		  return simpleDateFormat.format(getCreatedTime());
+		}else {
+			return null;
+		}   
+	
+	}
+
+	public String getUpdateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if (getUpdateTime()!=null) {
+			return simpleDateFormat.format(getUpdateTime());   
+		}else {
+			return null;
+		}	
+	
+	}
+	
+
+
 }

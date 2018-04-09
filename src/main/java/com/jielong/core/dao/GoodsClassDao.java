@@ -1,14 +1,10 @@
 package com.jielong.core.dao;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
-import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.GoodsClass;
 
 @Mapper
@@ -43,7 +39,7 @@ public interface  GoodsClassDao{
 	int deleteById(GoodsClass goodsClass);
 
 	/**
-	 * 按住键查找
+	 * 按主键查找
 	 * */
 	@Select("select * from goods_class where id=#{id}")
 	GoodsClass findById(Integer id);

@@ -45,5 +45,11 @@ public class UserMessageServiceImpl implements UserMessageService {
         Integer result=userMessageMapper.updateReadState(id);
 		return new ResponseBean<Integer>(result);
 	}
+	
+	@Override
+	public ResponseBean<Integer> insertBatch(UserMessage userMessage) {
+
+		return new ResponseBean<Integer>(userMessageMapper.insertBatch(userMessage));
+	}
 
 }
