@@ -51,23 +51,22 @@ public class JielongServiceImpl implements JielongService {
 		ResponseBean<Integer> responseBean = new ResponseBean<>();
 
 		try {
-			jielong.setStatus(1);     //状态：进行中
+			jielong.setStatus(1); // 状态：进行中
 			Integer result = jielongMapper.insertSelective(jielong);
-			
+
 			// 商品列表
-			List<Goods> goodsList = jielong.getGoodsList();	
+			List<Goods> goodsList = jielong.getGoodsList();
 
-			
-            if (goodsList!=null && goodsList.size()>0) {
-            	Integer jieLongId = commonDao.getLastId(); // 最新插入的id
-            	// 插入该接龙对应的所有商品
-    			for (Goods goods : goodsList) {
-    				goods.setJielongId(jieLongId);
-    				goodsMapper.insertSelective(goods);
+			if (goodsList != null && goodsList.size() > 0) {
+				Integer jieLongId = commonDao.getLastId(); // 最新插入的id
+				// 插入该接龙对应的所有商品
+				for (Goods goods : goodsList) {
+					goods.setJielongId(jieLongId);
+					goodsMapper.insertSelective(goods);
 
-    			}
-			} 
-			
+				}
+			}
+
 			responseBean.setData(result);
 
 		} catch (Exception e) {
@@ -79,30 +78,30 @@ public class JielongServiceImpl implements JielongService {
 		return responseBean;
 
 	}
-	
+
 	@Override
 	public ResponseBean<Integer> update(Jielong jielong) {
 		ResponseBean<Integer> responseBean = new ResponseBean<>();
 
 		try {
-		//	jielong.setStatus(1);     //状态：进行中
+			// jielong.setStatus(1); //状态：进行中
 			jielong.setUpdatedAt(new Date());
 			Integer result = jielongMapper.updateByPrimaryKeySelective(jielong);
-			
+
 			// 商品列表
-			List<Goods> goodsList = jielong.getGoodsList();	
+			List<Goods> goodsList = jielong.getGoodsList();
 
-			 if (goodsList!=null) {
-				 Integer jieLongId = jielong.getId();    
-				 //删除原来的商品
-				 goodsMapper.deleteByJielongId(jieLongId);
-	            	// 插入该接龙对应的所有商品
-	    			for (Goods goods : goodsList) {
-	    				goods.setJielongId(jieLongId);
-	    				goodsMapper.insertSelective(goods);
+			if (goodsList != null) {
+				Integer jieLongId = jielong.getId();
+				// 删除原来的商品
+				goodsMapper.deleteByJielongId(jieLongId);
+				// 插入该接龙对应的所有商品
+				for (Goods goods : goodsList) {
+					goods.setJielongId(jieLongId);
+					goodsMapper.insertSelective(goods);
 
-	    			}
-				} 
+				}
+			}
 			responseBean.setData(result);
 
 		} catch (Exception e) {
@@ -119,8 +118,9 @@ public class JielongServiceImpl implements JielongService {
 	@Override
 	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
 		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
-		//查询状态为1的接龙
-		List<Jielong> jielongs = jielongMapper.selectAll().stream().filter(j->j.getStatus()==1).collect(Collectors.toList());
+		// 查询状态为1的接龙
+		List<Jielong> jielongs = jielongMapper.selectAll().stream().filter(j -> j.getStatus() == 1)
+				.collect(Collectors.toList());
 
 		for (Jielong jielong : jielongs) {
 			// 发布用户信息
@@ -201,39 +201,74 @@ public class JielongServiceImpl implements JielongService {
 	@Override
 	public ResponseBean<Integer> updateBrowse(Integer id) {
 		ResponseBean<Integer> responseBean = new ResponseBean<>();
-		Integer result=jielongMapper.updateBrowse(id);
-		if (result!=0) {  //更新成功
-			responseBean.setData(result);			
-		}else {
-		   responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
-		   responseBean.setErrorMessage("更新数据错误");
+		Integer result = jielongMapper.updateBrowse(id);
+		if (result != 0) { // 更新成功
+			responseBean.setData(result);
+		} else {
+			responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
+			responseBean.setErrorMessage("更新数据错误");
 		}
 		return responseBean;
 	}
 
 	@Override
-	public ResponseBean<Integer> updateJoin(Integer id,BigDecimal joinMoney) {
+	public ResponseBean<Integer> updateJoin(Integer id, BigDecimal joinMoney) {
 		ResponseBean<Integer> responseBean = new ResponseBean<>();
-		Integer result=jielongMapper.updateJoin(id,joinMoney);
-		if (result!=0) {  //更新成功
-			responseBean.setData(result);			
-		}else {
-		   responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
-		   responseBean.setErrorMessage("更新数据错误");
+		Integer result = jielongMapper.updateJoin(id, joinMoney);
+		if (result != 0) { // 更新成功
+			responseBean.setData(result);
+		} else {
+			responseBean.setData(ErrorCode.UPDATE_EXCEPTION);
+			responseBean.setErrorMessage("更新数据错误");
 		}
 		return responseBean;
 	}
-	
+
 	@Override
 	public ResponseBean<Integer> selectCount() {
 		return new ResponseBean<Integer>(jielongMapper.selectCount());
 	}
 
+	@Transactional
 	@Override
 	public ResponseBean<Jielong> selectById(Integer id) {
-		// TODO Auto-generated method stub
-		return new ResponseBean<Jielong>(jielongMapper.selectByPrimaryKey(id));
+		ResponseBean<Jielong> responseBean = new ResponseBean<Jielong>();
+		Jielong jielong = jielongMapper.selectByPrimaryKey(id);
+		
+		// 发布用户信息
+		UserInfo userInfo = userInfoMapper.selectByUserId(jielong.getUserId()).get(0);
+		jielong.setUserInfo(userInfo);
+		// 商品列表
+		List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
+		jielong.setGoodsList(goodsList);
+
+		// 图片列表
+		String images = jielong.getIntroImages();
+		if (StringUtil.isNotEmpty(images)) {
+			String[] introImages = images.split(",");
+			List<String> imagList = Arrays.asList(introImages);
+			jielong.setImageList(imagList);
+		}
+
+		// 自提地址列表
+		String address = jielong.getGoodsAddresses();
+		if (StringUtil.isNotEmpty(address)) {
+			List<UserAddress> addressList = new ArrayList<UserAddress>();
+			String[] addresses = address.split(",");
+			for (int i = 0; i < addresses.length; i++) {
+				Integer addressId = Integer.parseInt(addresses[i]);
+				UserAddress ads = addressMapper.selectByPrimaryKey(addressId);
+				addressList.add(ads);
+			}
+			jielong.setTakeGoodsAddressList(addressList);
+
+		} 
+		
+		responseBean.setData(jielong);
+		
+		return responseBean;
+		
+		
 	}
-	
 
 }
