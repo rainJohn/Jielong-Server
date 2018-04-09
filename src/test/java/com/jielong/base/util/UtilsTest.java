@@ -51,6 +51,10 @@ public class UtilsTest {
 		System.out.println(dateTimeStr);
 	}
 	
+	@Test
+	public void testAccessToken() {
+		GetToken.getAccessToken();
+	}
 	
 
 }

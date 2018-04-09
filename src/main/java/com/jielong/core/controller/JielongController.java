@@ -69,5 +69,13 @@ public class JielongController {
 		return jielongService.selectCount();
 	}
 	
+	/**
+	 * 根据接龙id查询
+	 */
+	@RequestMapping("/selectById")
+	public ResponseBean<Jielong> selectById(@RequestParam("id") Integer jieLongId){
+		
+		return jielongService.selectById(jieLongId);
+	}
     	
 }
