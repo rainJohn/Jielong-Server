@@ -79,6 +79,7 @@ public class OrderServiceImpl implements OrderService{
 		userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
 		userMessageService.insert(userMessage);
 		
-		return null;
+		responseBean.setData(1);
+		return responseBean;
 	}
 }
