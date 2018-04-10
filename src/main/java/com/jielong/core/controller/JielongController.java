@@ -61,5 +61,21 @@ public class JielongController {
 		return jielongService.updateBrowse(jieLongId);
 	}
 	
+	/**
+	 * 查询所有记录数
+	 */
+	@RequestMapping("/selectCount")
+	public ResponseBean<Integer> selectCount(){
+		return jielongService.selectCount();
+	}
+	
+	/**
+	 * 根据接龙id查询
+	 */
+	@RequestMapping("/selectById")
+	public ResponseBean<Jielong> selectById(@RequestParam("id") Integer jieLongId){
+		
+		return jielongService.selectById(jieLongId);
+	}
     	
 }

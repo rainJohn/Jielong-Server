@@ -1,8 +1,10 @@
 package com.jielong.core.domain;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,6 +24,9 @@ public class Jielong {
     private Double addressLongitude;  //经度
     
     private Double addressLatitude;   //纬度
+    
+    protected String createTimeStr;
+	protected String updateTimeStr;
    
 
     private Integer setFinishTime;
@@ -249,7 +254,31 @@ public class Jielong {
 		this.joinMoney = joinMoney;
 	}
 
+	
+	public String getCreateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if(getCreatedAt()!=null) {
+		  return simpleDateFormat.format(getCreatedAt());
+		}else {
+			return null;
+		}   
+	
+	}
 
+	public String getUpdateTimeStr() {
+		TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if (getUpdatedAt()!=null) {
+			return simpleDateFormat.format(getUpdatedAt());   
+		}else {
+			return null;
+		}
+		
+	
+	}
 
 	
 	
