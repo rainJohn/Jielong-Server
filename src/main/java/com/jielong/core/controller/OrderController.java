@@ -1,6 +1,7 @@
 package com.jielong.core.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ public class OrderController {
 	OrderService orderService;
 	
 	@RequestMapping("/insert")
-	public ResponseBean<Integer> insert(Order order){
+	public ResponseBean<Integer> insert(@RequestBody Order order){
 	    return orderService.insert(order);	
 	}
 
