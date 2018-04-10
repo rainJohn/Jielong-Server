@@ -11,7 +11,6 @@ import com.jielong.base.util.Utils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.OrderMapper;
-import com.jielong.core.domain.Jielong;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.UserMessage;
@@ -19,6 +18,7 @@ import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGoodsService;
 import com.jielong.core.service.OrderService;
 import com.jielong.core.service.UserMessageService;
+
 
 @Service
 public class OrderServiceImpl implements OrderService{
