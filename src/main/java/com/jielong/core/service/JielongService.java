@@ -6,7 +6,6 @@ import java.util.List;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
-import com.mysql.fabric.Response;
 
 public interface JielongService {
 
