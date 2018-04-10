@@ -49,13 +49,16 @@ public class OrderServiceImpl implements OrderService{
         order.setState(1);
         //订单总金额······················
         BigDecimal sumMoney=new BigDecimal(0);
-        for(int j=0;j<orderGoodsList.size();j++) {
-          BigDecimal price=orderGoodsList.get(j).getMoney();
-          Integer sum=orderGoodsList.get(j).getSum();
-          BigDecimal tempMOney=price.multiply(new BigDecimal(sum));
-          
-          sumMoney.add(tempMOney);        	
-        }        
+        if (orderGoodsList!=null && orderGoodsList.size()>0) {
+        	 for(int j=0;j<orderGoodsList.size();j++) {
+                 BigDecimal price=orderGoodsList.get(j).getMoney();
+                 Integer sum=orderGoodsList.get(j).getSum();
+                 BigDecimal tempMOney=price.multiply(new BigDecimal(sum));
+                 
+                 sumMoney.add(tempMOney);        	
+               }        
+		}
+       
         order.setSumMoney(sumMoney);        
         
 		orderMapper.insertSelective(order);		
