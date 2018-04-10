@@ -22,27 +22,16 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from jielong_order
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from jielong_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jielong.core.domain.Order">
-    insert into order (id, order_num, jielong_id, 
-      user_id, address_id, user_name, 
-      user_phone, sum_money, state, 
-      remark, created_at, updated_at
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderNum,jdbcType=VARCHAR}, #{jielongId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{userPhone,jdbcType=VARCHAR}, #{sumMoney,jdbcType=DECIMAL}, #{state,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
-      )
-  </insert>
+  
   <insert id="insertSelective" parameterType="com.jielong.core.domain.Order">
-    insert into order
+    insert into jielong_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -121,7 +110,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.Order">
-    update order
+    update jielong_order
     <set>
       <if test="orderNum != null">
         order_num = #{orderNum,jdbcType=VARCHAR},
@@ -159,19 +148,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.Order">
-    update order
-    set order_num = #{orderNum,jdbcType=VARCHAR},
-      jielong_id = #{jielongId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      address_id = #{addressId,jdbcType=INTEGER},
-      user_name = #{userName,jdbcType=VARCHAR},
-      user_phone = #{userPhone,jdbcType=VARCHAR},
-      sum_money = #{sumMoney,jdbcType=DECIMAL},
-      state = #{state,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+ 
 </mapper>
