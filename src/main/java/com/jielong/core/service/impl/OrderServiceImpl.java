@@ -78,11 +78,19 @@ public class OrderServiceImpl implements OrderService{
 		
 		//下单之后给用户发送消息
 		UserMessage userMessage=new UserMessage();
+		userMessage.setUserId(order.getUserId());
 		userMessage.setTitle("下单成功通知！");
 		userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
 		userMessageService.insert(userMessage);
 		
 		responseBean.setData(1);
 		return responseBean;
+	}
+	
+	
+	@Override
+	public ResponseBean<Order> select(Integer userId) {
+		List<Order> order=orderMapper.selectByUserId(userId);
+		return null;
 	}
 }
