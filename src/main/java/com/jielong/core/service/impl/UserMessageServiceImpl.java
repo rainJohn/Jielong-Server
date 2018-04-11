@@ -1,5 +1,6 @@
 package com.jielong.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.dao.OrderGroupMapper;
 import com.jielong.core.dao.UserMessageMapper;
 import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.UserMessageService;
@@ -15,6 +17,8 @@ import com.jielong.core.service.UserMessageService;
 public class UserMessageServiceImpl implements UserMessageService {
     @Autowired
     UserMessageMapper userMessageMapper;
+    @Autowired
+    OrderGroupMapper orderGroupMapper;
 	
 	@Override
 	public ResponseBean<Integer> insert(UserMessage userMessage) {
@@ -58,5 +62,32 @@ public class UserMessageServiceImpl implements UserMessageService {
 	}
 	
 	
+
+	@Override
+	public ResponseBean<Integer> groupStateModify(Integer jieLongId, Integer goodsId, Integer setFlg) {
+		
+		List<Integer> listUserid = new ArrayList<Integer>();
+		listUserid = orderGroupMapper.selectByUserId(jieLongId, goodsId);
+		
+		UserMessage userMessage = new UserMessage();
+		
+		if(setFlg == 1){
+			//成团发送
+			userMessage.setTitle("群发下单成功通知！");
+			userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+			userMessage.setUserIdList(listUserid);
+			this.insertBatch(userMessage);
+			
+		} else {
+			//不成团发送
+			userMessage.setTitle("群发通知！");
+			userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
+			userMessage.setUserIdList(listUserid);
+			this.insertBatch(userMessage);
+		}
+		
+		
+		return null;
+	}
 
 }
