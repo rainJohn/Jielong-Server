@@ -10,14 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jielong.base.util.Utils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
+import com.jielong.core.dao.GoodsMapper;
+import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.OrderGroupMapper;
 import com.jielong.core.dao.OrderMapper;
+import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.OrderGroup;
-import com.jielong.core.domain.OrderGroupConsole;
-
+import com.jielong.core.domain.UserMessage;
+import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGroupService;
+import com.jielong.core.service.UserMessageService;
 
 
 @Service
@@ -28,9 +32,15 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	@Autowired
 	OrderMapper orderMapper;	
 	@Autowired
-	OrderGroupConsole orderGroupConsole;
+	OrderGroupConsoleMapper orderGroupConsoleMapper;
 	@Autowired
 	OrderGroupMapper orderGroupMapper;
+	@Autowired
+	GoodsMapper goodsMapper;
+	@Autowired
+	JielongService jielongService;
+	@Autowired
+	UserMessageService userMessageService;
 
 	
 	
@@ -67,11 +77,44 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 				
 		        orderGroupMapper.insert(orderGroupGoods);
 		        
+		        //取得接龙商品的成团数
+		        Goods goods = new  Goods();
+		        goods= goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
+		        int setGroupNum = Integer.valueOf(goods.getGroupSum());
 		        
+		        int newGroupNum = orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId());
+		        if(newGroupNum >= setGroupNum) {
+		        	//成团
+		        	//更新ordergroupconsole表
+		        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(), orderGoods.getGoodsId());
+		        	
+		        	//下单之后给用户发送消息
+					UserMessage userMessage=new UserMessage();
+					userMessage.setUserId(order.getUserId());
+					userMessage.setTitle("下单成功通知！");
+					userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+					userMessageService.insert(userMessage);
+					
+					
+					
+		        } else {
+		        	//还未成团
+		        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+		        	
+		        	//下单之后给用户发送消息
+					UserMessage userMessage=new UserMessage();
+					userMessage.setUserId(order.getUserId());
+					userMessage.setTitle("下单成功通知！");
+					userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
+					userMessageService.insert(userMessage);
+		        }
 		        
-//			    orderGoodsService.insert(orderGoods);
+		        //下单之后，更新接龙参与人数、参与金额等信息	
+				jielongService.updateJoin(order.getJielongId(), buyAllMoney);
+
 			}
 			responseBean.setData(1);
+			return responseBean;
 		}
         
 		return null;
