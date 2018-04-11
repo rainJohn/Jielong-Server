@@ -1,13 +1,11 @@
 package com.jielong.core.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.UserMessageService;
@@ -42,12 +40,18 @@ public class UserMessageController {
 		return userMessageService.updateReadeState(id);
 	}
 	
-	//批量插入  userIdList
+	//批量插入 (参数:userIdList)
 	@RequestMapping("/insertBatch")
 	public ResponseBean<Integer> insertBatch(@RequestBody UserMessage userMessage){
 		
 		return userMessageService.insertBatch(userMessage);
 		
+	}
+	
+	//根据用户id查询消息
+	@RequestMapping("/selectByUserId")
+	public ResponseBean<List<UserMessage>> selectByUserId(@RequestParam("userId")Integer userId){
+		return userMessageService.selectByUserId(userId);
 	}
 	
 

@@ -51,5 +51,12 @@ public class UserMessageServiceImpl implements UserMessageService {
 
 		return new ResponseBean<Integer>(userMessageMapper.insertBatch(userMessage));
 	}
+	
+	@Override
+	public ResponseBean<List<UserMessage>> selectByUserId(Integer userId) {
+		return new ResponseBean<List<UserMessage>>(userMessageMapper.selectByUserId(userId));
+	}
+	
+	
 
 }

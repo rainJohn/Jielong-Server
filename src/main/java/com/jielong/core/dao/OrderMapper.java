@@ -19,6 +19,12 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
     
+    //参与的接龙
     @Select("select * from jielong_order where user_id=#{userId}")
     List<Order> selectByUserId(@Param("userId") Integer userId);
+    
+    //发起的接龙
+    @Select("select * from jielong_order where jielong_id in (select id from jielong where user_id=#{userId}")
+    List<Order> selectByPublisherId(@Param("userId") Integer userId);
+    
 }
