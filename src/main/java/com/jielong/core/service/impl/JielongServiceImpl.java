@@ -19,10 +19,12 @@ import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.JielongMapper;
+import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.UserAddressMapper;
 import com.jielong.core.dao.UserInfoMapper;
 import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Jielong;
+import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.service.JielongService;
@@ -44,6 +46,9 @@ public class JielongServiceImpl implements JielongService {
 
 	@Autowired
 	UserInfoMapper userInfoMapper;
+	
+	@Autowired
+	OrderGroupConsoleMapper orderGroupConsoleMapper;
 
 	@Transactional
 	@Override
@@ -63,7 +68,17 @@ public class JielongServiceImpl implements JielongService {
 				for (Goods goods : goodsList) {
 					goods.setJielongId(jieLongId);
 					goodsMapper.insertSelective(goods);
-
+					OrderGroupConsole orderGroupConsole = new OrderGroupConsole();
+					orderGroupConsole.setJielongId(jieLongId);
+					orderGroupConsole.setGoodsId(goods.getId());
+					if(goods.getIsSetGroup() == 1) {
+						//是成团接龙
+						orderGroupConsole.setGroupOKFlg(0);
+					} else {
+						orderGroupConsole.setGroupOKFlg(2);
+					}
+					orderGroupConsole.setConsoleFlg(0);
+					orderGroupConsoleMapper.insert(orderGroupConsole);
 				}
 			}
 
