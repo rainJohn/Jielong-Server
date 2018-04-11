@@ -1,6 +1,10 @@
 package com.jielong.core.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.jielong.core.domain.Order;
 
@@ -8,13 +12,13 @@ import com.jielong.core.domain.Order;
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Order record);
-
+  
     int insertSelective(Order record);
 
-    Order selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Order record);
+    Order selectByPrimaryKey(Integer id); 
 
     int updateByPrimaryKey(Order record);
+    
+    @Select("select * from jielong_order where user_id=#{userId}")
+    List<Order> selectByUserId(@Param("userId") Integer userId);
 }

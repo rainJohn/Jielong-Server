@@ -1,5 +1,6 @@
 package com.jielong.core.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,15 @@ import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.OrderMapper;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
+import com.jielong.core.domain.UserAddress;
+import com.jielong.core.domain.UserMessage;
+import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGoodsService;
 import com.jielong.core.service.OrderService;
+import com.jielong.core.service.UserAddressService;
+import com.jielong.core.service.UserInfoService;
+import com.jielong.core.service.UserMessageService;
+
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -23,19 +31,47 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	OrderMapper orderMapper;	
 	@Autowired
-	OrderGoodsService orderGoodsService;
+	OrderGoodsService orderGoodsService;	
+	@Autowired
+	JielongService jielongService;
+	@Autowired
+	UserMessageService userMessageService;
+	@Autowired
+	UserAddressService userAddressService;
+	@Autowired
+	UserInfoService userInfoService;
 	
 	@Transactional
 	@Override
 	public ResponseBean<Integer> insert(Order order) {
+		ResponseBean<Integer> responseBean=new ResponseBean<>();
+		
+		//订单内商品列表
+		List<OrderGoods> orderGoodsList=order.getOrderGoods();
+		
         String orderNum=Utils.createFileName();
         //订单编号
         order.setOrderNum(orderNum);
         //订单状态
         order.setState(1);
+        //订单总金额······················
+        BigDecimal sumMoney=new BigDecimal(0);
+        if (orderGoodsList!=null && orderGoodsList.size()>0) {
+        	 for(int j=0;j<orderGoodsList.size();j++) {
+                 BigDecimal price=orderGoodsList.get(j).getMoney();
+                 Integer sum=orderGoodsList.get(j).getSum();
+                 BigDecimal tempMOney=price.multiply(new BigDecimal(sum));
+                 
+                 sumMoney.add(tempMOney);        	
+               }        
+		}
+       
+        order.setSumMoney(sumMoney);        
+        
 		orderMapper.insertSelective(order);		
 		Integer orderId=commonDao.getLastId();
-		List<OrderGoods> orderGoodsList=order.getOrderGoods();
+		 	                       
+		
 		if (orderGoodsList!=null && orderGoodsList.size()>0) {
 			for(int i=0;i<orderGoodsList.size();i++) {
 			   OrderGoods orderGoods=orderGoodsList.get(i);
@@ -44,8 +80,38 @@ public class OrderServiceImpl implements OrderService{
 			}
 		}
 		
+		//下单之后，更新接龙参与人数、参与金额等信息	
+		jielongService.updateJoin(order.getJielongId(), sumMoney);
 		
+		//下单之后给用户发送消息
+		UserMessage userMessage=new UserMessage();
+		userMessage.setUserId(order.getUserId());
+		userMessage.setTitle("下单成功通知！");
+		userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+		userMessageService.insert(userMessage);
+		
+		responseBean.setData(1);
+		return responseBean;
+	}
+	
+	@Override
+	public ResponseBean<List<Order>> selectByUserId(Integer userId) {
+        ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
+        List<Order> orderList=orderMapper.selectByUserId(userId);
+        if (orderList!=null&&orderList.size()>0) {
+        	for(Order order : orderList) {
+        	  //地址信息
+        	  Integer addressId=order.getAddressId();
+        	//  UserAddress address=
+        	  //用户信息
+        	  //商品信息	
+        		
+        	}
+			
+		}
 		
 		return null;
 	}
+	
+
 }

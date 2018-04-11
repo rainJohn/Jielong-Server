@@ -1,15 +1,11 @@
 package com.jielong.core.service.impl;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.jielong.base.util.Constant;
 import com.jielong.base.util.ErrorCode;
 import com.jielong.base.util.NetworkConnection;
@@ -18,6 +14,7 @@ import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.UserMapper;
 import com.jielong.core.domain.User;
 import com.jielong.core.service.UserService;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -88,10 +85,6 @@ public class UserServiceImpl implements UserService{
 		}
 		
 			return responseBean;
-		
-		
-		
-	
 		
    }	
    

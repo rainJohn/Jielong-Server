@@ -32,6 +32,10 @@ public class Order {
     private Date updatedAt;
     
     private List<OrderGoods> orderGoods;
+    
+    private UserInfo userInfo;
+    
+    private UserAddress userAddress;
 
     public Integer getId() {
         return id;
@@ -149,6 +153,22 @@ public class Order {
 
 	public void setOrderGoods(List<OrderGoods> orderGoods) {
 		this.orderGoods = orderGoods;
+	}
+
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public UserAddress getUserAddress() {
+		return userAddress;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public void setUserAddress(UserAddress userAddress) {
+		this.userAddress = userAddress;
 	}
     
     
