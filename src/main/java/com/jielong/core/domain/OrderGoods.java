@@ -19,6 +19,8 @@ public class OrderGoods {
     private Date createdAt;
 
     private Date updatedAt;
+    
+    private Goods goods;
 
     public Integer getId() {
         return id;
@@ -89,4 +91,13 @@ public class OrderGoods {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Goods getGoods() {
+		return goods;
+	}
+
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+    
 }

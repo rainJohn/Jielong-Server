@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.jielong.core.domain.Goods;
 
@@ -29,4 +30,8 @@ public interface GoodsMapper {
     //根据jielong_id 删除商品
     @Delete("delete from goods where  jielong_id=#{jielongId}")
     int deleteByJielongId(@Param("jielongId") Integer jielongId);
+    
+    //减少商品库存
+    @Update("update goods set repertory=repertory-#{repertory} where id=#{id}")
+    int updateRepertory(@Param("id") Integer id,@Param("repertory") Integer repertory);
 }

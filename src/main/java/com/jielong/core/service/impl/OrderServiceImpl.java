@@ -10,10 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jielong.base.util.Utils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
+import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.OrderMapper;
+import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.UserAddress;
+import com.jielong.core.domain.UserInfo;
 import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGoodsService;
@@ -40,6 +43,9 @@ public class OrderServiceImpl implements OrderService{
 	UserAddressService userAddressService;
 	@Autowired
 	UserInfoService userInfoService;
+  
+	@Autowired
+	GoodsMapper goodsMapper;
 	
 	@Transactional
 	@Override
@@ -54,7 +60,7 @@ public class OrderServiceImpl implements OrderService{
         order.setOrderNum(orderNum);
         //订单状态
         order.setState(1);
-        //订单总金额······················
+        //订单总金额
         BigDecimal sumMoney=new BigDecimal(0);
         if (orderGoodsList!=null && orderGoodsList.size()>0) {
         	 for(int j=0;j<orderGoodsList.size();j++) {
@@ -75,8 +81,11 @@ public class OrderServiceImpl implements OrderService{
 		if (orderGoodsList!=null && orderGoodsList.size()>0) {
 			for(int i=0;i<orderGoodsList.size();i++) {
 			   OrderGoods orderGoods=orderGoodsList.get(i);
+			   
 			   orderGoods.setOrderId(orderId);
 			   orderGoodsService.insert(orderGoods);
+			   //减少对应商品的库存
+			   goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
 			}
 		}
 		
@@ -100,17 +109,28 @@ public class OrderServiceImpl implements OrderService{
         List<Order> orderList=orderMapper.selectByUserId(userId);
         if (orderList!=null&&orderList.size()>0) {
         	for(Order order : orderList) {
-        	  //地址信息
-        	  Integer addressId=order.getAddressId();
-        	//  UserAddress address=
+        	  //提货地址信息
+			  Integer addressId=order.getAddressId();
+        	  UserAddress address=userAddressService.selectById(addressId).getData();
+        	  order.setUserAddress(address);
         	  //用户信息
-        	  //商品信息	
+        	  Integer  clientId=order.getUserId();
+        	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
+        	  order.setUserInfo(userInfo);
+        	  //订单商品信息
+        	  List<OrderGoods> orderGoodsList=order.getOrderGoods();
+        	  for (OrderGoods orderGoods : orderGoodsList) {
+				  Integer goodsId=orderGoods.getGoodsId();
+                  Goods goods= goodsMapper.selectByPrimaryKey(goodsId);
+                  orderGoods.setGoods(goods);
+			   }
         		
         	}
 			
 		}
-		
-		return null;
+        
+        responseBean.setData(orderList);
+		return responseBean;
 	}
 	
 
