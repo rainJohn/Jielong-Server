@@ -84,27 +84,48 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        
 		        int newGroupNum = orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId());
 		        if(newGroupNum >= setGroupNum) {
-		        	//成团
-		        	//更新ordergroupconsole表
-		        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(), orderGoods.getGoodsId());
+		        	//成团状态
+		        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
+		        	int oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+		        	if (oldGroupOkFlg == 1)
+		        	{
+		        		//发送单人通知 已经是成功的团了。
+						UserMessage userMessage=new UserMessage();
+						userMessage.setUserId(order.getUserId());
+						userMessage.setTitle("下单成功通知！");
+						userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+						userMessageService.insert(userMessage);
+		        	} else {
+		        		//恭喜终于成团了。
+		        		//更新ordergroupconsole表
+			        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(), orderGoods.getGoodsId());
+			        	
+			        	//下单之后给用户发送消息
+			        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 1);
+		        	}
 		        	
-		        	//下单之后给用户发送消息
-					UserMessage userMessage=new UserMessage();
-					userMessage.setUserId(order.getUserId());
-					userMessage.setTitle("下单成功通知！");
-					userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
-					userMessageService.insert(userMessage);
 					
 		        } else {
-		        	//还未成团
-		        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+		        	//成团状态
+		        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
+		        	int oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+		        	if (oldGroupOkFlg == 1){
+		        		//有撤单的情况!从成团变成了 未成团。群发通知
+		        		int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+			        	
+			        	//下单之后给用户发送消息
+			        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
+		        		
+		        	} else {
+		        		//发送单人通知
+		        		//下单之后给用户发送消息
+						UserMessage userMessage=new UserMessage();
+						userMessage.setUserId(order.getUserId());
+						userMessage.setTitle("下单成功通知！");
+						userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
+						userMessageService.insert(userMessage);
+		        	}
 		        	
-		        	//下单之后给用户发送消息
-					UserMessage userMessage=new UserMessage();
-					userMessage.setUserId(order.getUserId());
-					userMessage.setTitle("下单成功通知！");
-					userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
-					userMessageService.insert(userMessage);
 		        }
 		        //减少对应商品的库存
 				goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
