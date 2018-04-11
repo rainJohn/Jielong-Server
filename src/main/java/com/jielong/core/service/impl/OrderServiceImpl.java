@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
                  Integer sum=orderGoodsList.get(j).getSum();
                  BigDecimal tempMOney=price.multiply(new BigDecimal(sum));
                  
-                 sumMoney.add(tempMOney);        	
+                 sumMoney = sumMoney.add(tempMOney);        	
                }        
 		}
        
@@ -103,8 +103,9 @@ public class OrderServiceImpl implements OrderService{
 		return responseBean;
 	}
 	
+	//根据顾客id查询订单(参与的接龙)
 	@Override
-	public ResponseBean<List<Order>> selectByUserId(Integer userId) {
+	public ResponseBean<List<Order>> selectByCustomerId(Integer userId) {
         ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
         List<Order> orderList=orderMapper.selectByUserId(userId);
         if (orderList!=null&&orderList.size()>0) {
@@ -117,13 +118,19 @@ public class OrderServiceImpl implements OrderService{
         	  Integer  clientId=order.getUserId();
         	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
         	  order.setUserInfo(userInfo);
-        	  //订单商品信息
-        	  List<OrderGoods> orderGoodsList=order.getOrderGoods();
-        	  for (OrderGoods orderGoods : orderGoodsList) {
-				  Integer goodsId=orderGoods.getGoodsId();
-                  Goods goods= goodsMapper.selectByPrimaryKey(goodsId);
-                  orderGoods.setGoods(goods);
-			   }
+        	  //订单商品信息        	  
+        	  List<OrderGoods> orderGoodsList=orderGoodsService.selectByOrderId(order.getId());
+        	        	  
+        	  if (orderGoodsList!=null && orderGoodsList.size()>0) {
+        		  for (OrderGoods orderGoods : orderGoodsList) {
+    				  Integer goodsId=orderGoods.getGoodsId();
+                      Goods goods= goodsMapper.selectByPrimaryKey(goodsId);
+                      orderGoods.setGoods(goods);
+    			   }
+        		  
+        		  order.setOrderGoods(orderGoodsList);
+			   }        	 
+        	   
         		
         	}
 			

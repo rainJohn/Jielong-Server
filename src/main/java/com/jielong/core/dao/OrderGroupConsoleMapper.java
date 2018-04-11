@@ -1,10 +1,12 @@
 package com.jielong.core.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
 import com.jielong.core.domain.OrderGroupConsole;
 
+@Mapper
 public interface OrderGroupConsoleMapper {
     int deleteByPrimaryKey(Integer id);
 

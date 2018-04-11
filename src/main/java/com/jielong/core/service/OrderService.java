@@ -7,5 +7,5 @@ import com.jielong.core.domain.Order;
 
 public interface OrderService {
 	ResponseBean<Integer> insert(Order order);
-	ResponseBean<List<Order>> selectByUserId(Integer userId);
+	ResponseBean<List<Order>> selectByCustomerId(Integer userId);
 }

@@ -95,8 +95,6 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 					userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
 					userMessageService.insert(userMessage);
 					
-					
-					
 		        } else {
 		        	//还未成团
 		        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
@@ -108,7 +106,8 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 					userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
 					userMessageService.insert(userMessage);
 		        }
-		        
+		        //减少对应商品的库存
+				goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
 		        //下单之后，更新接龙参与人数、参与金额等信息	
 				jielongService.updateJoin(order.getJielongId(), buyAllMoney);
 
