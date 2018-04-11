@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Order;
 import com.jielong.core.service.OrderService;
-import com.jielong.core.service.OrderServiceTest;
 
 @RestController
 @RequestMapping("/order")

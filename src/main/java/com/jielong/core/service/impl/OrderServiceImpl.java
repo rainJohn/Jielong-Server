@@ -13,10 +13,13 @@ import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.OrderMapper;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
+import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGoodsService;
 import com.jielong.core.service.OrderService;
+import com.jielong.core.service.UserAddressService;
+import com.jielong.core.service.UserInfoService;
 import com.jielong.core.service.UserMessageService;
 
 
@@ -33,6 +36,10 @@ public class OrderServiceImpl implements OrderService{
 	JielongService jielongService;
 	@Autowired
 	UserMessageService userMessageService;
+	@Autowired
+	UserAddressService userAddressService;
+	@Autowired
+	UserInfoService userInfoService;
 	
 	@Transactional
 	@Override
@@ -87,10 +94,24 @@ public class OrderServiceImpl implements OrderService{
 		return responseBean;
 	}
 	
-	
 	@Override
-	public ResponseBean<Order> select(Integer userId) {
-		List<Order> order=orderMapper.selectByUserId(userId);
+	public ResponseBean<List<Order>> selectByUserId(Integer userId) {
+        ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
+        List<Order> orderList=orderMapper.selectByUserId(userId);
+        if (orderList!=null&&orderList.size()>0) {
+        	for(Order order : orderList) {
+        	  //地址信息
+        	  Integer addressId=order.getAddressId();
+        	//  UserAddress address=
+        	  //用户信息
+        	  //商品信息	
+        		
+        	}
+			
+		}
+		
 		return null;
 	}
+	
+
 }
