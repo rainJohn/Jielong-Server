@@ -276,6 +276,9 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			        	  order.setUserPhone(orderGroup.getCustPhone());
 			        	  order.setCreatedAt(orderGroup.getCreatedAt());
 			        	  order.setUpdatedAt(orderGroup.getUpdatedAt());
+
+			        	  order.setAddressId(orderGroup.getAddressId());
+
 			        	  
 			        	  //Jielong主题
 				          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
@@ -345,20 +348,16 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			int peopleSum=0;
 			 //商品成功成团与否FLG
             Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(jielongId, goodsId);
-            if (groupOkFlg!=null) {
-            	 if(groupOkFlg == 1)
-                 {         	 
-                 	peopleSum=0;
-                 	
-                 } else {
+            if (groupOkFlg!=null) {          	
                	 
-               	      //参团不成功，计算已参团人数        	    
+               	  //参团不成功，计算已参团人数      	    
      		        
-     		          int num = orderGroupMapper.selectByCustBuyNum(jielongId, goodsId);
-     		          
-     		          peopleSum=num;
+     		      Integer num = orderGroupMapper.selectByCustBuyNum(jielongId, goodsId);
+     		      if (num!=null) {
+     		        	 peopleSum=num;
+					}   		          
      		         
-                 }
+                 
 			}
            
             

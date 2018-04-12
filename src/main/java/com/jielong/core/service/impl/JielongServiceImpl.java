@@ -73,8 +73,10 @@ public class JielongServiceImpl implements JielongService {
 					goods.setJielongId(jieLongId);
 					goodsMapper.insertSelective(goods);
 					OrderGroupConsole orderGroupConsole = new OrderGroupConsole();
-					orderGroupConsole.setJielongId(jieLongId);					
-					orderGroupConsole.setGoodsId(goods.getId());
+					orderGroupConsole.setJielongId(jieLongId);
+					Integer goodId = commonDao.getLastId(); // 最新插入的id
+					orderGroupConsole.setGoodsId(goodId);
+					
 					if(goods.getIsSetGroup() == 1) {
 						//是成团接龙
 						orderGroupConsole.setGroupOkFlg(0);;
