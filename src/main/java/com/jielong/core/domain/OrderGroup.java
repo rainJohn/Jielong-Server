@@ -40,6 +40,9 @@ public class OrderGroup {
     
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
+    
+    //提货地址
+    private Integer addressId;
 
     public Integer getId() {
         return id;
@@ -174,4 +177,14 @@ public class OrderGroup {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
+    
+    
 }
