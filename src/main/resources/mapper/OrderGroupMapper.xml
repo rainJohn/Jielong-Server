@@ -197,7 +197,7 @@
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="addressId != null" >
-        updated_at = #{addressId,jdbcType=INTEGER},
+        address_id = #{addressId,jdbcType=INTEGER},
       </if>
     </set>
     where Id = #{id,jdbcType=INTEGER}
@@ -217,7 +217,7 @@
       trade_flg = #{tradeFlg,jdbcType=INTEGER},
       order_flg = #{orderFlg,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       address_id = #{addressId,jdbcType=INTEGER}
     where Id = #{id,jdbcType=INTEGER}
   </update>
