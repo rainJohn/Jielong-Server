@@ -34,7 +34,7 @@ public class OrderController {
 	}
 	
 	/**
-	 * 根据用户id查询参与的接龙
+	 * 根据顾客id查询参与的接龙
 	 * @param customerId
 	 * @return
 	 */

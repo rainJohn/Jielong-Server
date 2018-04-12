@@ -1,7 +1,11 @@
 package com.jielong.core.domain;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class OrderGroup {
 	//ID
@@ -30,9 +34,11 @@ public class OrderGroup {
     private Integer tradeFlg;
   //订单状态 1为关闭订单，0为订单正常交易，2为交易完成
     private Integer orderFlg;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")    
     private Date createdAt;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
 
     public Integer getId() {
@@ -139,16 +145,30 @@ public class OrderGroup {
         this.orderFlg = orderFlg;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getCreatedAt() {
+    	TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if(createdAt!=null) {
+		  return simpleDateFormat.format(createdAt);
+		}else {
+			return null;
+		}   
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public String getUpdatedAt() {
+    	TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if(updatedAt!=null) {
+		  return simpleDateFormat.format(updatedAt);
+		}else {
+			return null;
+		}   
     }
 
     public void setUpdatedAt(Date updatedAt) {

@@ -12,6 +12,8 @@ public class Order {
     private String orderNum;
 
     private Integer jielongId;
+    
+    private String jielongTopic;
 
     private Integer userId;
 
@@ -47,7 +49,15 @@ public class Order {
         this.id = id;
     }
 
-    public String getOrderNum() {
+    public String getJielongTopic() {
+		return jielongTopic;
+	}
+
+	public void setJielongTopic(String jielongTopic) {
+		this.jielongTopic = jielongTopic;
+	}
+
+	public String getOrderNum() {
         return orderNum;
     }
 

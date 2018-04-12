@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jielong.core.dao.OrderGroupMapper" >
   <resultMap id="BaseResultMap" type="com.jielong.core.domain.OrderGroup" >
-    <id column="Id" property="id" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cust_id" property="custId" jdbcType="INTEGER" />
     <result column="jielong_id" property="jielongId" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
@@ -19,21 +19,21 @@
     <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    Id, cust_id, jielong_id, order_id, goods_id, cust_name, cust_phone, cust_note, cust_buy_num, 
+    id, cust_id, jielong_id, order_id, goods_id, cust_name, cust_phone, cust_note, cust_buy_num, 
     cust_buy_price, cust_buy_all_money, trade_flg, order_flg, created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from order_group
-    where Id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from order_group
-    where Id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jielong.core.domain.OrderGroup" >
-    insert into order_group (Id, cust_id, jielong_id, 
+    insert into order_group (id, cust_id, jielong_id, 
       order_id, goods_id, cust_name, 
       cust_phone, cust_note, cust_buy_num, 
       cust_buy_price, cust_buy_all_money, trade_flg, 
@@ -50,7 +50,7 @@
     insert into order_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        Id,
+        id,
       </if>
       <if test="custId != null" >
         cust_id,
@@ -189,7 +189,7 @@
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where Id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.OrderGroup" >
     update order_group
@@ -207,6 +207,6 @@
       order_flg = #{orderFlg,jdbcType=INTEGER},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP}
-    where Id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

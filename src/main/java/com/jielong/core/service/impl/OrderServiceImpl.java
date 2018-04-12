@@ -11,6 +11,7 @@ import com.jielong.base.util.Utils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
+import com.jielong.core.dao.JielongMapper;
 import com.jielong.core.dao.OrderMapper;
 import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Order;
@@ -46,6 +47,8 @@ public class OrderServiceImpl implements OrderService{
   
 	@Autowired
 	GoodsMapper goodsMapper;
+	@Autowired
+	JielongMapper jielongMapper;
 	
 	@Transactional
 	@Override
@@ -110,7 +113,11 @@ public class OrderServiceImpl implements OrderService{
         ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
         List<Order> orderList=orderMapper.selectByUserId(userId);
         if (orderList!=null&&orderList.size()>0) {
+        	
         	for(Order order : orderList) {
+        	  //Jielong主题
+	          String topic=jielongMapper.selectTopic(order.getJielongId());
+	          order.setJielongTopic(topic);	
         	  //提货地址信息
 			  Integer addressId=order.getAddressId();
         	  UserAddress address=userAddressService.selectById(addressId).getData();
@@ -148,6 +155,9 @@ public class OrderServiceImpl implements OrderService{
 	        List<Order> orderList=orderMapper.selectByPublisherId(userId);
 	        if (orderList!=null&&orderList.size()>0) {
 	        	for(Order order : orderList) {
+	        	  //Jielong主题
+	        	  String topic=jielongMapper.selectTopic(order.getJielongId());
+	        	  order.setJielongTopic(topic);
 	        	  //提货地址信息
 				  Integer addressId=order.getAddressId();
 	        	  UserAddress address=userAddressService.selectById(addressId).getData();

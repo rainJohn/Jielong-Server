@@ -39,4 +39,7 @@ public interface JielongMapper {
     
     @Select("select count(*) from jielong")
     Integer  selectCount();
+    
+    @Select("select topic from jielong where id=#{id}")
+    String selectTopic(@Param("id")Integer id);
 }

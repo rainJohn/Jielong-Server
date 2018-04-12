@@ -73,12 +73,12 @@ public class JielongServiceImpl implements JielongService {
 					orderGroupConsole.setGoodsId(goods.getId());
 					if(goods.getIsSetGroup() == 1) {
 						//是成团接龙
-						orderGroupConsole.setGroupOKFlg(0);
+						orderGroupConsole.setGroupOkFlg(0);;
 					} else {
-						orderGroupConsole.setGroupOKFlg(2);
+						orderGroupConsole.setGroupOkFlg(2);
 					}
 					orderGroupConsole.setConsoleFlg(0);
-					orderGroupConsoleMapper.insert(orderGroupConsole);
+					orderGroupConsoleMapper.insertSelective(orderGroupConsole);
 				}
 			}
 

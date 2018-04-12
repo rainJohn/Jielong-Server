@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.jielong.Application;
+import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.UserMessageMapper;
+import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserMessage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,6 +23,8 @@ public class JielongServiceTest {
 //	@Autowired UserMessageService userMessageService;
 	@Autowired
 	UserMessageMapper userMessageMapper;
+	@Autowired
+	OrderGroupConsoleMapper orderGroupConsoleMapper;
 	
 	@Test
 	public void  testUpdateJoin() {	 
@@ -43,5 +47,16 @@ public class JielongServiceTest {
 		junit.framework.Assert.assertEquals(3, result.intValue());
 	     
 	}
+	
+	@Test
+	public void testGroupConsole() {
+		OrderGroupConsole orderGroupConsole = new OrderGroupConsole();
+		orderGroupConsole.setJielongId(3);
+		orderGroupConsole.setGoodsId(5);		
+		orderGroupConsole.setGroupOkFlg(2);		
+		orderGroupConsole.setConsoleFlg(0);
+		orderGroupConsoleMapper.insertSelective(orderGroupConsole);
+	}
+	
 
 }
