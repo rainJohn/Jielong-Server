@@ -179,6 +179,8 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 //	        	  order.setUserInfo(ordergroup.get);
 	        	  order.setUserName(ordergroup.getCustName());
 	        	  order.setUserPhone(ordergroup.getCustPhone());
+	        	  order.setAddressId(ordergroup.getAddressId());
+//	        	  order.setCreatedAt(ordergroup.getCreatedAt());
 	        	  
 	        	  //Jielong主题
 		          String topic=jielongMapper.selectTopic(ordergroup.getJielongId());
@@ -270,6 +272,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 //			        	  order.setUserInfo(ordergroup.get);
 			        	  order.setUserName(orderGroup.getCustName());
 			        	  order.setUserPhone(orderGroup.getCustPhone());
+			        	  order.setAddressId(orderGroup.getAddressId());
 			        	  
 			        	  //Jielong主题
 				          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
