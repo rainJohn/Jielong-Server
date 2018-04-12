@@ -12,6 +12,7 @@ import com.jielong.base.util.Utils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
+import com.jielong.core.dao.JielongMapper;
 import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.OrderGroupMapper;
 import com.jielong.core.dao.OrderMapper;
@@ -50,7 +51,8 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	UserAddressService userAddressService;
 	@Autowired
 	UserInfoService userInfoService;
-
+	@Autowired
+	JielongMapper jielongMapper;
 	
 	
 	@Transactional
@@ -163,6 +165,24 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	        	for(OrderGroup ordergroup : orderGroupList) {
 	        	 //转换输出格式
 	        	  Order order = new Order();
+	        	  order.setId(ordergroup.getId());
+	        	  order.setIsSetGroup(1);
+	        	  order.setJielongId(ordergroup.getJielongId());
+//	        	  order.setJielongTopic(ordergroup);
+//	        	  order.setOrderGoods(ordergroup);
+	        	  order.setOrderNum(ordergroup.getOrderId());
+	        	  order.setRemark(ordergroup.getCustNote());
+	        	  order.setState(ordergroup.getTradeFlg());
+	        	  order.setSumMoney(ordergroup.getCustBuyAllMoney());
+//	        	  order.setUserAddress(userAddress);
+	        	  order.setUserId(ordergroup.getCustId());
+//	        	  order.setUserInfo(ordergroup.get);
+	        	  order.setUserName(ordergroup.getCustName());
+	        	  order.setUserPhone(ordergroup.getCustPhone());
+	        	  
+	        	  //Jielong主题
+		          String topic=jielongMapper.selectTopic(ordergroup.getJielongId());
+		          order.setJielongTopic(topic);	
 	        	  //提货地址信息
 				  Integer addressId=ordergroup.getAddressId();
 	        	  UserAddress address=userAddressService.selectById(addressId).getData();
@@ -236,6 +256,24 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        	for(OrderGroup orderGroup : orderGroupList) {
 		        		//转换输出格式
 			        	  Order order = new Order();
+			        	  order.setId(orderGroup.getId());
+			        	  order.setIsSetGroup(1);
+			        	  order.setJielongId(orderGroup.getJielongId());
+//			        	  order.setJielongTopic(ordergroup);
+//			        	  order.setOrderGoods(ordergroup);
+			        	  order.setOrderNum(orderGroup.getOrderId());
+			        	  order.setRemark(orderGroup.getCustNote());
+			        	  order.setState(orderGroup.getTradeFlg());
+			        	  order.setSumMoney(orderGroup.getCustBuyAllMoney());
+//			        	  order.setUserAddress(userAddress);
+			        	  order.setUserId(orderGroup.getCustId());
+//			        	  order.setUserInfo(ordergroup.get);
+			        	  order.setUserName(orderGroup.getCustName());
+			        	  order.setUserPhone(orderGroup.getCustPhone());
+			        	  
+			        	  //Jielong主题
+				          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
+				          order.setJielongTopic(topic);	
 			        	  //提货地址信息
 						  Integer addressId=orderGroup.getAddressId();
 			        	  UserAddress address=userAddressService.selectById(addressId).getData();
