@@ -28,6 +28,7 @@ import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.service.JielongService;
+import com.jielong.core.service.OrderGroupService;
 
 @Service
 public class JielongServiceImpl implements JielongService {
@@ -49,6 +50,9 @@ public class JielongServiceImpl implements JielongService {
 	
 	@Autowired
 	OrderGroupConsoleMapper orderGroupConsoleMapper;
+	
+	@Autowired
+	OrderGroupService orderGroupService;
 
 	@Transactional
 	@Override
@@ -69,7 +73,7 @@ public class JielongServiceImpl implements JielongService {
 					goods.setJielongId(jieLongId);
 					goodsMapper.insertSelective(goods);
 					OrderGroupConsole orderGroupConsole = new OrderGroupConsole();
-					orderGroupConsole.setJielongId(jieLongId);
+					orderGroupConsole.setJielongId(jieLongId);					
 					orderGroupConsole.setGoodsId(goods.getId());
 					if(goods.getIsSetGroup() == 1) {
 						//是成团接龙
@@ -255,6 +259,13 @@ public class JielongServiceImpl implements JielongService {
 		jielong.setUserInfo(userInfo);
 		// 商品列表
 		List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
+		for(Goods goods : goodsList) {
+			if (goods.getIsSetGroup()==1) {
+			  	Integer remainSum=orderGroupService.getGroupPeople(goods.getJielongId(), goods.getId());
+				goods.setRemainSum(remainSum);
+			}
+		}
+		
 		jielong.setGoodsList(goodsList);
 
 		// 图片列表

@@ -25,6 +25,8 @@ public class Goods {
     private Integer isSetGroup;
 
     private String groupSum;
+    
+    private Integer remainSum; 
 
     private String serverPaths;
 
@@ -140,5 +142,14 @@ public class Goods {
 	public void setJielongId(Integer jielongId) {
 		this.jielongId = jielongId;
 	}
+
+	public Integer getRemainSum() {
+		return remainSum;
+	}
+
+	public void setRemainSum(Integer remainSum) {
+		this.remainSum = remainSum;
+	}
+	
     
 }

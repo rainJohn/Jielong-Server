@@ -148,7 +148,23 @@ public class OrderGroup {
         this.orderFlg = orderFlg;
     }
 
-    public String getCreatedAt() {
+   public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	/* public String getCreatedAt() {
     	TimeZone timeZone = TimeZone.getDefault();  
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		simpleDateFormat.setTimeZone(timeZone);  
@@ -177,7 +193,7 @@ public class OrderGroup {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
+*/
 	public Integer getAddressId() {
 		return addressId;
 	}

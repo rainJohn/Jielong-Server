@@ -1,5 +1,6 @@
 package com.jielong.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,16 @@ public class OrderController {
 	 */
 	@RequestMapping("/selectByCustomerId")
 	public ResponseBean<List<Order>> selectByCustomerId(@RequestParam("customerId") Integer customerId){
-	 //  return orderService.selectByCustomerId(customerId);  	
-		return orderGroupService.selectByCustomerId(customerId);
+		List<Order> orderList=new ArrayList<Order>();
+	    List<Order> orderList1=orderService.selectByCustomerId(customerId).getData();  	
+		List<Order> orderList2=orderGroupService.selectByCustomerId(customerId).getData();
+		if (orderList1!=null) {
+			orderList.addAll(orderList1);
+		}
+		if (orderList2!=null) {
+			orderList.addAll(orderList2);
+		}
+		return new ResponseBean<List<Order>>(orderList);
 	}
 	
 	

@@ -98,7 +98,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        if(newGroupNum >= setGroupNum) {
 		        	//成团状态
 		        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
-		        	int oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+		        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
 		        	if (oldGroupOkFlg == 1)
 		        	{
 		        		//发送单人通知 已经是成功的团了。
@@ -120,23 +120,26 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        } else {
 		        	//成团状态
 		        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
-		        	int oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
-		        	if (oldGroupOkFlg == 1){
-		        		//有撤单的情况!从成团变成了 未成团。群发通知
-		        		int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
-			        	
-			        	//下单之后给用户发送消息
-			        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
-		        		
-		        	} else {
-		        		//发送单人通知
-		        		//下单之后给用户发送消息
-						UserMessage userMessage=new UserMessage();
-						userMessage.setUserId(order.getUserId());
-						userMessage.setTitle("下单成功通知！");
-						userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
-						userMessageService.insert(userMessage);
-		        	}
+		        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+		        	if (oldGroupOkFlg!=null) {
+		        		if (oldGroupOkFlg == 1){
+			        		//有撤单的情况!从成团变成了 未成团。群发通知
+			        		int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+				        	
+				        	//下单之后给用户发送消息
+				        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
+			        		
+			        	} else {
+			        		//发送单人通知
+			        		//下单之后给用户发送消息
+							UserMessage userMessage=new UserMessage();
+							userMessage.setUserId(order.getUserId());
+							userMessage.setTitle("下单成功通知！");
+							userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
+							userMessageService.insert(userMessage);
+			        	}
+					}
+		        	
 		        	
 		        }
 		        //减少对应商品的库存
@@ -168,8 +171,6 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	        	  order.setId(ordergroup.getId());
 	        	  order.setIsSetGroup(1);
 	        	  order.setJielongId(ordergroup.getJielongId());
-//	        	  order.setJielongTopic(ordergroup);
-//	        	  order.setOrderGoods(ordergroup);
 	        	  order.setOrderNum(ordergroup.getOrderId());
 	        	  order.setRemark(ordergroup.getCustNote());
 	        	  order.setState(ordergroup.getTradeFlg());
@@ -179,6 +180,9 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 //	        	  order.setUserInfo(ordergroup.get);
 	        	  order.setUserName(ordergroup.getCustName());
 	        	  order.setUserPhone(ordergroup.getCustPhone());
+	        	  order.setAddressId(ordergroup.getAddressId());
+	        	  order.setCreatedAt(ordergroup.getCreatedAt());
+	        	  order.setUpdatedAt(ordergroup.getUpdatedAt());
 	        	  
 	        	  //Jielong主题
 		          String topic=jielongMapper.selectTopic(ordergroup.getJielongId());
@@ -209,7 +213,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	                      orderGoods.setSum(orderGroup2.getCustBuyNum());
 	                      
 	                      //商品成功成团与否FLG
-	                      int groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	                      Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
 	                      if(groupOkFlg == 1)
 	                      {
 	                    	  //参团成功
@@ -270,6 +274,8 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 //			        	  order.setUserInfo(ordergroup.get);
 			        	  order.setUserName(orderGroup.getCustName());
 			        	  order.setUserPhone(orderGroup.getCustPhone());
+			        	  order.setCreatedAt(orderGroup.getCreatedAt());
+			        	  order.setUpdatedAt(orderGroup.getUpdatedAt());
 			        	  
 			        	  //Jielong主题
 				          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
@@ -301,7 +307,8 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			                      orderGoods.setSum(orderGroup2.getCustBuyNum());
 			                      
 			                      //商品成功成团与否FLG
-			                      int groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+			                      Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+			                      
 			                      if(groupOkFlg == 1)
 			                      {
 			                    	  //参团成功
@@ -331,4 +338,31 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        responseBean.setData(orderList);
 				return responseBean;
 		}
+		
+		@Override
+		//计算已参团人数
+		public int getGroupPeople(Integer jielongId,Integer goodsId) {
+			int peopleSum=0;
+			 //商品成功成团与否FLG
+            Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(jielongId, goodsId);
+            if (groupOkFlg!=null) {
+            	 if(groupOkFlg == 1)
+                 {         	 
+                 	peopleSum=0;
+                 	
+                 } else {
+               	 
+               	      //参团不成功，计算已参团人数        	    
+     		        
+     		          int num = orderGroupMapper.selectByCustBuyNum(jielongId, goodsId);
+     		          
+     		          peopleSum=num;
+     		         
+                 }
+			}
+           
+            
+            return peopleSum;
+            
+		} 
 }

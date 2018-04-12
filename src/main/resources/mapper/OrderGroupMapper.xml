@@ -18,6 +18,8 @@
     <result column="order_flg" property="orderFlg" jdbcType="INTEGER" />
     <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="order_flg" property="orderFlg" jdbcType="INTEGER" />
+     <result column="address_id" property="addressId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
 

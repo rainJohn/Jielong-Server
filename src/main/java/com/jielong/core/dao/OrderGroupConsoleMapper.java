@@ -27,5 +27,5 @@ public interface OrderGroupConsoleMapper {
     
     //查看当前接龙商品的成团状态
     @Select("select group_ok_flg from order_group_console where jielong_id = #{jielongId} and goods_id = #{goodsId}")
-    int selectGroupOkState(@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
+    Integer selectGroupOkState(@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
 }
