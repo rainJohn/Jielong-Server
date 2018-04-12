@@ -21,6 +21,12 @@ public class OrderGoods {
     private Date updatedAt;
     
     private Goods goods;
+    
+  //成团标志 0为未成团，1为成团
+    private Integer groupFlg;
+    
+    //还差几人
+    private Integer joinGroupNum;
 
     public Integer getId() {
         return id;
@@ -99,5 +105,23 @@ public class OrderGoods {
 	public void setGoods(Goods goods) {
 		this.goods = goods;
 	}
+
+	public Integer getGroupFlg() {
+		return groupFlg;
+	}
+
+	public void setGroupFlg(Integer groupFlg) {
+		this.groupFlg = groupFlg;
+	}
+
+	public Integer getJoinGroupNum() {
+		return joinGroupNum;
+	}
+
+	public void setJoinGroupNum(Integer joinGroupNum) {
+		this.joinGroupNum = joinGroupNum;
+	}
+	
+	
     
 }

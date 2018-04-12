@@ -38,7 +38,7 @@ public class Order {
     private UserAddress userAddress;
     
     private Integer isSetGroup;
-
+    
     public Integer getId() {
         return id;
     }
@@ -180,8 +180,8 @@ public class Order {
 	public void setIsSetGroup(Integer isSetGroup) {
 		this.isSetGroup = isSetGroup;
 	}
-	
-	
+
+
     
     
 }
