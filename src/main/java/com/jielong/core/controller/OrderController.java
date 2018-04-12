@@ -40,8 +40,8 @@ public class OrderController {
 	 */
 	@RequestMapping("/selectByCustomerId")
 	public ResponseBean<List<Order>> selectByCustomerId(@RequestParam("customerId") Integer customerId){
-	   return orderService.selectByCustomerId(customerId);  	
-		
+	 //  return orderService.selectByCustomerId(customerId);  	
+		return orderGroupService.selectByCustomerId(customerId);
 	}
 	
 	

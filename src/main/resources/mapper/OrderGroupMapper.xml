@@ -20,13 +20,10 @@
     <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-<<<<<<< HEAD
+
     id, cust_id, jielong_id, order_id, goods_id, cust_name, cust_phone, cust_note, cust_buy_num, 
-    cust_buy_price, cust_buy_all_money, trade_flg, order_flg, created_at, updated_at
-=======
-    Id, cust_id, jielong_id, order_id, goods_id, cust_name, cust_phone, cust_note, cust_buy_num, 
     cust_buy_price, cust_buy_all_money, trade_flg, order_flg, created_at, updated_at,address_id
->>>>>>> branch 'master' of https://github.com/bohai-dev/Jielong-Server.git
+
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -202,7 +199,7 @@
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="addressId != null" >
-        updated_at = #{addressId,jdbcType=INTEGER},
+        address_id = #{addressId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
