@@ -1,6 +1,7 @@
 package com.jielong.core.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jielong.base.util.Utils;
+import com.jielong.core.beans.PickBean;
+import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
@@ -234,6 +237,22 @@ public class OrderServiceImpl implements OrderService{
 		responseBean.setData(result);
 		return responseBean;
 		
+	}
+	
+	/**
+	 * 自提统计
+	 */
+	@Override
+	public ResponseBean<List<PickCountBean>> countPick(Integer jielongId) {
+		List<PickCountBean> pickCountBeanList=new ArrayList<PickCountBean>();
+		
+		
+		//1、首先根据jielongId查询所有商品
+		List<Integer> goodIds=goodsMapper.selectIdsByJielongId(jielongId);
+		for(Integer goodsId : goodIds) {
+			PickCountBean pickCountBean=new PickCountBean();	       		       	
+		}
+		return new ResponseBean<>(pickCountBeanList);
 	}
 	
 

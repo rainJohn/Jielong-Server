@@ -34,4 +34,8 @@ public interface GoodsMapper {
     //减少商品库存
     @Update("update goods set repertory=repertory-#{repertory} where id=#{id}")
     int updateRepertory(@Param("id") Integer id,@Param("repertory") Integer repertory);
+    
+    //根据jielong_id 查询商品id
+    @Select("select id from goods where jielong_id = #{jielongId}")
+    List<Integer> selectIdsByJielongId(@Param("jielongId") Integer jielongId);
 }
