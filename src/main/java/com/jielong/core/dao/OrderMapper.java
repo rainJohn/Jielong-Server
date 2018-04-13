@@ -27,4 +27,8 @@ public interface OrderMapper {
     @Select("select * from jielong_order where jielong_id in (select id from jielong where user_id=#{userId}")
     List<Order> selectByPublisherId(@Param("userId") Integer userId);
     
+    //根据接龙id查询订单
+    @Select("select * from jielong_order where jielong_id=#{jielongId}")
+    List<Order> selectByJielongId(@Param("jielongId")Integer jielongId);
+    
 }

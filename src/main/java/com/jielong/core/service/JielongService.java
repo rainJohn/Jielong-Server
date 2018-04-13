@@ -29,6 +29,8 @@ public interface JielongService {
    
    ResponseBean<Jielong> selectById(Integer id);
    
+   ResponseBean<Integer> closeJielong(Integer id);
+   
    
 
 }

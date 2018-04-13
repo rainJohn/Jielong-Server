@@ -162,7 +162,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		public ResponseBean<List<Order>> selectByCustomerId(Integer userId) {
 	        ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
 	        List<OrderGroup> orderGroupList= orderGroupMapper.selectByCustId(userId);
-	      //转换输出格式
+	         //转换输出格式
 	        List<Order> orderList = new ArrayList<Order>();
 	        if (orderGroupList!=null&&orderGroupList.size()>0) {
 	        	for(OrderGroup ordergroup : orderGroupList) {
@@ -228,8 +228,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	          		          
 	          		          int numtmp = setGroupNum - newGroupNum;
 	          		          orderGoods.setJoinGroupNum(numtmp);
-	                      }
-	                      
+	                      }                     
 	                      
 	                      
 	                      orderGoodsList.add(orderGoods);
@@ -287,12 +286,12 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						  Integer addressId=orderGroup.getAddressId();
 			        	  UserAddress address=userAddressService.selectById(addressId).getData();
 			        	  order.setUserAddress(address);
-		        	  //用户信息
+		        	      //用户信息
 			        	  Integer  clientId=orderGroup.getCustId();
 			        	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
 			        	  order.setUserInfo(userInfo);
 			        	  
-			        	//订单商品信息        	  
+			        	  //订单商品信息        	  
 			        	  List<OrderGroup> orderGroupList2=orderGroupMapper.selectByOrderId(orderGroup.getOrderId());
 			        	  
 			        	  if (orderGroupList2!=null && orderGroupList2.size()>0) {
@@ -355,13 +354,18 @@ public class OrderGroupServiceImpl implements OrderGroupService{
      		      Integer num = orderGroupMapper.selectByCustBuyNum(jielongId, goodsId);
      		      if (num!=null) {
      		        	 peopleSum=num;
-					}   		          
+					}         
      		         
                  
-			}
-           
+			}          
             
             return peopleSum;
             
 		} 
+		
+		@Override
+		public ResponseBean<List<Order>> selectByJielongId(Integer jielongId) {
+
+			return null;
+		}
 }

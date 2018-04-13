@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGroup;
 
 @Mapper
@@ -39,4 +38,6 @@ public interface OrderGroupMapper {
     //发起的接龙
     @Select("select * from order_group where jielong_id in (select id from jielong where user_id=#{userId}")
     List<OrderGroup> selectByPublisherId(@Param("userId") Integer userId);
+    
+    
 }

@@ -50,6 +50,13 @@ public class JielongController {
 	public ResponseBean<Integer> update(@RequestBody Jielong jielong){
 		return jielongService.update(jielong);
 	}
+	/**
+	 * 结束接龙
+	 */
+	@RequestMapping("/closeJielong")
+	public ResponseBean<Integer> closeJielong(@RequestParam("id") Integer id){
+         return jielongService.closeJielong(id);                   		
+	}
 	
 	/**
 	 * 更新浏览人数

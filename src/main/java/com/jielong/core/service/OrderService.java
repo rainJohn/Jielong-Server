@@ -11,4 +11,6 @@ public interface OrderService {
 	ResponseBean<List<Order>> selectByCustomerId(Integer userId);
 	
 	ResponseBean<List<Order>> selectByPublisherId(Integer userId);
+	
+	ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
 }
