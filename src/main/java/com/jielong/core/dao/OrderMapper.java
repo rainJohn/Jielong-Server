@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.jielong.core.domain.Order;
 
@@ -30,5 +31,9 @@ public interface OrderMapper {
     //根据接龙id查询订单
     @Select("select * from jielong_order where jielong_id=#{jielongId}")
     List<Order> selectByJielongId(@Param("jielongId")Integer jielongId);
+    
+    //设置自提标记
+    @Update("update jielong_order set state=3 where order_num in #{orderNumList}")
+    int signPick(@Param("orderNumList") List<String> orderNumList);
     
 }

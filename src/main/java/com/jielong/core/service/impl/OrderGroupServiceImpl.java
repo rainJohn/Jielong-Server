@@ -343,14 +343,14 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		}
 		
 		@Override
-		//计算已参团人数
+		//计算已参团数量
 		public int getGroupPeople(Integer jielongId,Integer goodsId) {
 			int peopleSum=0;
 			 //商品成功成团与否FLG
             Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(jielongId, goodsId);
             if (groupOkFlg!=null) {          	
                	 
-               	  //参团不成功，计算已参团人数      	    
+               	  //参团不成功，计算已参团数量  	    
      		        
      		      Integer num = orderGroupMapper.selectByCustBuyNum(jielongId, goodsId);
      		      if (num!=null) {
