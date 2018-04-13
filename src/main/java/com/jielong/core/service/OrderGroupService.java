@@ -19,5 +19,7 @@ public interface OrderGroupService {
   int closeJieLong(Integer jielongId);
 
   ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
+  
+  ResponseBean<Integer> signPick(List<String> orderNumList);
 
 }

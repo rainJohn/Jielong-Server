@@ -383,6 +383,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	            	
 	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 2,order_flg 0 -> 0 where  trade_flg = 0 and order_flg = 0
 	            	orderGroupMapper.updateLastStateFlg(2, 0, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            	
 	            } else {
 	            	//拼团失败 最终结果更新
 	            	//1.关闭order_group_console表，状态关闭
@@ -390,17 +391,25 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	            	
 	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 0,order_flg 0 -> 1 where  trade_flg = 0 and order_flg = 0
 	            	orderGroupMapper.updateLastStateFlg(0, 1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            	
 	            }
 				
 			}
 			
 			//return 0 为接龙结束异常 1为正常 
-			return 0;
+			return 1;
 		} 
 		
 		@Override
 		public ResponseBean<List<Order>> selectByJielongId(Integer jielongId) {
 
+			return null;
+		}
+
+
+		@Override
+		public ResponseBean<Integer> signPick(List<String> orderNumList) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 }
