@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGroup;
 
 @Mapper
@@ -41,7 +40,9 @@ public interface OrderGroupMapper {
     @Select("select * from order_group where jielong_id in (select id from jielong where user_id=#{userId}")
     List<OrderGroup> selectByPublisherId(@Param("userId") Integer userId);
     
+
     //关闭接龙，最终结果更新
     @Update("update order_group set trade_flg = #{tradeFlg},order_flg = #{orderFlg} where jielong_id = #{jielongId} and goods_id = #{goodsId} and trade_flg = 0 and order_flg = 0")
     int updateLastStateFlg(@Param("tradeFlg") Integer tradeFlg,@Param("orderFlg") Integer orderFlg,@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
+
 }

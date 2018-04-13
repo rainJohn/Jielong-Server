@@ -15,5 +15,9 @@ public interface OrderGroupService {
   
   int getGroupPeople(Integer jielongId,Integer goodsId);
   
+
   int closeJieLong(Integer jielongId);
+
+  ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
+
 }

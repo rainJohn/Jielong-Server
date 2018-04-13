@@ -298,5 +298,17 @@ public class JielongServiceImpl implements JielongService {
 		
 		
 	}
+	
+	/**
+	 * 结束接龙
+	 */
+	@Override
+	public ResponseBean<Integer> closeJielong(Integer id){
+	  Jielong jielong=new Jielong();
+	  jielong.setId(id);
+	  jielong.setStatus(2);
+	  Integer result=jielongMapper.updateByPrimaryKeySelective(jielong);      
+	  return new ResponseBean<Integer>(result);
+	}
 
 }

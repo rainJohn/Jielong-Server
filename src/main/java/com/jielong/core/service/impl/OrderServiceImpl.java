@@ -186,5 +186,43 @@ public class OrderServiceImpl implements OrderService{
 			return responseBean;
 	}
 	
+	@Override
+	public ResponseBean<List<Order>> selectByJielongId(Integer jielongId) {
+		ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
+		
+		List<Order> orderList=orderMapper.selectByJielongId(jielongId);
+		if (orderList!=null && orderList.size()>0) {
+			if (orderList!=null&&orderList.size()>0) {
+	        	for(Order order : orderList) {
+	        
+	        	  //提货地址信息
+				  Integer addressId=order.getAddressId();
+	        	  UserAddress address=userAddressService.selectById(addressId).getData();
+	        	  order.setUserAddress(address);
+	        	  //用户信息
+	        	  Integer  clientId=order.getUserId();
+	        	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
+	        	  order.setUserInfo(userInfo);
+	        	  //订单商品信息        	  
+	        	  List<OrderGoods> orderGoodsList=orderGoodsService.selectByOrderId(order.getId());
+	        	        	  
+	        	  if (orderGoodsList!=null && orderGoodsList.size()>0) {
+	        		  for (OrderGoods orderGoods : orderGoodsList) {
+	    				  Integer goodsId=orderGoods.getGoodsId();
+	                      Goods goods= goodsMapper.selectByPrimaryKey(goodsId);
+	                      orderGoods.setGoods(goods);
+	    			   }
+	        		  
+	        		  order.setOrderGoods(orderGoodsList);
+				   }  //end if     	   
+	        		
+	        	}			
+			} 
+		}    //end if
+		
+		 responseBean.setData(orderList);
+		 return responseBean;
+	}
+	
 
 }
