@@ -18,7 +18,7 @@ public interface OrderService {
 	ResponseBean<Integer> signPick(List<String> orderNumList);
 	
 	//Jielong统计
-	ResponseBean<List<PickCountBean>>  countPick(Integer id);
+	ResponseBean<List<PickCountBean>>  countPick(Integer jielongId);
 	
 	Order selectById(Integer id);
 }

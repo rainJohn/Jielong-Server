@@ -57,7 +57,7 @@ public interface OrderGroupMapper {
     //根据接龙id查询已经拼团成功，待提货的订单
     @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=2")
     List<OrderGroup> selectPickByJielongId(@Param("jielongId")Integer jielongId);
-    
+
     //根据接龙id查询goodsID
     @Select("select distinct goods_id from order_group where jielong_id=#{jielongId}")
     List<Integer> selectGetGoodsId(@Param("jielongId")Integer jielongId);
@@ -65,5 +65,10 @@ public interface OrderGroupMapper {
     //根据商品id查询订单
     @Select("select * from order_group where goods_id=#{goodsId} order by created_at desc")
     List<OrderGroup> selectByGoodsId(@Param("goodsId")Integer goodsId);
+
+    //根据接龙id查询交易已经完成的订单
+    @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=3 order by created_at asc")
+    List<OrderGroup> selectFinishByJielongId(@Param("jielongId")Integer jielongId);
+
     
 }

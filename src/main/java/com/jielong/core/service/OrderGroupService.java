@@ -23,8 +23,12 @@ public interface OrderGroupService {
   
   ResponseBean<Integer> signPick(List<String> orderNumList);
    
-  ResponseBean<List<Order>> selectPickByJielongId(Integer jielongId);
+
   
   ResponseBean<List<PickCountBean>>  countPick(Integer jielongId);
+
+
+  ResponseBean<List<Order>> selectPickByJielongId(Integer jielongId);   
+  ResponseBean<List<Order>> selectJoinByJielongId(Integer jielongId);
 
 }

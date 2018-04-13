@@ -1,6 +1,10 @@
 package com.jielong.core.controller;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
+import com.jielong.core.domain.Order;
 import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGroupService;
+import com.jielong.core.service.OrderService;
 
 @RestController
 @RequestMapping("/jielong")
@@ -22,6 +28,8 @@ public class JielongController {
 	JielongService jielongService;
 	@Autowired
 	OrderGroupService orderGroupService;
+	@Autowired
+	OrderService orderService;
 	
 	@RequestMapping("/insert")
 	public ResponseBean<Integer> insert(@RequestBody Jielong jielong){
@@ -88,6 +96,27 @@ public class JielongController {
 		
 		return jielongService.selectById(jieLongId);
 		
+	}
+	
+	/**
+	 * 查询参与记录
+	 */
+	@RequestMapping("/selectJoin")
+	public ResponseBean<List<Order>> selectJoin(@RequestParam("id") Integer jieLongId){
+		     List<Order> orderList1=orderService.selectByJielongId(jieLongId).getData();
+		     
+		     List<Order> orderList2=orderGroupService.selectJoinByJielongId(jieLongId).getData();
+		     List<Order> orderList=new ArrayList<Order>();
+		     if (orderList1!=null) {
+				orderList.addAll(orderList1.stream().filter(order->order.getState()==3).collect(Collectors.toList()));
+			 }
+		     if (orderList2!=null) {
+		    	 orderList.addAll(orderList2);
+			 }
+		     
+		     List<Order> joinList=orderList.stream().sorted(Comparator.comparing(Order::getCreatedAt).reversed()).collect(Collectors.toList());
+		     
+		     return new ResponseBean<List<Order>>(joinList);
 	}
     	
 }
