@@ -402,14 +402,106 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		
 		@Override
 		public ResponseBean<List<Order>> selectByJielongId(Integer jielongId) {
+			//根据接龙ID查询所有商品订单
+			ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
+			List<OrderGroup> orderGroupList= orderGroupMapper.selectByJielongId(jielongId);
+		      //转换输出格式
+		    List<Order> orderList = new ArrayList<Order>();
+			if (orderGroupList!=null && orderGroupList.size()>0) {
+	        	for(OrderGroup orderGroup : orderGroupList) {
+	        
+	        		//转换输出格式
+	        	  Order order = new Order();
+	        	  order.setId(orderGroup.getId());
+	        	  order.setIsSetGroup(1);
+	        	  order.setJielongId(orderGroup.getJielongId());
+//		        	  order.setJielongTopic(ordergroup);
+//		        	  order.setOrderGoods(ordergroup);
+	        	  order.setOrderNum(orderGroup.getOrderId());
+	        	  order.setRemark(orderGroup.getCustNote());
+	        	  order.setState(orderGroup.getTradeFlg());
+	        	  order.setSumMoney(orderGroup.getCustBuyAllMoney());
+//		        	  order.setUserAddress(userAddress);
+	        	  order.setUserId(orderGroup.getCustId());
+//		        	  order.setUserInfo(ordergroup.get);
+	        	  order.setUserName(orderGroup.getCustName());
+	        	  order.setUserPhone(orderGroup.getCustPhone());
+	        	  order.setCreatedAt(orderGroup.getCreatedAt());
+	        	  order.setUpdatedAt(orderGroup.getUpdatedAt());
 
-			return null;
+		          order.setAddressId(orderGroup.getAddressId());
+		          
+		          //Jielong主题
+		          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
+		          order.setJielongTopic(topic);	
+	        	  //提货地址信息
+				  Integer addressId=orderGroup.getAddressId();
+	        	  UserAddress address=userAddressService.selectById(addressId).getData();
+	        	  order.setUserAddress(address);
+        	      //用户信息
+	        	  Integer  clientId=orderGroup.getCustId();
+	        	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
+	        	  order.setUserInfo(userInfo);
+	        	  
+	        	//订单商品信息        	  
+	        	  List<OrderGroup> orderGroupList2=orderGroupMapper.selectByOrderId(orderGroup.getOrderId());
+	        	  
+	        	  if (orderGroupList2!=null && orderGroupList2.size()>0) {
+	        		  List<OrderGoods> orderGoodsList = new ArrayList<OrderGoods>();
+	        		  for (OrderGroup orderGroup2 : orderGroupList2) {
+	    				 
+	                      //对应统一接口 ORDER
+	        			  Goods goods= goodsMapper.selectByPrimaryKey(orderGroup2.getGoodsId());
+	                      OrderGoods orderGoods = new OrderGoods();
+	                      orderGoods.setGoods(goods);
+	                      orderGoods.setGoodsId(orderGroup2.getGoodsId());
+//	                      orderGoods.setId();
+	                      orderGoods.setMoney(orderGroup2.getCustBuyPrice());
+//	                      orderGoods.setOrderId(orderGroup.getOrderId());
+	                      orderGoods.setSum(orderGroup2.getCustBuyNum());
+	                      
+	                      //商品成功成团与否FLG
+	                      Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	                      
+	                      if(groupOkFlg == 1)
+	                      {
+	                    	  //参团成功
+	                    	  orderGoods.setGroupFlg(groupOkFlg);
+	                    	  orderGoods.setJoinGroupNum(0);
+	                      } else {
+	                    	  orderGoods.setGroupFlg(groupOkFlg);
+	                    	  //参团不成功，差几人计算
+	                    	  int setGroupNum = Integer.valueOf(goods.getGroupSum());
+	          		        
+	          		          int newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	          		          
+	          		          int numtmp = setGroupNum - newGroupNum;
+	          		          orderGoods.setJoinGroupNum(numtmp);
+	                      }
+	                      
+	                      
+	                      
+	                      orderGoodsList.add(orderGoods);
+	    			   }
+	        		  order.setOrderGoods(orderGoodsList);
+
+	        	  } 
+	        	  orderList.add(order);
+	        		
+	        	}			
+				
+			}    //end if
+			
+			 responseBean.setData(orderList);
+			 return responseBean;
 		}
 
 
 		@Override
 		public ResponseBean<Integer> signPick(List<String> orderNumList) {
-			// TODO Auto-generated method stub
-			return null;
+			ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+			Integer result=orderGroupMapper.signPick(orderNumList);
+			responseBean.setData(result);
+			return responseBean;
 		}
 }
