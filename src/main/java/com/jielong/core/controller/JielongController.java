@@ -12,6 +12,7 @@ import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
 import com.jielong.core.service.JielongService;
+import com.jielong.core.service.OrderGroupService;
 
 @RestController
 @RequestMapping("/jielong")
@@ -19,6 +20,8 @@ public class JielongController {
 
 	@Autowired
 	JielongService jielongService;
+	@Autowired
+	OrderGroupService orderGroupService;
 	
 	@RequestMapping("/insert")
 	public ResponseBean<Integer> insert(@RequestBody Jielong jielong){
@@ -55,6 +58,7 @@ public class JielongController {
 	 */
 	@RequestMapping("/closeJielong")
 	public ResponseBean<Integer> closeJielong(@RequestParam("id") Integer id){
+		 orderGroupService.closeJieLong(id);
          return jielongService.closeJielong(id);                   		
 	}
 	
@@ -83,6 +87,7 @@ public class JielongController {
 	public ResponseBean<Jielong> selectById(@RequestParam("id") Integer jieLongId){
 		
 		return jielongService.selectById(jieLongId);
+		
 	}
     	
 }

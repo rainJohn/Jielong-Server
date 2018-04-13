@@ -366,6 +366,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		}
 
 
+		@Transactional
 		@Override
 		public int closeJieLong(Integer jielongId) {
 
