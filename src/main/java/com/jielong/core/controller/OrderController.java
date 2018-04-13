@@ -52,6 +52,14 @@ public class OrderController {
 		}
 		return new ResponseBean<List<Order>>(orderList);
 	}
+	/**
+	 * 自提标记
+	 * @param orderNumList 订单列表
+	 * @return 受影响记录数
+	 */
+	public ResponseBean<Integer> signPick(List<String> orderNumList){
+		return orderService.signPick(orderNumList);
+	}
 	
 	
 

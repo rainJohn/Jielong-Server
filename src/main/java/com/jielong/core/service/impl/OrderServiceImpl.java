@@ -224,5 +224,16 @@ public class OrderServiceImpl implements OrderService{
 		 return responseBean;
 	}
 	
+	/**
+	 * 设置自提标记
+	 */
+	@Override
+	public ResponseBean<Integer> signPick(List<String> orderNumList) {
+		ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+		Integer result=orderMapper.signPick(orderNumList);
+		responseBean.setData(result);
+		return responseBean;
+	}
+	
 
 }

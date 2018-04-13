@@ -13,4 +13,6 @@ public interface OrderService {
 	ResponseBean<List<Order>> selectByPublisherId(Integer userId);
 	
 	ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
+	
+	ResponseBean<Integer> signPick(List<String> orderNumList);
 }
