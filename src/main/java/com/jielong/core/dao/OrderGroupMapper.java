@@ -58,4 +58,8 @@ public interface OrderGroupMapper {
     @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=2")
     List<OrderGroup> selectPickByJielongId(@Param("jielongId")Integer jielongId);
     
+    //根据接龙id查询交易已经完成的订单
+    @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=3 order by created_at asc")
+    List<OrderGroup> selectFinishByJielongId(@Param("jielongId")Integer jielongId);
+    
 }

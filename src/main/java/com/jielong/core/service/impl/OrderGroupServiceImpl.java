@@ -599,4 +599,73 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			 responseBean.setData(orderList);
 			 return responseBean;
 		}
+		
+		@Override
+		public ResponseBean<List<Order>> selectJoinByJielongId(Integer jielongId) {
+			//根据接龙ID查询所有商品订单
+			ResponseBean<List<Order>> responseBean=new ResponseBean<List<Order>>();
+			List<OrderGroup> orderGroupList= orderGroupMapper.selectFinishByJielongId(jielongId);
+		      //转换输出格式
+		    List<Order> orderList = new ArrayList<Order>();
+			if (orderGroupList!=null && orderGroupList.size()>0) {
+	        	for(OrderGroup orderGroup : orderGroupList) {
+	        
+	        		//转换输出格式
+	        	  Order order = new Order();
+	        	  order.setId(orderGroup.getId());
+	        	  order.setIsSetGroup(1);
+	        	  order.setJielongId(orderGroup.getJielongId());
+	        	  order.setOrderNum(orderGroup.getOrderId());
+	        	  order.setRemark(orderGroup.getCustNote());
+	        	  order.setState(orderGroup.getTradeFlg());
+	        	  order.setSumMoney(orderGroup.getCustBuyAllMoney());
+	        	  order.setUserId(orderGroup.getCustId());
+	        	  order.setUserName(orderGroup.getCustName());
+	        	  order.setUserPhone(orderGroup.getCustPhone());
+	        	  order.setCreatedAt(orderGroup.getCreatedAt());
+	        	  order.setUpdatedAt(orderGroup.getUpdatedAt());
+
+		          order.setAddressId(orderGroup.getAddressId());
+		          
+		          //Jielong主题
+		          String topic=jielongMapper.selectTopic(orderGroup.getJielongId());
+		          order.setJielongTopic(topic);	
+	        	  //提货地址信息
+				  Integer addressId=orderGroup.getAddressId();
+	        	  UserAddress address=userAddressService.selectById(addressId).getData();
+	        	  order.setUserAddress(address);
+        	      //用户信息
+	        	  Integer  clientId=orderGroup.getCustId();
+	        	  UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();
+	        	  order.setUserInfo(userInfo);
+	        	  
+	        	//订单商品信息        	  
+	        	  List<OrderGroup> orderGroupList2=orderGroupMapper.selectByOrderId(orderGroup.getOrderId());
+	        	  
+	        	  if (orderGroupList2!=null && orderGroupList2.size()>0) {
+	        		  List<OrderGoods> orderGoodsList = new ArrayList<OrderGoods>();
+	        		  for (OrderGroup orderGroup2 : orderGroupList2) {
+	    				 
+	                      //对应统一接口 ORDER
+	        			  Goods goods= goodsMapper.selectByPrimaryKey(orderGroup2.getGoodsId());
+	                      OrderGoods orderGoods = new OrderGoods();
+	                      orderGoods.setGoods(goods);
+	                      orderGoods.setGoodsId(orderGroup2.getGoodsId());
+	                      orderGoods.setMoney(orderGroup2.getCustBuyPrice());
+	                      orderGoods.setSum(orderGroup2.getCustBuyNum());	                      
+	                      orderGoodsList.add(orderGoods);
+	    			   }
+	        		  order.setOrderGoods(orderGoodsList);
+
+	        	  } 
+	        	  orderList.add(order);
+	        		
+	        	}			
+				
+			}    //end if
+			
+			 responseBean.setData(orderList);
+			 return responseBean;
+		}
+   
 }

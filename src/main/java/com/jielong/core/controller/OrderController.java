@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Order;
 import com.jielong.core.service.OrderGroupService;
@@ -89,6 +90,13 @@ public class OrderController {
 		}
 	     
 	     return new ResponseBean<List<Order>>(orderList);
+	}
+	
+	@RequestMapping("/pickCount")
+	public ResponseBean<List<PickCountBean>> pickCount(@RequestParam("jielongId") Integer jielongId){
+		
+		return orderService.countPick(jielongId);
+		
 	}
 
 }
