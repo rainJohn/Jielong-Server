@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jielong.base.util.Utils;
+import com.jielong.core.beans.PickBean;
+import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
@@ -598,5 +600,65 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			
 			 responseBean.setData(orderList);
 			 return responseBean;
+		}
+
+
+		
+		@Override
+		public ResponseBean<List<PickCountBean>> countPick(Integer jielongId) {
+			//自提统计
+			List<PickCountBean> pickCountBeanList=new ArrayList<PickCountBean>();		
+			//1、首先根据jielongId查询所有商品
+			List<Integer> goodsIdList =orderGroupMapper.selectGetGoodsId(jielongId);
+			for(Integer goodsid : goodsIdList) {
+				
+				PickCountBean pickCountBean=new PickCountBean();	
+				Goods goods=goodsMapper.selectByPrimaryKey(goodsid);
+				pickCountBean.setGoods(goods);
+
+				 //参与人数
+				Integer joinPeopleSum=0;
+				 //已售数量
+				Integer sellSum=0;
+				//入账总额
+				 BigDecimal moneySum=new BigDecimal(0);
+				//2、用商品id去订单商品列表查询所有订单
+				List<OrderGroup> orderGroupList=orderGroupMapper.selectByGoodsId(goodsid);
+				
+				if (orderGroupList!=null && orderGroupList.size()>0) {				
+					List<PickBean> pickBeans=new ArrayList<PickBean>();				
+					for(OrderGroup orderGroup : orderGroupList) {	
+						
+					   joinPeopleSum+=1;	
+					   sellSum+=orderGroup.getCustBuyNum();
+//					   BigDecimal totalMoney=orderGoods.getMoney().multiply(new BigDecimal(orderGoods.getSum()));
+					   moneySum=moneySum.add(orderGroup.getCustBuyAllMoney());
+					   
+				       PickBean pickBean=new PickBean();
+				       pickBean.setGoodsSum(orderGroup.getCustBuyNum());
+				       
+				       pickBean.setPrice(orderGroup.getCustBuyPrice());
+				       
+				       pickBean.setPhoneNumber(orderGroup.getCustPhone());
+				       pickBean.setUserName(orderGroup.getCustName());
+				       pickBean.setRemark(orderGroup.getCustNote());
+				       UserInfo userInfo = userInfoService.selectByUserId(orderGroup.getCustId()).getData();
+				       pickBean.setUserInfo(userInfo);
+				       
+				       Integer addressId=orderGroup.getAddressId();
+			      	   UserAddress address=userAddressService.selectById(addressId).getData();
+					   pickBean.setUserAddress(address);
+				       pickBeans.add(pickBean);
+					}
+					pickCountBean.setPickBeans(pickBeans);			
+					
+				}
+				
+				pickCountBean.setJoinPeopleSum(joinPeopleSum);
+				pickCountBean.setMoneySum(moneySum);
+				pickCountBean.setSellSum(sellSum);			
+				pickCountBeanList.add(pickCountBean);
+			}
+			return new ResponseBean<>(pickCountBeanList);
 		}
 }
