@@ -20,6 +20,7 @@ import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.OrderGroup;
+import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.domain.UserMessage;
@@ -357,11 +358,43 @@ public class OrderGroupServiceImpl implements OrderGroupService{
      		        	 peopleSum=num;
 					}   		          
      		         
-                 
 			}
            
             
             return peopleSum;
             
+		}
+
+
+		@Override
+		public int closeJieLong(Integer jielongId) {
+
+			//传入为结束接龙ID
+			//1.判断结束的接龙是否是已经成团的接龙
+			//取得接龙ID的商品清单
+			List<OrderGroupConsole> listOrderGroupConsole = orderGroupConsoleMapper.selectByJieLongId(jielongId);
+			
+			for(OrderGroupConsole orderGroupConsole:listOrderGroupConsole){
+				//商品成功成团与否FLG
+	            if(orderGroupConsole.getGroupOkFlg() == 1){
+	            	//拼团成功 最终结果更新
+	            	// 1.关闭order_group_console表，状态关闭
+	            	orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            	
+	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 2,order_flg 0 -> 0 where  trade_flg = 0 and order_flg = 0
+	            	orderGroupMapper.updateLastStateFlg(2, 0, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            } else {
+	            	//拼团失败 最终结果更新
+	            	//1.关闭order_group_console表，状态关闭
+	            	orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            	
+	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 0,order_flg 0 -> 1 where  trade_flg = 0 and order_flg = 0
+	            	orderGroupMapper.updateLastStateFlg(0, 1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            }
+				
+			}
+			
+			//return 0 为接龙结束异常 1为正常 
+			return 0;
 		} 
 }
