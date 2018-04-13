@@ -192,7 +192,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		List<Order> orderList=orderMapper.selectByJielongId(jielongId);
 		if (orderList!=null && orderList.size()>0) {
-			if (orderList!=null&&orderList.size()>0) {
+			
 	        	for(Order order : orderList) {
 	        
 	        	  //提货地址信息
@@ -216,7 +216,7 @@ public class OrderServiceImpl implements OrderService{
 	        		  order.setOrderGoods(orderGoodsList);
 				   }  //end if     	   
 	        		
-	        	}			
+	        			
 			} 
 		}    //end if
 		
@@ -233,6 +233,7 @@ public class OrderServiceImpl implements OrderService{
 		Integer result=orderMapper.signPick(orderNumList);
 		responseBean.setData(result);
 		return responseBean;
+		
 	}
 	
 
