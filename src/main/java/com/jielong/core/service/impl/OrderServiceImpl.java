@@ -2,6 +2,7 @@ package com.jielong.core.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.JielongMapper;
+import com.jielong.core.dao.OrderGoodsMapper;
 import com.jielong.core.dao.OrderMapper;
 import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Order;
@@ -47,11 +49,17 @@ public class OrderServiceImpl implements OrderService{
 	UserAddressService userAddressService;
 	@Autowired
 	UserInfoService userInfoService;
+	
+	@Autowired
+	OrderService orderService;
   
 	@Autowired
 	GoodsMapper goodsMapper;
 	@Autowired
 	JielongMapper jielongMapper;
+	
+	@Autowired
+	OrderGoodsMapper orderGoodsMapper;
 	
 	@Transactional
 	@Override
@@ -239,6 +247,23 @@ public class OrderServiceImpl implements OrderService{
 		
 	}
 	
+	@Override
+	public Order selectById(Integer id) {
+		Order order=orderMapper.selectByPrimaryKey(id);
+		if (order!=null) {
+			//用户信息
+	  	    Integer  clientId=order.getUserId();
+	  	    UserInfo userInfo=userInfoService.selectByUserId(clientId).getData();	  	  
+	  	    order.setUserInfo(userInfo);
+	  	    //提货地址信息
+			Integer addressId=order.getAddressId();
+      	    UserAddress address=userAddressService.selectById(addressId).getData();
+      	    order.setUserAddress(address);
+		}
+		
+		return order;
+	}
+	
 	/**
 	 * 自提统计
 	 */
@@ -250,7 +275,43 @@ public class OrderServiceImpl implements OrderService{
 		//1、首先根据jielongId查询所有商品
 		List<Integer> goodIds=goodsMapper.selectIdsByJielongId(jielongId);
 		for(Integer goodsId : goodIds) {
-			PickCountBean pickCountBean=new PickCountBean();	       		       	
+			
+			PickCountBean pickCountBean=new PickCountBean();			
+			Goods goods=goodsMapper.selectByPrimaryKey(goodsId);
+			pickCountBean.setGoods(goods);
+			 //参与人数
+			Integer joinPeopleSum=0;
+			 //已售数量
+			Integer sellSum=0;
+			//入账总额
+			 BigDecimal moneySum=new BigDecimal(0);
+			//2、用商品id去订单商品列表查询所有订单
+			List<OrderGoods> orderGoodsList=orderGoodsMapper.selectByGoodsId(goodsId);
+			
+			if (orderGoodsList!=null && orderGoodsList.size()>0) {				
+				List<PickBean> pickBeans=new ArrayList<PickBean>();				
+				for(OrderGoods orderGoods : orderGoodsList) {	
+				   joinPeopleSum+=1;	
+				   sellSum+=orderGoods.getSum();
+				   BigDecimal totalMoney=orderGoods.getMoney().multiply(new BigDecimal(orderGoods.getSum()));
+				   moneySum=moneySum.add(totalMoney);
+				   
+			       PickBean pickBean=new PickBean();
+			       pickBean.setGoodsSum(orderGoods.getSum());
+			       
+			       pickBean.setPrice(orderGoods.getMoney());
+			       //用订单id去订单表里查询
+			       Order order=this.selectById(orderGoods.getOrderId());
+			       pickBean.setPhoneNumber(order.getUserPhone());
+			       pickBean.setUserName(order.getUserName());
+			       pickBean.setRemark(order.getRemark());
+			       pickBean.setUserInfo(order.getUserInfo());
+			       pickBean.setUserAddress(order.getUserAddress());
+			       pickBeans.add(pickBean);
+				}
+				pickCountBean.setPickBeans(pickBeans);
+				
+			}
 		}
 		return new ResponseBean<>(pickCountBeanList);
 	}

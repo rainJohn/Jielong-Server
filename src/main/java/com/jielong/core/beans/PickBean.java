@@ -2,8 +2,8 @@ package com.jielong.core.beans;
 
 import java.math.BigDecimal;
 
-import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.UserAddress;
+import com.jielong.core.domain.UserInfo;
 
 
 public class PickBean {
@@ -19,6 +19,8 @@ public class PickBean {
 	private BigDecimal price;
 	//备注
 	private String remark;
+	
+	private UserInfo userInfo;
 	
 
 	
@@ -64,6 +66,14 @@ public class PickBean {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+	
+	
 	
 
 }
