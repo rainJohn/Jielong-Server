@@ -269,8 +269,8 @@ public class OrderServiceImpl implements OrderService{
 	 */
 	@Override
 	public ResponseBean<List<PickCountBean>> countPick(Integer jielongId) {
-		List<PickCountBean> pickCountBeanList=new ArrayList<PickCountBean>();
 		
+		List<PickCountBean> pickCountBeanList=new ArrayList<PickCountBean>();		
 		
 		//1、首先根据jielongId查询所有商品
 		List<Integer> goodIds=goodsMapper.selectIdsByJielongId(jielongId);
@@ -291,6 +291,7 @@ public class OrderServiceImpl implements OrderService{
 			if (orderGoodsList!=null && orderGoodsList.size()>0) {				
 				List<PickBean> pickBeans=new ArrayList<PickBean>();				
 				for(OrderGoods orderGoods : orderGoodsList) {	
+					
 				   joinPeopleSum+=1;	
 				   sellSum+=orderGoods.getSum();
 				   BigDecimal totalMoney=orderGoods.getMoney().multiply(new BigDecimal(orderGoods.getSum()));
@@ -309,9 +310,14 @@ public class OrderServiceImpl implements OrderService{
 			       pickBean.setUserAddress(order.getUserAddress());
 			       pickBeans.add(pickBean);
 				}
-				pickCountBean.setPickBeans(pickBeans);
+				pickCountBean.setPickBeans(pickBeans);			
 				
 			}
+			
+			pickCountBean.setJoinPeopleSum(joinPeopleSum);
+			pickCountBean.setMoneySum(moneySum);
+			pickCountBean.setSellSum(sellSum);			
+			pickCountBeanList.add(pickCountBean);
 		}
 		return new ResponseBean<>(pickCountBeanList);
 	}
