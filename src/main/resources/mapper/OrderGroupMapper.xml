@@ -226,4 +226,13 @@
     where Id = #{id,jdbcType=INTEGER}
 
   </update>
+  
+  <update id="signPick" parameterType="List">
+  
+    update order_group set trade_flg=3 where order_id in    
+    <foreach collection="list" item="orderNum" separator="," open="(" close=")">
+         #{orderNum} 
+    </foreach>   
+  
+  </update>
 </mapper>

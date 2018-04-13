@@ -148,5 +148,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <update id="signPick" parameterType="List">
+    update jielong_order set state=3 where order_num in 
+    
+    <foreach collection="list" item="orderNum" separator="," open="(" close=")">
+         #{orderNum} 
+    </foreach>
+    
+  
+  </update>
  
 </mapper>

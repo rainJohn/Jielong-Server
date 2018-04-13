@@ -61,8 +61,8 @@ public class OrderServiceImpl implements OrderService{
         String orderNum=Utils.createFileName();
         //订单编号
         order.setOrderNum(orderNum);
-        //订单状态
-        order.setState(1);
+        //订单状态  2下单成功，待提货
+        order.setState(2);
         //订单总金额
         BigDecimal sumMoney=new BigDecimal(0);
         if (orderGoodsList!=null && orderGoodsList.size()>0) {

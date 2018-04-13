@@ -21,5 +21,7 @@ public interface OrderGroupService {
   ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
   
   ResponseBean<Integer> signPick(List<String> orderNumList);
+   
+  ResponseBean<List<Order>> selectPickByJielongId(Integer jielongId);
 
 }

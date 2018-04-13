@@ -33,7 +33,7 @@ public interface OrderMapper {
     List<Order> selectByJielongId(@Param("jielongId")Integer jielongId);
     
     //设置自提标记
-    @Update("update jielong_order set state=3 where order_num in #{orderNumList}")
-    int signPick(@Param("orderNumList") List<String> orderNumList);
+   // @Update("update jielong_order set state=3 where order_num in #{orderNumList}")
+    int signPick(List<String> orderNumList);
     
 }

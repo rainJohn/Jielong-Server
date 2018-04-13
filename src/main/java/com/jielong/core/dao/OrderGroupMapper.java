@@ -47,10 +47,15 @@ public interface OrderGroupMapper {
     int updateLastStateFlg(@Param("tradeFlg") Integer tradeFlg,@Param("orderFlg") Integer orderFlg,@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
 
     //设置自提标记
-    @Update("update order_group set trade_flg=3 where order_id in #{orderNumList}")
-    int signPick(@Param("orderNumList") List<String> orderNumList);
+   // @Update("update order_group set trade_flg=3 where order_id in #{orderNumList}")
+    int signPick( List<String> orderNumList);
     
     //根据接龙id查询订单
     @Select("select * from order_group where jielong_id=#{jielongId}")
     List<OrderGroup> selectByJielongId(@Param("jielongId")Integer jielongId);
+    
+    //根据接龙id查询已经拼团成功，待提货的订单
+    @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=2")
+    List<OrderGroup> selectPickByJielongId(@Param("jielongId")Integer jielongId);
+    
 }
