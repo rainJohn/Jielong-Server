@@ -41,7 +41,9 @@ public class Jielong {
     private String phoneNumber;
     
     private Integer browseSum;
+    
     private Integer joinSum;
+    
     private BigDecimal joinMoney;
     
    

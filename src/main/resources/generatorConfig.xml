@@ -4,7 +4,9 @@
 
 	<!-- classPathEntry:数据库的JDBC驱动的jar包地址 -->
 	<classPathEntry
-		location="C:\Users\BHQH\.m2\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar" />
+
+		location="C:\Users\john\.m2\repository\mysql\mysql-connector-java\5.1.45\mysql-connector-java-5.1.45.jar" />
+
 
 	<context id="MysqlTables" targetRuntime="MyBatis3">
 
@@ -24,7 +26,7 @@
 
 		<!-- 生成model模型 -->
 		<javaModelGenerator targetPackage="com.jielong.core.domain"
-			targetProject="src\main\java">
+			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
@@ -40,6 +42,7 @@
 			targetPackage="com.jielong.core.dao" targetProject="src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
+
 
 
 		<table schema="" tableName="user_message" domainObjectName="UserMessage"

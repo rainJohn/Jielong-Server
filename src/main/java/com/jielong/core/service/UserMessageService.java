@@ -14,4 +14,9 @@ public interface UserMessageService {
 	ResponseBean<Integer> updateReadeState(Integer id);
 	ResponseBean<Integer> insertBatch(UserMessage userMessage);
 
+	ResponseBean<List<UserMessage>> selectByUserId(Integer userId); 
+
+	ResponseBean<Integer> groupStateModify(Integer jieLongId,Integer goodsId,Integer setFlg);
+
+
 }

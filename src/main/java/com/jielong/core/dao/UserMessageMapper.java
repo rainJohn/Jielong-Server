@@ -28,6 +28,10 @@ public interface UserMessageMapper {
     
     //批量插入
     int insertBatch(UserMessage userMessage);
+    
+    //根据用户id查询
+    @Select("select * from user_message where  user_id=#{userId}") 
+    List<UserMessage> selectByUserId(@Param("userId") Integer id);
 
     
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
-import com.mysql.fabric.Response;
 
 public interface JielongService {
 
@@ -29,6 +28,8 @@ public interface JielongService {
    ResponseBean<Integer> selectCount(); 
    
    ResponseBean<Jielong> selectById(Integer id);
+   
+   ResponseBean<Integer> closeJielong(Integer id);
    
    
 

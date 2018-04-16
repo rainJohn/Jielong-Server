@@ -19,13 +19,16 @@ import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.JielongMapper;
+import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.UserAddressMapper;
 import com.jielong.core.dao.UserInfoMapper;
 import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Jielong;
+import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.service.JielongService;
+import com.jielong.core.service.OrderGroupService;
 
 @Service
 public class JielongServiceImpl implements JielongService {
@@ -44,6 +47,12 @@ public class JielongServiceImpl implements JielongService {
 
 	@Autowired
 	UserInfoMapper userInfoMapper;
+	
+	@Autowired
+	OrderGroupConsoleMapper orderGroupConsoleMapper;
+	
+	@Autowired
+	OrderGroupService orderGroupService;
 
 	@Transactional
 	@Override
@@ -63,7 +72,19 @@ public class JielongServiceImpl implements JielongService {
 				for (Goods goods : goodsList) {
 					goods.setJielongId(jieLongId);
 					goodsMapper.insertSelective(goods);
-
+					OrderGroupConsole orderGroupConsole = new OrderGroupConsole();
+					orderGroupConsole.setJielongId(jieLongId);
+					Integer goodId = commonDao.getLastId(); // 最新插入的id
+					orderGroupConsole.setGoodsId(goodId);
+					
+					if(goods.getIsSetGroup() == 1) {
+						//是成团接龙
+						orderGroupConsole.setGroupOkFlg(0);;
+					} else {
+						orderGroupConsole.setGroupOkFlg(2);
+					}
+					orderGroupConsole.setConsoleFlg(0);
+					orderGroupConsoleMapper.insertSelective(orderGroupConsole);
 				}
 			}
 
@@ -240,6 +261,13 @@ public class JielongServiceImpl implements JielongService {
 		jielong.setUserInfo(userInfo);
 		// 商品列表
 		List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
+		for(Goods goods : goodsList) {
+			if (goods.getIsSetGroup()==1) {
+			  	Integer remainSum=orderGroupService.getGroupPeople(goods.getJielongId(), goods.getId());
+				goods.setRemainSum(remainSum);
+			}
+		}
+		
 		jielong.setGoodsList(goodsList);
 
 		// 图片列表
@@ -269,6 +297,18 @@ public class JielongServiceImpl implements JielongService {
 		return responseBean;
 		
 		
+	}
+	
+	/**
+	 * 结束接龙
+	 */
+	@Override
+	public ResponseBean<Integer> closeJielong(Integer id){
+	  Jielong jielong=new Jielong();
+	  jielong.setId(id);
+	  jielong.setStatus(2);
+	  Integer result=jielongMapper.updateByPrimaryKeySelective(jielong);      
+	  return new ResponseBean<Integer>(result);
 	}
 
 }

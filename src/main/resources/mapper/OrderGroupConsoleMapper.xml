@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jielong.core.dao.OrderGroupConsoleMapper">
+  <resultMap id="BaseResultMap" type="com.jielong.core.domain.OrderGroupConsole">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="jielong_id" jdbcType="INTEGER" property="jielongId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="group_ok_flg" jdbcType="INTEGER" property="groupOkFlg" />
+    <result column="console_flg" jdbcType="INTEGER" property="consoleFlg" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, jielong_id, goods_id, group_ok_flg, console_flg, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_group_console
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_group_console
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jielong.core.domain.OrderGroupConsole">
+    insert into order_group_console (id, jielong_id, goods_id, 
+      group_ok_flg, console_flg, created_at, 
+      updated_at)
+    values (#{id,jdbcType=INTEGER}, #{jielongId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+      #{groupOkFlg,jdbcType=INTEGER}, #{consoleFlg,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jielong.core.domain.OrderGroupConsole">
+    insert into order_group_console
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="jielongId != null">
+        jielong_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="groupOkFlg != null">
+        group_ok_flg,
+      </if>
+      <if test="consoleFlg != null">
+        console_flg,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jielongId != null">
+        #{jielongId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOkFlg != null">
+        #{groupOkFlg,jdbcType=INTEGER},
+      </if>
+      <if test="consoleFlg != null">
+        #{consoleFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.OrderGroupConsole">
+    update order_group_console
+    <set>
+      <if test="jielongId != null">
+        jielong_id = #{jielongId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="groupOkFlg != null">
+        group_ok_flg = #{groupOkFlg,jdbcType=INTEGER},
+      </if>
+      <if test="consoleFlg != null">
+        console_flg = #{consoleFlg,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.OrderGroupConsole">
+    update order_group_console
+    set jielong_id = #{jielongId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      group_ok_flg = #{groupOkFlg,jdbcType=INTEGER},
+      console_flg = #{consoleFlg,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
