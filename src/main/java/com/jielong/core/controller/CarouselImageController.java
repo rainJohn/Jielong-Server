@@ -1,4 +1,5 @@
 package com.jielong.core.controller;
+import java.io.File;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aliyun.oss.OSSClient;
 import com.jielong.base.util.FileUtils;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Carousel;
@@ -20,7 +22,6 @@ public class CarouselImageController {
 	@Autowired
 	CarouselImageService carouselImageService;
 
-	
 	
 	/**
 	 * 上传文件方法
@@ -36,9 +37,8 @@ public class CarouselImageController {
 		 carousel.setCarouseladdress(FileUtils.uploadSingleFile(file).getData());
 		 carousel.setType("0");
 		 }
-		 return this.carouselImageService.insert(carousel);
-	}
-
+	return this.carouselImageService.insert(carousel);
+}
 
 	
 	/**
