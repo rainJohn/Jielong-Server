@@ -22,7 +22,7 @@ public class PickBean {
 	
 	private UserInfo userInfo;
 	
-
+    private String createdAt;
 	
 	public UserAddress getUserAddress() {
 		return userAddress;
@@ -71,6 +71,13 @@ public class PickBean {
 	}
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+	
+	public String getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	

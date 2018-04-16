@@ -298,8 +298,8 @@ public class OrderServiceImpl implements OrderService{
 				   moneySum=moneySum.add(totalMoney);
 				   
 			       PickBean pickBean=new PickBean();
-			       pickBean.setGoodsSum(orderGoods.getSum());
-			       
+			       pickBean.setCreatedAt(orderGoods.getCreatedAt());
+			       pickBean.setGoodsSum(orderGoods.getSum());			       
 			       pickBean.setPrice(orderGoods.getMoney());
 			       //用订单id去订单表里查询
 			       Order order=this.selectById(orderGoods.getOrderId());

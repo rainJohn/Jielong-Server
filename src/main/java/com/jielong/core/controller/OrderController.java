@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jielong.core.beans.PickBean;
 import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Order;
@@ -92,10 +93,46 @@ public class OrderController {
 	     return new ResponseBean<List<Order>>(orderList);
 	}
 	
+	//接龙统计
 	@RequestMapping("/pickCount")
-	public ResponseBean<List<PickCountBean>> pickCount(@RequestParam("jielongId") Integer jielongId){
-		
-		return orderService.countPick(jielongId);
+	public ResponseBean<List<PickCountBean>> pickCount(@RequestParam("jielongId") Integer jielongId,@RequestParam(value="startTime",required = false) String startTime,@RequestParam(value="endTime",required = false) String endTime){
+		List<PickCountBean> groupList=orderGroupService.countPick(jielongId).getData();
+		List<PickCountBean> directList=orderService.countPick(jielongId).getData();
+		if (groupList!=null && groupList.size()>0) {
+			if (startTime!=null && endTime!=null) {
+				for(PickCountBean pickCountBean : groupList) {
+					if (pickCountBean.getPickBeans()!=null) {
+						List<PickBean> pickBeans=pickCountBean.getPickBeans().stream()
+				                 .filter(pickBean->startTime.compareTo(pickBean.getCreatedAt())<0)
+				                 .filter(pickBean->endTime.compareTo(pickBean.getCreatedAt())>0)
+				                 .collect(Collectors.toList());
+		               pickCountBean.setPickBeans(pickBeans);
+					}
+					
+				}
+			}
+			
+			
+			return new ResponseBean<List<PickCountBean>>(groupList);
+		}
+		if (directList!=null && directList.size()>0) {
+           if (startTime!=null && endTime!=null) {
+        	   for(PickCountBean pickCountBean : directList) {
+   				if (pickCountBean.getPickBeans()!=null) {
+   					List<PickBean> pickBeans=pickCountBean.getPickBeans().stream()
+   			                 .filter(pickBean->startTime.compareTo(pickBean.getCreatedAt())<0)
+   			                 .filter(pickBean->endTime.compareTo(pickBean.getCreatedAt())>0)
+   			                 .collect(Collectors.toList());
+   	               pickCountBean.setPickBeans(pickBeans);
+   				}
+   				
+   			}
+			 }
+			
+			
+			return new ResponseBean<List<PickCountBean>>(directList);
+		}
+		return null;
 		
 	}
 

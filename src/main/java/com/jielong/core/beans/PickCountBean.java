@@ -15,6 +15,10 @@ public class PickCountBean {
 	private BigDecimal moneySum;
 	//购买列表
 	private List<PickBean> pickBeans;
+	
+	
+	
+	
 
 	public Goods getGoods() {
 		return goods;
@@ -55,6 +59,8 @@ public class PickCountBean {
 	public void setPickBeans(List<PickBean> pickBeans) {
 		this.pickBeans = pickBeans;
 	}
+
+	
 	
 	
 }

@@ -35,6 +35,8 @@ public class OrderGroup {
   //订单状态 1为关闭订单，0为订单正常交易，2为交易完成
     private Integer orderFlg;
     
+    private String createdAtStr;
+    
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")    
     private Date createdAt;
     
@@ -194,9 +196,22 @@ public class OrderGroup {
         this.updatedAt = updatedAt;
     }
 */
+	
 	public Integer getAddressId() {
 		return addressId;
 	}
+
+	public String getCreatedAtStr() {
+		TimeZone timeZone = TimeZone.getDefault();  
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		simpleDateFormat.setTimeZone(timeZone);  
+		if(createdAt!=null) {
+		  return simpleDateFormat.format(createdAt);
+		}else {
+			return null;
+		}   
+	}
+
 
 	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;

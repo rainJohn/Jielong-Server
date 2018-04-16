@@ -22,7 +22,7 @@ public class OrderGoods {
     
     private Goods goods;
     
-  //成团标志 0为未成团，1为成团
+    //成团标志 0为未成团，1为成团
     private Integer groupFlg;
     
     //还差几人

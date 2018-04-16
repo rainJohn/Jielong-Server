@@ -636,10 +636,9 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 					   moneySum=moneySum.add(orderGroup.getCustBuyAllMoney());
 					   
 				       PickBean pickBean=new PickBean();
-				       pickBean.setGoodsSum(orderGroup.getCustBuyNum());
-				       
-				       pickBean.setPrice(orderGroup.getCustBuyPrice());
-				       
+				       pickBean.setCreatedAt(orderGroup.getCreatedAtStr());
+				       pickBean.setGoodsSum(orderGroup.getCustBuyNum());				       
+				       pickBean.setPrice(orderGroup.getCustBuyPrice());				       
 				       pickBean.setPhoneNumber(orderGroup.getCustPhone());
 				       pickBean.setUserName(orderGroup.getCustName());
 				       pickBean.setRemark(orderGroup.getCustNote());

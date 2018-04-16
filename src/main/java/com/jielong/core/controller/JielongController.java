@@ -3,7 +3,6 @@ package com.jielong.core.controller;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +107,7 @@ public class JielongController {
 		     List<Order> orderList2=orderGroupService.selectJoinByJielongId(jieLongId).getData();
 		     List<Order> orderList=new ArrayList<Order>();
 		     if (orderList1!=null) {
-				orderList.addAll(orderList1.stream().filter(order->order.getState()==3).collect(Collectors.toList()));
+				orderList.addAll(orderList1.stream().filter(order->order.getState()==2||order.getState()==3).collect(Collectors.toList()));
 			 }
 		     if (orderList2!=null) {
 		    	 orderList.addAll(orderList2);
