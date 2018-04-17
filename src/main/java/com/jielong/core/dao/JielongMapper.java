@@ -44,7 +44,7 @@ public interface JielongMapper {
     String selectTopic(@Param("id")Integer id);
     
     /**
-     * 设置接龙的状态为结束 ：如果当前的时间小于Jielong的结束时间
+     * 设置接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
      * @return
      */
     @Update("update jielong set status=2  where  finish_time is not null and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i')")
