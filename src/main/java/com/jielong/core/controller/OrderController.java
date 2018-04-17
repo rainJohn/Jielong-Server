@@ -93,7 +93,7 @@ public class OrderController {
 		List<Order> orderList2 = orderGroupService.selectPickByJielongId(jielongId).getData();
 		List<Order> orderList = new ArrayList<Order>();
 		if (orderList1 != null) {
-			orderList.addAll(orderList1.stream().filter(order -> order.getState() == 2).collect(Collectors.toList()));
+			orderList.addAll(orderList1.stream().filter(order -> order.getState() == 2 || order.getState()==3).collect(Collectors.toList()));
 		}
 		if (orderList2 != null) {
 			orderList.addAll(orderList2);

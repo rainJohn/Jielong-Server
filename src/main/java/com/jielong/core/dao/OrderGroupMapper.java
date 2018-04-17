@@ -52,8 +52,8 @@ public interface OrderGroupMapper {
     @Select("select * from order_group where jielong_id=#{jielongId}")
     List<OrderGroup> selectByJielongId(@Param("jielongId")Integer jielongId);
     
-    //根据接龙id查询已经拼团成功，待提货的订单
-    @Select("select * from order_group where jielong_id=#{jielongId} and trade_flg=2")
+    //根据接龙id查询已经拼团成功，
+    @Select("select * from order_group where jielong_id=#{jielongId} and (trade_flg=2 or trade_flg=3)")
     List<OrderGroup> selectPickByJielongId(@Param("jielongId")Integer jielongId);
 
     //根据接龙id查询goodsID
