@@ -1,7 +1,9 @@
 package com.jielong.base.util;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Random;
 
 import org.junit.Test;
@@ -54,6 +56,15 @@ public class UtilsTest {
 	@Test
 	public void testAccessToken() {
 		GetToken.getAccessToken();
+	}
+	
+	@Test
+	public void testTime() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		String finishTime="2018/04/17 12:00";
+		String now=simpleDateFormat.format(new Date());
+		int result=now.compareTo(finishTime);
+		System.out.println(result);
 	}
 	
 

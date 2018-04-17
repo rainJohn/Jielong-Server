@@ -108,7 +108,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(order.getUserId());
 						userMessage.setTitle("下单成功通知！");
-						userMessage.setMessage("你已成功下单，拼团成功，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+						userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。订单详情请前往我的->我参与的接龙查看。");
 						userMessageService.insert(userMessage);
 		        	} else {
 		        		//恭喜终于成团了。
@@ -138,7 +138,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 							UserMessage userMessage=new UserMessage();
 							userMessage.setUserId(order.getUserId());
 							userMessage.setTitle("下单成功通知！");
-							userMessage.setMessage("你已成功下单，拼团人数不足，请等候！订单详情请前往我的->我参与的接龙查看。");
+							userMessage.setMessage("你已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 							userMessageService.insert(userMessage);
 			        	}
 					}
@@ -565,26 +565,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	                      orderGoods.setGoodsId(orderGroup2.getGoodsId());
 	                      orderGoods.setMoney(orderGroup2.getCustBuyPrice());
 	                      orderGoods.setSum(orderGroup2.getCustBuyNum());
-	                      
-	                      //商品成功成团与否FLG
-	                      /*Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
-	                      
-	                      if(groupOkFlg == 1)
-	                      {
-	                    	  //参团成功
-	                    	  orderGoods.setGroupFlg(groupOkFlg);
-	                    	  orderGoods.setJoinGroupNum(0);
-	                      } else {
-	                    	  orderGoods.setGroupFlg(groupOkFlg);
-	                    	  //参团不成功，差几人计算
-	                    	  int setGroupNum = Integer.valueOf(goods.getGroupSum());
-	          		        
-	          		          int newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
-	          		          
-	          		          int numtmp = setGroupNum - newGroupNum;
-	          		          orderGoods.setJoinGroupNum(numtmp);
-	                      }*/
-	                      
+	                   
 	                      
 	                      
 	                      orderGoodsList.add(orderGoods);
@@ -610,7 +591,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			//自提统计
 			List<PickCountBean> pickCountBeanList=new ArrayList<PickCountBean>();		
 			//1、首先根据jielongId查询所有商品
-			List<Integer> goodsIdList =orderGroupMapper.selectGetGoodsId(jielongId);
+			List<Integer> goodsIdList =goodsMapper.selectIdsByJielongId(jielongId);
 			for(Integer goodsid : goodsIdList) {
 				
 				PickCountBean pickCountBean=new PickCountBean();	

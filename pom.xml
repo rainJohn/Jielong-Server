@@ -100,6 +100,17 @@
 			<version>1.2.16</version>
 		</dependency>
 
+		<dependency>  
+   			<groupId>com.aliyun.oss</groupId>  
+   			<artifactId>aliyun-sdk-oss</artifactId>  
+   			<version>2.5.0</version>  
+		</dependency> 
+
+		<dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>2.1.7</version>
+        </dependency>
 
 
 		<!-- Junit -->

@@ -138,12 +138,17 @@ public class JielongServiceImpl implements JielongService {
 	@Transactional
 	@Override
 	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
+		//检查接龙的结束状态
+		Integer finishResult=jielongMapper.setFinishStatus();
+		
 		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
 		// 查询状态为1的接龙
 		List<Jielong> jielongs = jielongMapper.selectAll().stream().filter(j -> j.getStatus() == 1)
 				.collect(Collectors.toList());
 
-		for (Jielong jielong : jielongs) {
+		for (Jielong jielong : jielongs) {		
+			
+			
 			// 发布用户信息
 			UserInfo userInfo = userInfoMapper.selectByUserId(jielong.getUserId()).get(0);
 			jielong.setUserInfo(userInfo);
