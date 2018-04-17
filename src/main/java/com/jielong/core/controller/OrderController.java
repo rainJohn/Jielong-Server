@@ -2,6 +2,7 @@ package com.jielong.core.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,7 @@ public class OrderController {
 		if (orderList2 != null) {
 			orderList.addAll(orderList2);
 		}
+		orderList=orderList.stream().sorted(Comparator.comparing(Order::getCreatedAt).reversed()).collect(Collectors.toList());
 		return new ResponseBean<List<Order>>(orderList);
 	}
 

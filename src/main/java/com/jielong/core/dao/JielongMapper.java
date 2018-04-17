@@ -47,6 +47,6 @@ public interface JielongMapper {
      * 设置接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
      * @return
      */
-    @Update("update jielong set status=2  where  finish_time is not null and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i')")
+    @Update("update jielong set status=2  where set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i')")
     Integer setFinishStatus();
 }

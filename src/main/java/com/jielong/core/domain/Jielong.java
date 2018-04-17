@@ -31,7 +31,7 @@ public class Jielong {
 
     private Integer setFinishTime;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  
     private String finishTime;
 
     private String introImages;
