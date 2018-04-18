@@ -227,12 +227,11 @@
 
   </update>
   
-  <update id="signPick" parameterType="List">
-  
-    update order_group set trade_flg=3 where order_id in    
-    <foreach collection="list" item="orderNum" separator="," open="(" close=")">
-         #{orderNum} 
-    </foreach>   
+  <update id="signPick" parameterType="com.jielong.core.beans.SignBean">  
+     
+   
+       update order_group set trade_flg=#{state} where order_id =#{orderNum} 
+ 
   
   </update>
 </mapper>

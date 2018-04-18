@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.jielong.core.beans.SignBean;
+import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.Order;
 
 @Mapper
@@ -33,6 +35,6 @@ public interface OrderMapper {
     
     //设置自提标记
    // @Update("update jielong_order set state=3 where order_num in #{orderNumList}")
-    int signPick(List<String> orderNumList);
+    Integer signPick(SignBean signBean);
     
 }

@@ -13,6 +13,8 @@ import com.jielong.base.util.Utils;
 import com.jielong.core.beans.PickBean;
 import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.beans.SignBean;
+import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.JielongMapper;
@@ -239,9 +241,18 @@ public class OrderServiceImpl implements OrderService{
 	 * 设置自提标记
 	 */
 	@Override
-	public ResponseBean<Integer> signPick(List<String> orderNumList) {
+	public ResponseBean<Integer> signPick(SignPickBean signPickBean) {
 		ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
-		Integer result=orderMapper.signPick(orderNumList);
+		Integer result=0;
+		List<SignBean> signBeanList=signPickBean.getOrderNumList();
+		if (signBeanList!=null && signBeanList.size()>0) {
+			for(SignBean signBean : signBeanList ) {
+				result+=orderMapper.signPick(signBean);
+				
+			}
+			
+		}
+		
 		responseBean.setData(result);
 		return responseBean;
 		

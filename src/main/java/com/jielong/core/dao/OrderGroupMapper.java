@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import com.jielong.core.beans.SignBean;
+import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.OrderGroup;
 
 @Mapper
@@ -46,7 +49,7 @@ public interface OrderGroupMapper {
 
     //设置自提标记
    // @Update("update order_group set trade_flg=3 where order_id in #{orderNumList}")
-    int signPick( List<String> orderNumList);
+    int signPick( SignBean signBean);
     
     //根据接龙id查询订单
     @Select("select * from order_group where jielong_id=#{jielongId}")

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.Order;
 
 
@@ -21,7 +22,7 @@ public interface OrderGroupService {
 
   ResponseBean<List<Order>> selectByJielongId(Integer jielongId);
   
-  ResponseBean<Integer> signPick(List<String> orderNumList);
+  ResponseBean<Integer> signPick(SignPickBean signPickBean);
    
 
   

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jielong.core.beans.PickBean;
 import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.Order;
 import com.jielong.core.service.OrderGroupService;
 import com.jielong.core.service.OrderService;
@@ -68,10 +69,10 @@ public class OrderController {
 	 * @return 受影响记录数
 	 */
 	@RequestMapping("/signPick")
-	public ResponseBean<Integer> signPick(@RequestBody List<String> orderNumList) {
+	public ResponseBean<Integer> signPick(@RequestBody SignPickBean signPickBean) {
 		int result = 0;
-		Integer result1 = orderService.signPick(orderNumList).getData();
-		Integer result2 = orderGroupService.signPick(orderNumList).getData();
+		Integer result1 = orderService.signPick(signPickBean).getData();
+		Integer result2 = orderGroupService.signPick(signPickBean).getData();
 		if (result1 != null) {
 			result += result1;
 		}
@@ -82,7 +83,7 @@ public class OrderController {
 	}
 
 	/**
-	 * 查询所有待提货的订单
+	 * 查询所有待提货和已提货的订单
 	 * 
 	 * @param jielongId
 	 * @return
