@@ -20,15 +20,19 @@ import com.jielong.core.dao.CommonDao;
 import com.jielong.core.dao.GoodsMapper;
 import com.jielong.core.dao.JielongMapper;
 import com.jielong.core.dao.OrderGroupConsoleMapper;
+import com.jielong.core.dao.OrderGroupMapper;
 import com.jielong.core.dao.UserAddressMapper;
 import com.jielong.core.dao.UserInfoMapper;
 import com.jielong.core.domain.Goods;
 import com.jielong.core.domain.Jielong;
+import com.jielong.core.domain.OrderGroup;
 import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
+import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.JielongService;
 import com.jielong.core.service.OrderGroupService;
+import com.jielong.core.service.UserMessageService;
 
 @Service
 public class JielongServiceImpl implements JielongService {
@@ -53,7 +57,14 @@ public class JielongServiceImpl implements JielongService {
 	
 	@Autowired
 	OrderGroupService orderGroupService;
+	
+	@Autowired
+	OrderGroupMapper orderGroupMapper;
 
+	@Autowired
+	UserMessageService userMessageService;
+
+	
 	@Transactional
 	@Override
 	public ResponseBean<Integer> insert(Jielong jielong) {
@@ -138,8 +149,55 @@ public class JielongServiceImpl implements JielongService {
 	@Transactional
 	@Override
 	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
+		//caoxx 团购接龙结束调用 start
+		List<Jielong> finishJielong = jielongMapper.selectFinishJielong();
+		for (Jielong jielong : finishJielong) {
+			orderGroupService.closeJieLong(jielong.getId());
+		}
+//		for (Jielong jielong : finishJielong) {
+//			//当前时间大于结束时间的接龙处理(order_group_console已关闭的console_flg = 1不处理，只处理=0的)
+//			//update  order_group_console 的接龙结束状态
+//			List<OrderGroupConsole> orderGroupConsoleList= orderGroupConsoleMapper.selectByJieLongId(jielong.getId());
+//			for (OrderGroupConsole orderGroupConsole : orderGroupConsoleList) {
+//				//查询order_group 表 发送消息 及更新状态
+//				List<OrderGroup> orderGroupList = orderGroupMapper.selectByJieLongGoodsId(orderGroupConsole.getJielongId(),orderGroupConsole.getGoodsId());
+//				for (OrderGroup orderGroup : orderGroupList) {
+//					Goods goods= goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
+//					if(orderGroupConsole.getGroupOkFlg() == 1){
+//						//拼团成功每个下单的客户消息发送，状态更新
+//						UserMessage userMessage=new UserMessage();
+//						userMessage.setUserId(orderGroup.getCustId());
+//						userMessage.setTitle("群发拼团成功通知！");
+//						userMessage.setMessage("恭喜接龙"+jielong.getTopic() + "的"+ goods.getName()+"拼团成功，即可上门提货！");
+//						userMessageService.insert(userMessage);
+//						//更新一个订单的状态，根据ID,正常待提货
+//						orderGroupMapper.updateStateById(2,0,orderGroup.getId());
+//						
+//					} else {
+//						//拼团失败每个下单的客户消息发送，状态更新
+//						UserMessage userMessage=new UserMessage();
+//						userMessage.setUserId(orderGroup.getCustId());
+//						userMessage.setTitle("群发拼团失败通知！");
+//						userMessage.setMessage("遗憾的告诉您接龙"+jielong.getTopic() + "的"+ goods.getName()+"拼团失败！");
+//						userMessageService.insert(userMessage);
+//						//关闭接龙后团购失败，状态改变
+//						orderGroupMapper.updateStateById(0,1,orderGroup.getId());
+//					}
+//					
+//				}
+//				//更新OrderGroupConsole接龙状态
+//				orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+//				
+//			}
+//			
+//		}
+		//caoxx 团购接龙结束调用 end
+		
+		
 		//检查接龙的结束状态
 		Integer finishResult=jielongMapper.setFinishStatus();
+		
+		
 		
 		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
 		// 查询状态为1的接龙
