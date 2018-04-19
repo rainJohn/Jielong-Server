@@ -53,7 +53,7 @@ public class OssController {
 	/**
 	 * 客户端调用该请求，应用服务器生成plicy 和 callback 返回至客户端。
 	 * */
-	@RequestMapping(value = "oss/policy")
+	@RequestMapping(value = "/oss/policy")
     public String createPolicy(){
         return PostobjectPolicy.createPolicy("upload/").toJSONString();
 

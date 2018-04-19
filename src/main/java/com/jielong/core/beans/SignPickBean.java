@@ -8,11 +8,11 @@ public class SignPickBean {
 
  public List<SignBean> getOrderNumList() {
 	return orderNumList;
-}
+ }
 
-public void setOrderNumList(List<SignBean> orderNumList) {
+ public void setOrderNumList(List<SignBean> orderNumList) {
 	this.orderNumList = orderNumList;
-}
+ }
  
  
  

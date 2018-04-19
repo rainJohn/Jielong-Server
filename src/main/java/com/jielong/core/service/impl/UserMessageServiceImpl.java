@@ -73,14 +73,14 @@ public class UserMessageServiceImpl implements UserMessageService {
 		
 		if(setFlg == 1){
 			//成团发送
-			userMessage.setTitle("群发参团成功通知！");
+			userMessage.setTitle("群发拼团成功通知！");
 			userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。");
 			userMessage.setUserIdList(listUserid);
 			this.insertBatch(userMessage);
 			
 		} else {
 			//不成团发送
-			userMessage.setTitle("群发参团通知！");
+			userMessage.setTitle("群发参团成功通知！");
 			userMessage.setMessage("你已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 			userMessage.setUserIdList(listUserid);
 			this.insertBatch(userMessage);

@@ -109,7 +109,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        		//发送单人通知 已经是成功的团了。
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(order.getUserId());
-						userMessage.setTitle("下单成功通知！");
+						userMessage.setTitle("拼团成功通知！");
 						userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。订单详情请前往我的->我参与的接龙查看。");
 						userMessageService.insert(userMessage);
 		        	} else {
@@ -139,7 +139,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			        		//下单之后给用户发送消息
 							UserMessage userMessage=new UserMessage();
 							userMessage.setUserId(order.getUserId());
-							userMessage.setTitle("下单成功通知！");
+							userMessage.setTitle("参团成功通知！");
 							userMessage.setMessage("你已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 							userMessageService.insert(userMessage);
 			        	}
