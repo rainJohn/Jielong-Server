@@ -38,4 +38,7 @@ public interface OrderGroupConsoleMapper {
     @Update("update order_group_console set console_flg = #{consoleFlg} where jielong_id = #{jielongId} and goods_id = #{goodsId}")
     int updateLastStateFlg(@Param("consoleFlg") Integer consoleFlg,@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
     
+    
+    
+    
 }

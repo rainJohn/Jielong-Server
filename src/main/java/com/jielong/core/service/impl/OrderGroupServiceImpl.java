@@ -21,6 +21,7 @@ import com.jielong.core.dao.OrderGroupConsoleMapper;
 import com.jielong.core.dao.OrderGroupMapper;
 import com.jielong.core.dao.OrderMapper;
 import com.jielong.core.domain.Goods;
+import com.jielong.core.domain.Jielong;
 import com.jielong.core.domain.Order;
 import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.OrderGroup;
@@ -374,11 +375,14 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		@Override
 		public int closeJieLong(Integer jielongId) {
 
+			
 			//传入为结束接龙ID
 			//1.判断结束的接龙是否是已经成团的接龙
 			//取得接龙ID的商品清单
 			List<OrderGroupConsole> listOrderGroupConsole = orderGroupConsoleMapper.selectByJieLongId(jielongId);
 			
+			//接龙名取得
+			Jielong JielongName = jielongMapper.selectByPrimaryKey(jielongId);
 			for(OrderGroupConsole orderGroupConsole:listOrderGroupConsole){
 				//商品成功成团与否FLG
 	            if(orderGroupConsole.getGroupOkFlg() == 1){
@@ -389,6 +393,17 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 2,order_flg 0 -> 0 where  trade_flg = 0 and order_flg = 0
 	            	orderGroupMapper.updateLastStateFlg(2, 0, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
 	            	
+	            	List<OrderGroup> orderGroupList = orderGroupMapper.selectByJieLongGoodsId(orderGroupConsole.getJielongId(),orderGroupConsole.getGoodsId());
+					for (OrderGroup orderGroup : orderGroupList) {
+						Goods goods= goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
+		            	//拼团成功每个下单的客户消息发送，状态更新
+						UserMessage userMessage=new UserMessage();
+						userMessage.setUserId(orderGroup.getCustId());
+						userMessage.setTitle("群发拼团成功通知！");
+						userMessage.setMessage("恭喜接龙"+JielongName.getTopic() + "的"+ goods.getName()+"拼团成功，即可上门提货！");
+						userMessageService.insert(userMessage);
+					}
+	            	
 	            } else {
 	            	//拼团失败 最终结果更新
 	            	//1.关闭order_group_console表，状态关闭
@@ -396,6 +411,18 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	            	
 	            	//2.关闭order_group表，状态关闭,trade_flg 0 -> 0,order_flg 0 -> 1 where  trade_flg = 0 and order_flg = 0
 	            	orderGroupMapper.updateLastStateFlg(0, 1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+	            	
+	            	//拼团失败每个下单的客户消息发送，状态更新
+	            	List<OrderGroup> orderGroupList = orderGroupMapper.selectByJieLongGoodsId(orderGroupConsole.getJielongId(),orderGroupConsole.getGoodsId());
+					for (OrderGroup orderGroup : orderGroupList) {
+						Goods goods= goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
+		            	//拼团成功每个下单的客户消息发送，状态更新
+						UserMessage userMessage=new UserMessage();
+						userMessage.setUserId(orderGroup.getCustId());
+						userMessage.setTitle("群发拼团失败通知！");
+						userMessage.setMessage("遗憾的告诉您接龙"+JielongName.getTopic() + "的"+ goods.getName()+"拼团失败！");
+						userMessageService.insert(userMessage);
+					}
 	            	
 	            }
 				

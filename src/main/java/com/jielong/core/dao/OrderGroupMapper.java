@@ -71,5 +71,12 @@ public interface OrderGroupMapper {
     @Select("select * from order_group where jielong_id=#{jielongId} and (trade_flg=3 or trade_flg=0 or trade_flg=2) order by created_at asc")
     List<OrderGroup> selectFinishByJielongId(@Param("jielongId")Integer jielongId);
 
+    //根据接龙ID和商品ID查询订单
+    @Select("select * from order_group where jielong_id=#{jielongId} and goods_id=#{goodsId} order by created_at desc")
+    List<OrderGroup> selectByJieLongGoodsId(@Param("jielongId")Integer jielongId,@Param("goodsId")Integer goodsId);
     
+    //关闭接龙，最终结果更新，不判状态
+    @Update("update order_group set trade_flg = #{tradeFlg},order_flg = #{orderFlg} where id = #{id}")
+    int updateStateById(@Param("tradeFlg") Integer tradeFlg,@Param("orderFlg") Integer orderFlg,@Param("id") Integer id);
+
 }
