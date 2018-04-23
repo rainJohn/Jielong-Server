@@ -111,7 +111,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(order.getUserId());
 						userMessage.setTitle("拼团成功通知！");
-						userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。订单详情请前往我的->我参与的接龙查看。");
+						userMessage.setMessage("你已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
 						userMessageService.insert(userMessage);
 		        	} else {
 		        		//恭喜终于成团了。
@@ -180,6 +180,10 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	        	  order.setOrderNum(ordergroup.getOrderId());
 	        	  order.setRemark(ordergroup.getCustNote());
 	        	  order.setState(ordergroup.getTradeFlg());
+	        /*	if(ordergroup.getOrderFlg()==1) {        		
+	        		
+	        		
+	        	}*/
 	        	  order.setSumMoney(ordergroup.getCustBuyAllMoney());
 //	        	  order.setUserAddress(userAddress);
 	        	  order.setUserId(ordergroup.getCustId());
@@ -228,12 +232,17 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	                      } else {
 	                    	  orderGoods.setGroupFlg(groupOkFlg);
 	                    	  //参团不成功，差几人计算
-	                    	  int setGroupNum = Integer.valueOf(goods.getGroupSum());
+	                    	  Integer setGroupNum = Integer.valueOf(goods.getGroupSum());
 	          		        
-	          		          int newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	                    	  Integer newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
 	          		          
-	          		          int numtmp = setGroupNum - newGroupNum;
-	          		          orderGoods.setJoinGroupNum(numtmp);
+	                    	  if (setGroupNum!=null && newGroupNum!=null) {
+	                    		  int numtmp = setGroupNum - newGroupNum;
+		          		          orderGoods.setJoinGroupNum(numtmp);
+							  }else {
+								  orderGoods.setJoinGroupNum(setGroupNum);
+							  }
+	          		         
 	                      }                     
 	                      
 	                      
@@ -400,7 +409,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(orderGroup.getCustId());
 						userMessage.setTitle("群发拼团成功通知！");
-						userMessage.setMessage("恭喜接龙"+JielongName.getTopic() + "的"+ goods.getName()+"拼团成功，即可上门提货！");
+						userMessage.setMessage("恭喜您，截止接龙结束，"+JielongName.getTopic() + "的"+ goods.getName()+"已拼团成功，请尽快上门提货！");
 						userMessageService.insert(userMessage);
 					}
 	            	
@@ -420,7 +429,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(orderGroup.getCustId());
 						userMessage.setTitle("群发拼团失败通知！");
-						userMessage.setMessage("遗憾的告诉您接龙"+JielongName.getTopic() + "的"+ goods.getName()+"拼团失败！");
+						userMessage.setMessage("非常遗憾地告诉您，截止接龙结束，"+JielongName.getTopic() + "的"+ goods.getName()+"拼团失败，你还可以去看看其他商品哦！");
 						userMessageService.insert(userMessage);
 					}
 	            	
@@ -748,6 +757,16 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			
 			 responseBean.setData(orderList);
 			 return responseBean;
+		}
+		
+		
+		/**
+		 * 取消参团
+		 */
+		@Override
+		public ResponseBean<Integer> cancelJoinGroup(Order order) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 }

@@ -3,8 +3,12 @@ package com.jielong.base.util;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -65,6 +69,36 @@ public class UtilsTest {
 		String now=simpleDateFormat.format(new Date());
 		int result=now.compareTo(finishTime);
 		System.out.println(result);
+	}
+	
+	
+	@Test
+	public void testCollectionSort() {
+		
+	  Integer[]  nums= {3,2,1,5,4};	
+	  
+      List<Integer> numList=Arrays.asList(nums);
+      
+      System.out.println("排序前：");
+      
+      numList.stream().forEach(num->System.out.println(num));
+      
+      System.out.println("正向排序后：");
+      
+      numList.stream().sorted((a,b)->a-b).forEach(num->System.out.println(num));
+      numList.stream().sorted(new Comparator<Integer>() {
+
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			// TODO Auto-generated method stub
+			return o1-o2;
+		}
+	}).filter(num->num>3).collect(Collectors.toList());
+      
+      System.out.println("逆向排序后：");
+      
+      numList.stream().sorted((a,b)->b-a).forEach(num->System.out.println(num));      
+		
 	}
 	
 

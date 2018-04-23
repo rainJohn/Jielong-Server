@@ -142,6 +142,7 @@ public class Jielong {
 	}
 
 	public String getFinishTime() {
+		
 		return finishTime;
 	}
 

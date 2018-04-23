@@ -201,8 +201,7 @@ public class JielongServiceImpl implements JielongService {
 		
 		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
 		// 查询状态为1的接龙
-		List<Jielong> jielongs = jielongMapper.selectAll().stream().filter(j -> j.getStatus() == 1)
-				.collect(Collectors.toList());
+		List<Jielong> jielongs = jielongMapper.selectUsed();
 
 		for (Jielong jielong : jielongs) {		
 			

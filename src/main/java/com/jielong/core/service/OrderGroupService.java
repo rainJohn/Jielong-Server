@@ -31,5 +31,8 @@ public interface OrderGroupService {
 
   ResponseBean<List<Order>> selectPickByJielongId(Integer jielongId);   
   ResponseBean<List<Order>> selectJoinByJielongId(Integer jielongId);
+  
+  //取消参团
+  ResponseBean<Integer> cancelJoinGroup(Order order);
 
 }

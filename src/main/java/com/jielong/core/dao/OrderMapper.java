@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.jielong.core.beans.SignBean;
-import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.Order;
 
 @Mapper
@@ -34,7 +33,6 @@ public interface OrderMapper {
     List<Order> selectByJielongId(@Param("jielongId")Integer jielongId);
     
     //设置自提标记
-   // @Update("update jielong_order set state=3 where order_num in #{orderNumList}")
     Integer signPick(SignBean signBean);
     
 }

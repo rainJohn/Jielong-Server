@@ -26,7 +26,10 @@ public interface JielongMapper {
     @Select("select * from jielong order by created_at desc")
     List<Jielong> selectAll();
     
-    @Select("select * from jielong where user_id= #{userId}")
+    @Select("select * from jielong where status=1 order by created_at desc")
+    List<Jielong> selectUsed();
+    
+    @Select("select * from jielong where user_id= #{userId} order by created_at desc")
     List<Jielong> selectByUserId(@Param("userId") Integer userId);
     
     //更新浏览人数
@@ -37,7 +40,7 @@ public interface JielongMapper {
     @Update("update jielong set join_sum=join_sum+1,join_money=join_money+#{joinMoney} where id=#{id}")
     int updateJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
     
-    @Select("select count(*) from jielong")
+    @Select("select count(*) from jielong where status=1")
     Integer  selectCount();
     
     @Select("select topic from jielong where id=#{id}")
@@ -47,13 +50,13 @@ public interface JielongMapper {
      * 设置接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
      * @return
      */
-    @Update("update jielong set status=2  where set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i')")
+    @Update("update jielong set status=2  where set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i') and status=1")
     Integer setFinishStatus();
     
     /**
      * 查询接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
      * @return
      */
-    @Select("select * from jielong where set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i') and id in(select jielong_id from order_group_console where console_flg = 0)")
+    @Select("select * from jielong where status=1 and set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i') and id in(select jielong_id from order_group_console where console_flg = 0)")
     List<Jielong> selectFinishJielong();
 }
