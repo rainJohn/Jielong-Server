@@ -80,8 +80,8 @@ public class UserMessageServiceImpl implements UserMessageService {
 			
 		} else {
 			//不成团发送
-			userMessage.setTitle("群发参团成功通知！");
-			userMessage.setMessage("你已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
+			userMessage.setTitle("群发参团状态改变通知！");
+			userMessage.setMessage("你已成功参团，但现拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 			userMessage.setUserIdList(listUserid);
 			this.insertBatch(userMessage);
 		}

@@ -111,7 +111,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(order.getUserId());
 						userMessage.setTitle("拼团成功通知！");
-						userMessage.setMessage("你已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
+						userMessage.setMessage("您已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
 						userMessageService.insert(userMessage);
 		        	} else {
 		        		//恭喜终于成团了。
@@ -141,7 +141,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 							UserMessage userMessage=new UserMessage();
 							userMessage.setUserId(order.getUserId());
 							userMessage.setTitle("参团成功通知！");
-							userMessage.setMessage("你已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
+							userMessage.setMessage("您已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 							userMessageService.insert(userMessage);
 			        	}
 					}
@@ -434,7 +434,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 						UserMessage userMessage=new UserMessage();
 						userMessage.setUserId(orderGroup.getCustId());
 						userMessage.setTitle("群发拼团失败通知！");
-						userMessage.setMessage("非常遗憾地告诉您，截止接龙结束，"+JielongName.getTopic() + "的"+ goods.getName()+"拼团失败，你还可以去看看其他商品哦！");
+						userMessage.setMessage("非常遗憾地告诉您，截止接龙结束，"+JielongName.getTopic() + "的"+ goods.getName()+"拼团失败，您还可以去看看其他商品哦！");
 						userMessageService.insert(userMessage);
 					}
 	            	
@@ -770,8 +770,79 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		 */
 		@Override
 		public ResponseBean<Integer> cancelJoinGroup(Order order) {
-			// TODO Auto-generated method stub
-			return null;
+			// 正常 0 异常1
+			ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+			
+			responseBean.setData(0);
+			
+			orderGroupMapper.updateStateById(0, 1, order.getId());
+			
+			List<OrderGoods> orderGoodsList=order.getOrderGoods();
+			if (orderGoodsList!=null && orderGoodsList.size()>0) {
+				for(int i=0;i<orderGoodsList.size();i++) {
+					OrderGoods orderGoods=orderGoodsList.get(i);
+					Goods goods = new  Goods();
+			        goods= goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
+			        int setGroupNum = Integer.valueOf(goods.getGroupSum());
+			        
+			        int newGroupNum = orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId());
+			        if(newGroupNum >= setGroupNum) {
+			        	//成团状态
+			        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
+			        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+			        	if (oldGroupOkFlg == 1)
+			        	{
+			        		//发送单人通知  撤单后还是成功的团
+							UserMessage userMessage=new UserMessage();
+							userMessage.setUserId(order.getUserId());
+							userMessage.setTitle("撤销拼团通知！");
+							userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+							userMessageService.insert(userMessage);
+			        	} else {
+			        		//状态应该没有 这种情况
+			        		UserMessage userMessage=new UserMessage();
+							userMessage.setUserId(order.getUserId());
+							userMessage.setTitle("撤销拼团通知！");
+							userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+							userMessageService.insert(userMessage);
+			        	}
+			        	
+						
+			        } else {
+			        	//不成团状态
+			        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
+			        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+			        	if (oldGroupOkFlg!=null) {
+			        		if (oldGroupOkFlg == 1){
+				        		//有撤单的情况!从成团变成了 未成团。群发通知
+				        		int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+					        	
+					        	//下单之后给用户发送消息
+					        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
+				        		
+				        	} else {
+				        		//发送单人通知
+				        		//下单之后给用户发送消息
+								UserMessage userMessage=new UserMessage();
+								userMessage.setUserId(order.getUserId());
+								userMessage.setTitle("撤销拼团通知！");
+								userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+								userMessageService.insert(userMessage);
+				        	}
+						}
+			        	
+			        	
+			        }
+			        
+			        
+				}
+			}
+			
+			
+			
+			
+			responseBean.setData(0);
+			return responseBean;
 		}
 
 }

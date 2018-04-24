@@ -79,4 +79,9 @@ public interface OrderGroupMapper {
     @Update("update order_group set trade_flg = #{tradeFlg},order_flg = #{orderFlg} where id = #{id}")
     int updateStateById(@Param("tradeFlg") Integer tradeFlg,@Param("orderFlg") Integer orderFlg,@Param("id") Integer id);
 
+    //用户取消订单
+    @Update("update order_group set order_flg = #{orderFlg} where order_id = #{orderId}")
+    int updateCancelByOrderId(@Param("orderFlg") Integer orderFlg,@Param("orderId") Integer orderId);
+
+    
 }
