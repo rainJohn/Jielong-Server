@@ -180,10 +180,10 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	        	  order.setOrderNum(ordergroup.getOrderId());
 	        	  order.setRemark(ordergroup.getCustNote());
 	        	  order.setState(ordergroup.getTradeFlg());
-	        /*	if(ordergroup.getOrderFlg()==1) {        		
+	             /*	if(ordergroup.getOrderFlg()==1) {        		
 	        		
 	        		
-	        	}*/
+	        	   }*/
 	        	  order.setSumMoney(ordergroup.getCustBuyAllMoney());
 //	        	  order.setUserAddress(userAddress);
 	        	  order.setUserId(ordergroup.getCustId());
@@ -230,18 +230,23 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	                    	  orderGoods.setGroupFlg(groupOkFlg);
 	                    	  orderGoods.setJoinGroupNum(0);
 	                      } else {
-	                    	  orderGoods.setGroupFlg(groupOkFlg);
-	                    	  //参团不成功，差几人计算
-	                    	  Integer setGroupNum = Integer.valueOf(goods.getGroupSum());
-	          		        
-	                    	  Integer newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
-	          		          
-	                    	  if (setGroupNum!=null && newGroupNum!=null) {
-	                    		  int numtmp = setGroupNum - newGroupNum;
-		          		          orderGoods.setJoinGroupNum(numtmp);
-							  }else {
-								  orderGoods.setJoinGroupNum(setGroupNum);
+	                    	  Integer orderFlg=ordergroup.getOrderFlg();
+	                    	  if (orderFlg==0) {
+	                    		  orderGoods.setGroupFlg(0);
+		                    	  //待拼团成功，差几人计算
+		                    	  Integer setGroupNum = Integer.valueOf(goods.getGroupSum());
+		          		        
+		                    	  Integer newGroupNum = orderGroupMapper.selectByCustBuyNum(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+		          		          
+		                    	  if (setGroupNum!=null && newGroupNum!=null) {
+		                    		  int numtmp = setGroupNum - newGroupNum;
+			          		          orderGoods.setJoinGroupNum(numtmp);
+								  }
+							  }else if (orderFlg==1) {
+								  //参团失败
+							      orderGoods.setGroupFlg(2);   
 							  }
+	                    	
 	          		         
 	                      }                     
 	                      
