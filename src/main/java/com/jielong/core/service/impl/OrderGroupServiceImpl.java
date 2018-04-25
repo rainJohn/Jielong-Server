@@ -245,11 +245,10 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			          		          orderGoods.setJoinGroupNum(numtmp);
 								  }
 							  }else if (orderFlg==1) {  //Jielong结束参团失败 或者 订单取消
-								  //Jielong结束
+								  //Jielong结束,参团失败
 								 if (orderGroupConsole.getConsoleFlg()==1) {
 									 orderGoods.setGroupFlg(2);   	
-								 }else {  //订单取消
-									 
+								 }else {  //订单取消									 
 									 order.setState(4);   
 								  }
 							       
