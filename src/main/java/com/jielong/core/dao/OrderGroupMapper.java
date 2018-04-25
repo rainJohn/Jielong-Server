@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.jielong.core.beans.SignBean;
-import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.OrderGroup;
 
 @Mapper
@@ -68,7 +67,7 @@ public interface OrderGroupMapper {
     List<OrderGroup> selectByGoodsId(@Param("goodsId")Integer goodsId);
 
     //根据接龙id查询交易已经完成的订单
-    @Select("select * from order_group where jielong_id=#{jielongId} and (trade_flg=3 or trade_flg=0 or trade_flg=2) order by created_at asc")
+    @Select("select * from order_group where jielong_id=#{jielongId} and (trade_flg=3 or trade_flg=0 or trade_flg=2)  and order_flg=0 order by created_at asc")
     List<OrderGroup> selectFinishByJielongId(@Param("jielongId")Integer jielongId);
 
     //根据接龙ID和商品ID查询订单

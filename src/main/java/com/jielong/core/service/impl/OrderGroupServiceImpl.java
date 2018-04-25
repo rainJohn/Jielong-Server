@@ -3,6 +3,7 @@ package com.jielong.core.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        goods= goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
 		        int setGroupNum = Integer.valueOf(goods.getGroupSum());
 		        
-		        int newGroupNum = orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId());
+		        int newGroupNum = Optional.ofNullable(orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId())).orElse(0);
 		        if(newGroupNum >= setGroupNum) {
 		        	//成团状态
 		        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
@@ -116,7 +117,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		        	} else {
 		        		//恭喜终于成团了。
 		        		//更新ordergroupconsole表
-			        	int updateret = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(), orderGoods.getGoodsId());
+			        	int updateRet = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(), orderGoods.getGoodsId());
 			        	
 			        	//下单之后给用户发送消息
 			        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 1);
@@ -185,9 +186,9 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 	        		
 	        	   }*/
 	        	  order.setSumMoney(ordergroup.getCustBuyAllMoney());
-//	        	  order.setUserAddress(userAddress);
+
 	        	  order.setUserId(ordergroup.getCustId());
-//	        	  order.setUserInfo(ordergroup.get);
+
 	        	  order.setUserName(ordergroup.getCustName());
 	        	  order.setUserPhone(ordergroup.getCustPhone());
 	        	  order.setAddressId(ordergroup.getAddressId());
@@ -222,8 +223,9 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 //	                      orderGoods.setOrderId(orderGroup.getOrderId());
 	                      orderGoods.setSum(orderGroup2.getCustBuyNum());
 	                      
-	                      //商品成功成团与否FLG
-	                      Integer groupOkFlg = orderGroupConsoleMapper.selectGroupOkState(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	                     
+	                      OrderGroupConsole orderGroupConsole = orderGroupConsoleMapper.selectByJielongAndGoods(orderGroup2.getJielongId(), orderGroup2.getGoodsId());
+	                      Integer groupOkFlg= orderGroupConsole.getGroupOkFlg();
 	                      if(groupOkFlg == 1)
 	                      {
 	                    	  //参团成功
@@ -242,9 +244,15 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		                    		  int numtmp = setGroupNum - newGroupNum;
 			          		          orderGoods.setJoinGroupNum(numtmp);
 								  }
-							  }else if (orderFlg==1) {
-								  //参团失败
-							      orderGoods.setGroupFlg(2);   
+							  }else if (orderFlg==1) {  //Jielong结束参团失败 或者 订单取消
+								  //Jielong结束
+								 if (orderGroupConsole.getConsoleFlg()==1) {
+									 orderGoods.setGroupFlg(2);   	
+								 }else {  //订单取消
+									 
+									 order.setState(4);   
+								  }
+							       
 							  }
 	                    	
 	          		         
@@ -446,6 +454,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			return 1;
 		} 
 		
+		@Transactional
 		@Override
 		public ResponseBean<List<Order>> selectByJielongId(Integer jielongId) {
 			//根据接龙ID查询所有商品订单
@@ -561,6 +570,7 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			return responseBean;
 		}
 		
+		@Transactional
 		@Override
 		public ResponseBean<List<Order>> selectPickByJielongId(Integer jielongId) {
 			//根据接龙ID查询所有商品订单
@@ -768,65 +778,78 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 		/**
 		 * 取消参团
 		 */
+		@Transactional
 		@Override
 		public ResponseBean<Integer> cancelJoinGroup(Order order) {
-			// 正常 0 异常1
-			ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
 			
-			responseBean.setData(0);
+			ResponseBean<Integer> responseBean=new ResponseBean<Integer>();			
 			
-			orderGroupMapper.updateStateById(0, 1, order.getId());
+			Integer result=orderGroupMapper.updateStateById(0,1, order.getId());
+			//减少参与人数和接龙金额
+			jielongMapper.reduceJoin(order.getJielongId(),order.getSumMoney());
 			
 			List<OrderGoods> orderGoodsList=order.getOrderGoods();
 			if (orderGoodsList!=null && orderGoodsList.size()>0) {
 				for(int i=0;i<orderGoodsList.size();i++) {
 					OrderGoods orderGoods=orderGoodsList.get(i);
+					//增加库存
+					goodsMapper.addRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
+					
 					Goods goods = new  Goods();
 			        goods= goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
-			        int setGroupNum = Integer.valueOf(goods.getGroupSum());
-			        
-			        int newGroupNum = orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId());
+			        int setGroupNum = Integer.valueOf(goods.getGroupSum());			        
+			        int newGroupNum =Optional.ofNullable(orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId())).orElse(0);
+			          //取消订单后成团
 			        if(newGroupNum >= setGroupNum) {
-			        	//成团状态
-			        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
+			        	
 			        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+			        	//之前就是成团的
 			        	if (oldGroupOkFlg == 1)
-			        	{
+			        	{ 
 			        		//发送单人通知  撤单后还是成功的团
 							UserMessage userMessage=new UserMessage();
 							userMessage.setUserId(order.getUserId());
-							userMessage.setTitle("撤销拼团通知！");
-							userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+							userMessage.setTitle("取消参团通知！");
+							userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
 							userMessageService.insert(userMessage);
 			        	} else {
-			        		//状态应该没有 这种情况
+			        		//之前不成团，状态应该没有这种情况
 			        		UserMessage userMessage=new UserMessage();
 							userMessage.setUserId(order.getUserId());
-							userMessage.setTitle("撤销拼团通知！");
-							userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+							userMessage.setTitle("取消参团通知！");
+							userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
 							userMessageService.insert(userMessage);
 			        	}
 			        	
 						
-			        } else {
-			        	//不成团状态
+			        	
+			        } else {   //取消订单后不成团
+			        	
 			        	//查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
 			        	Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
 			        	if (oldGroupOkFlg!=null) {
-			        		if (oldGroupOkFlg == 1){
+			        		     //本来是成团的，取消订单后不成团
+			        		if (oldGroupOkFlg == 1){   
 				        		//有撤单的情况!从成团变成了 未成团。群发通知
-				        		int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
+				        		int updateRet = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(), orderGoods.getGoodsId());
 					        	
-					        	//下单之后给用户发送消息
+				        		//给本人发送消息
+				        		UserMessage userMessage=new UserMessage();
+								userMessage.setUserId(order.getUserId());
+								userMessage.setTitle("取消参团通知！！");
+								userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
+								userMessageService.insert(userMessage);
+								
+					        	//取消订单之后给团里其他用户发送消息
 					        	userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
 				        		
-				        	} else {
+				        	} else {  //本来就不成团
 				        		//发送单人通知
 				        		//下单之后给用户发送消息
 								UserMessage userMessage=new UserMessage();
 								userMessage.setUserId(order.getUserId());
-								userMessage.setTitle("撤销拼团通知！");
-								userMessage.setMessage("您已成功撤单，敬请下次惠顾，谢谢！");
+								userMessage.setTitle("取消参团通知！");
+								userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
 								userMessageService.insert(userMessage);
 				        	}
 						}
@@ -836,12 +859,11 @@ public class OrderGroupServiceImpl implements OrderGroupService{
 			        
 			        
 				}
-			}
+		}		
 			
 			
 			
-			
-			responseBean.setData(0);
+			responseBean.setData(result);
 			return responseBean;
 		}
 

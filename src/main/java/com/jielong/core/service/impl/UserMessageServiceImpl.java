@@ -71,19 +71,22 @@ public class UserMessageServiceImpl implements UserMessageService {
 		
 		UserMessage userMessage = new UserMessage();
 		
-		if(setFlg == 1){
-			//成团发送
-			userMessage.setTitle("群发拼团成功通知！");
-			userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。");
-			userMessage.setUserIdList(listUserid);
-			this.insertBatch(userMessage);
+		if (listUserid!=null&&listUserid.size()>0) {
+			if(setFlg == 1){
+				//成团发送
+				userMessage.setTitle("群发拼团成功通知！");
+				userMessage.setMessage("你已成功参团，拼团成功，如在接龙截止时间到后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看。");
+				userMessage.setUserIdList(listUserid);
+				this.insertBatch(userMessage);
+				
+			} else {
+				//不成团发送
+				userMessage.setTitle("群发参团状态改变通知！");
+				userMessage.setMessage("由于有人取消参团，导致拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
+				userMessage.setUserIdList(listUserid);
+				this.insertBatch(userMessage);
+			}
 			
-		} else {
-			//不成团发送
-			userMessage.setTitle("群发参团状态改变通知！");
-			userMessage.setMessage("你已成功参团，但现拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
-			userMessage.setUserIdList(listUserid);
-			this.insertBatch(userMessage);
 		}
 		
 		

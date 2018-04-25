@@ -36,9 +36,14 @@ public interface JielongMapper {
     @Update("update jielong set browse_sum=browse_sum+1 where id= #{id}")
     int updateBrowse(@Param("id") Integer id);
     
-    //更新参与人数和接龙金额
+    //更新参与人数和接龙金额（添加）
     @Update("update jielong set join_sum=join_sum+1,join_money=join_money+#{joinMoney} where id=#{id}")
-    int updateJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
+    Integer updateJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
+   
+    //更新参与人数和接龙金额（减少，用于取消订单）
+    @Update("update jielong set join_sum=join_sum-1,join_money=join_money-#{joinMoney} where id=#{id}")
+    Integer reduceJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
+    
     
     @Select("select count(*) from jielong where status=1")
     Integer  selectCount();

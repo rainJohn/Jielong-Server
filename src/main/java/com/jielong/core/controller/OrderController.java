@@ -20,7 +20,7 @@ import com.jielong.core.domain.Order;
 import com.jielong.core.service.OrderGroupService;
 import com.jielong.core.service.OrderService;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
+
 
 @RestController
 @RequestMapping("/order")
@@ -179,11 +179,12 @@ public class OrderController {
 		return new ResponseBean<List<PickCountBean>>(countList);
 
 	}
+	
 	//取消参团
 	@RequestMapping("/cancelJoinGroup")
     public ResponseBean<Integer> cancelJoinGroup(@RequestBody Order order){
-		// 正常返回 0 异常1
-		return null;
+		
+		return orderGroupService.cancelJoinGroup(order);
 	}	
 
 }

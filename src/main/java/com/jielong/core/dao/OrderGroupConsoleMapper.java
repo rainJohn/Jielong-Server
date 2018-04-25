@@ -31,6 +31,10 @@ public interface OrderGroupConsoleMapper {
     @Select("select group_ok_flg from order_group_console where jielong_id = #{jielongId} and goods_id = #{goodsId}")
     Integer selectGroupOkState(@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
     
+     //根据jielongId和商品id查询单条记录
+    @Select("select * from order_group_console where jielong_id = #{jielongId} and goods_id = #{goodsId}")
+    OrderGroupConsole selectByJielongAndGoods(@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
+    
     //根据接龙ID查询返回结果
     @Select("select * from order_group_console where jielong_id = #{jielongId} ")
     List<OrderGroupConsole> selectByJieLongId(@Param("jielongId") Integer jielongId);

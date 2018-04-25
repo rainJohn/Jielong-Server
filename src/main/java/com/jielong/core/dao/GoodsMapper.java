@@ -35,6 +35,10 @@ public interface GoodsMapper {
     @Update("update goods set repertory=repertory-#{repertory} where id=#{id}")
     int updateRepertory(@Param("id") Integer id,@Param("repertory") Integer repertory);
     
+    //添加商品库存（取消订单之后的操作）
+    @Update("update goods set repertory=repertory+#{repertory} where id=#{id}")
+    int addRepertory(@Param("id") Integer id,@Param("repertory") Integer repertory);
+    
     //根据jielong_id 查询商品id
     @Select("select id from goods where jielong_id = #{jielongId}")
     List<Integer> selectIdsByJielongId(@Param("jielongId") Integer jielongId);
