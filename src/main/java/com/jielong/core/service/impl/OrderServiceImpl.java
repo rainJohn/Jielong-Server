@@ -2,7 +2,6 @@ package com.jielong.core.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,13 +92,15 @@ public class OrderServiceImpl implements OrderService{
 		orderMapper.insertSelective(order);		
 		Integer orderId=commonDao.getLastId();
 		 	                       
-		
+	    StringBuilder sb=new StringBuilder();
 		if (orderGoodsList!=null && orderGoodsList.size()>0) {
 			for(int i=0;i<orderGoodsList.size();i++) {
-			   OrderGoods orderGoods=orderGoodsList.get(i);
-			   
+			   OrderGoods orderGoods=orderGoodsList.get(i);			  
 			   orderGoods.setOrderId(orderId);
 			   orderGoodsService.insert(orderGoods);
+			   //商品信息
+			   Goods goods=goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
+			   sb.append(goods.getName()).append(" ");
 			   //减少对应商品的库存
 			   goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
 			}
@@ -112,7 +113,8 @@ public class OrderServiceImpl implements OrderService{
 		UserMessage userMessage=new UserMessage();
 		userMessage.setUserId(order.getUserId());
 		userMessage.setTitle("下单成功通知！");
-		userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+   //	userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
+		userMessage.setMessage("恭喜您在创享团Go成功下单咯！您购买了"+sb.toString()+"等商品，订单详情可前往我的->我参与的接龙查看。超值团购，赶快转发给好朋友们吧！");
 		userMessageService.insert(userMessage);
 		
 		responseBean.setData(1);
