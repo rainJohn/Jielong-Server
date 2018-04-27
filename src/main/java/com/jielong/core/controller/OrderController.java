@@ -1,17 +1,14 @@
 package com.jielong.core.controller;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.jielong.core.beans.PickBean;
 import com.jielong.core.beans.PickCountBean;
 import com.jielong.core.beans.ResponseBean;
@@ -186,5 +183,15 @@ public class OrderController {
 		
 		return orderGroupService.cancelJoinGroup(order);
 	}	
+	
+	 /**
+	   * 直接下单的方式：取消订单
+	  */
+	 @RequestMapping("/cancelOrder")
+	 public ResponseBean<Integer> cancelOrder(@RequestParam("orderId") Integer orderId){
+			
+			return orderService.cancelOrder(orderId);
+	}	
+		
 
 }

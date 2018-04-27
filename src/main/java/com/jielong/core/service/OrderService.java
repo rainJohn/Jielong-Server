@@ -22,4 +22,7 @@ public interface OrderService {
 	ResponseBean<List<PickCountBean>>  countPick(Integer jielongId);
 	
 	Order selectById(Integer id);
+	
+	//取消订单
+	ResponseBean<Integer> cancelOrder(Integer orderId);
 }

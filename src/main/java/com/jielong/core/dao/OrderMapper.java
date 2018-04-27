@@ -35,4 +35,6 @@ public interface OrderMapper {
     //设置自提标记
     Integer signPick(SignBean signBean);
     
+     
+    
 }
