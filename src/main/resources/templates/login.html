@@ -8,7 +8,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 </head>
 <body>
   <p th:if="${loginError}"  class="error">Wrong user or password</p>
-  <form name="loginForm" th:action="@{/login}" method="POST">
+  <!--action='/login' Spring Security规定值，不可更改 -->
+  <form name="loginForm" th:action="@{/login}" method="POST">   
             <table>
                 <tr>
                     <td>用户名：</td>
