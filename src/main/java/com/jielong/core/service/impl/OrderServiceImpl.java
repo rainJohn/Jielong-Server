@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
 		userMessage.setUserId(order.getUserId());
 		userMessage.setTitle("下单成功通知！");
 		// userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
-		userMessage.setMessage("恭喜您在创享团Go成功下单咯！您购买了" + sb.toString() + "等商品，订单详情可前往我的->我参与的接龙查看。超值团购，赶快转发给好朋友们吧！");
+		userMessage.setMessage("恭喜您在创享团Go成功下单咯！您购买了" + sb.toString() + "等商品，订单详情可前往我的->我参与的团购查看。超值团购，赶快转发给好朋友们吧！");
 		userMessageService.insert(userMessage);
 
 		responseBean.setData(1);
@@ -345,7 +345,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setId(orderId);
 		//state:4 订单取消
 		order.setState(4);
-		Integer result=orderMapper.updateByPrimaryKey(order);
+		Integer result=orderMapper.updateByPrimaryKeySelective(order);
 		
 		Order updateOrder=orderMapper.selectByPrimaryKey(orderId);
 		// 减少参与人数和接龙金额

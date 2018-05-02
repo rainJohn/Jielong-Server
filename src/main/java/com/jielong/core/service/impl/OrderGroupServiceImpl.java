@@ -114,7 +114,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					//	userMessage.setTitle("拼团成功通知！");
 					//	userMessage.setMessage("您已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
 						userMessage.setTitle("下单成功通知！");
-						userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的接龙查看.");
+						userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的团购查看.");
 						userMessageService.insert(userMessage);
 					} else {
 						// 恭喜终于成团了。
@@ -148,7 +148,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 						//	userMessage.setTitle("参团成功通知！");
 						//	userMessage.setMessage("您已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 							userMessage.setTitle("下单成功通知");
-							userMessage.setMessage("恭喜您下单成功，您购买了"+goods.getName()+",本次团购的最小成团数量是"+setGroupNum+"，订单详情可前往我的->我参与的接龙查看。转发到微信群，可以帮助团长一起促成团购哦！");
+							userMessage.setMessage("恭喜您下单成功，您购买了"+goods.getName()+",本次团购的最小成团数量是"+setGroupNum+"，订单详情可前往我的->我参与的团购查看。转发到微信群，可以帮助团长一起促成团购哦！");
 							userMessageService.insert(userMessage);
 						}
 					}

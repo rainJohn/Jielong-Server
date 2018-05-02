@@ -18,7 +18,7 @@ public interface OrderMapper {
 
     Order selectByPrimaryKey(Integer id); 
 
-    int updateByPrimaryKey(Order record);
+    int updateByPrimaryKeySelective(Order record);
     
     //参与的接龙
     @Select("select * from jielong_order where user_id=#{userId}")
