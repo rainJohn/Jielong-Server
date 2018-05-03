@@ -16,7 +16,7 @@ public interface UserMessageService {
 
 	ResponseBean<List<UserMessage>> selectByUserId(Integer userId); 
 
-	ResponseBean<Integer> groupStateModify(Integer jieLongId,Integer goodsId,Integer setFlg);
+	ResponseBean<Integer> groupStateModify(Integer jieLongId,Integer goodsId,Integer setFlg,String shangpin,String addressInfo);
 
 
 }
