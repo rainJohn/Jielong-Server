@@ -73,6 +73,7 @@ public class JielongServiceImpl implements JielongService {
 		try {
 			jielong.setStatus(1); // 状态：进行中
 			Integer result = jielongMapper.insertSelective(jielong);
+			Integer jielongId=commonDao.getLastId();
 
 			// 商品列表
 			List<Goods> goodsList = jielong.getGoodsList();
@@ -99,7 +100,7 @@ public class JielongServiceImpl implements JielongService {
 				}
 			}
 
-			responseBean.setData(result);
+			responseBean.setData(jielongId);
 
 		} catch (Exception e) {
 			e.printStackTrace();

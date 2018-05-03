@@ -60,6 +60,12 @@ public class FileController {
 		 
                   		
 	}
+	
+	//下载订单
+	@RequestMapping(value="/downloadOrder",method = RequestMethod.GET)
+	public void downloadOrder() {
+		
+	}
     	
 
 }
