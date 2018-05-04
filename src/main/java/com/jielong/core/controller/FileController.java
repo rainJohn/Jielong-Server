@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.jielong.base.util.Utils;
+import com.aliyun.oss.OSSClient;
 import com.jielong.base.util.Constant;
 import com.jielong.base.util.FileUtils;
+import com.jielong.base.util.OSSClientConstants;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.service.FileService;
 
@@ -72,11 +75,13 @@ public class FileController {
 	
 	//下载订单
 	@RequestMapping("/downloadOrder")
-	public void downloadOrder(@RequestParam("jielongId")Integer jielongId,HttpServletResponse response) {
+	public String downloadOrder(@RequestParam("jielongId")Integer jielongId,HttpServletResponse response) {
 		
 		XSSFWorkbook wb=fileService.exportOrder(jielongId);
 		String path=Constant.SAVED_FOLDER;
 		File dirFile=new File(path);
+		File file=null;
+		String filePath="";
 		if (!dirFile.exists()) {
 			if (dirFile.mkdirs()) {
 				System.out.println("文件夹创建成功！创建后的目录为"+dirFile.getPath());
@@ -84,35 +89,38 @@ public class FileController {
 		}
 		
 		
-			//FileOutputStream fos=new FileOutputStream(salaryList.get(0).getPayDate()+salaryList.get(0).getDepName()+"工资明细表");
+			
 			try {
-				 File file = new File(path+"订单详情.xlsx");
-				 wb.write(new FileOutputStream(file)); 
+				 file = new File(path+"订单详情.xlsx");
 				
-				 OutputStream output=response.getOutputStream();
-				 response.reset();
-				 response.setContentType("application/octet-stream");  
-				 response.setCharacterEncoding("UTF-8");  
-				 String fileName = new String(("订单详情表").getBytes("UTF-8"),"ISO-8859-1");
-				    
-				 response.setHeader("Content-Disposition", "attachment;filename="+fileName+".xlsx");
-				 FileInputStream inputStream = new FileInputStream(file);
-				 int length = 0;
-				 byte[] buf = new byte[1024];
-				 while ((length = inputStream.read(buf)) > 0) {	            	
-				    	    output.write(buf, 0, length);
-				    	    
-				     }
-				    inputStream.close();
-				    output.flush();
-				    output.close();
+				 filePath=ossUpload(file);
+				 
+				 
 			
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			return filePath;
 		
 		} 
+	
+	public String ossUpload(File file) {
+		/*// endpoint以杭州为例，其它region请按实际情况填写
+		String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+		// 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号
+		String accessKeyId = "<yourAccessKeyId>";
+		String accessKeySecret = "<yourAccessKeySecret>";*/
+		// 创建OSSClient实例
+		OSSClient ossClient = new OSSClient(OSSClientConstants.ENDPOINT, OSSClientConstants.ACCESS_KEY_ID, OSSClientConstants.ACCESS_KEY_SECRET);
+		// 上传文件
+		String fileName=Utils.createFileName()+".xlsx";
+		ossClient.putObject(OSSClientConstants.BUCKET_NAME, fileName, file);
+		// 关闭client
+		ossClient.shutdown();
+		return fileName;
+	}
 		
 	
     	

@@ -75,7 +75,7 @@ public class UserMessageServiceImpl implements UserMessageService {
 			if(setFlg == 1){
 				//成团发送
 				userMessage.setTitle("下单成功通知！");
-				userMessage.setMessage("恭喜您，下单成功，您购买的"+shangpin+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的团购中找到下单记录，取消订单后重新下单。");
+				userMessage.setMessage("恭喜您，下单成功，您购买了"+shangpin+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的团购中找到下单记录，取消订单后重新下单。");
 				userMessage.setUserIdList(listUserid);
 				this.insertBatch(userMessage);
 				
