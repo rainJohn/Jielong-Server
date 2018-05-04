@@ -68,7 +68,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		List<OrderGoods> orderGoodsList = order.getOrderGoods();
 		if (orderGoodsList != null && orderGoodsList.size() > 0) {
 			
-			StringBuilder sb = new StringBuilder();  //商品名称
+			StringBuilder sp = new StringBuilder();  //商品名称
 			String addressInfo="";
 			
 			for (int i = 0; i < orderGoodsList.size(); i++) {
@@ -108,7 +108,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 				// 取得接龙商品的成团数
 				Goods goods = new Goods();
 				goods = goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
-				sb.append(goods.getName());
+				sp.append(goods.getName());
 				int setGroupNum = Integer.valueOf(goods.getGroupSum());
 
 				int newGroupNum = Optional
@@ -127,7 +127,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					//	userMessage.setMessage("您已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
 						userMessage.setTitle("下单成功通知！");
 					//	userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的团购查看.");
-						userMessage.setMessage("恭喜您，下单成功，你购买了"+sb.toString()+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的团购中找到下单记录，取消订单后重新下单。");
+						userMessage.setMessage("恭喜您，下单成功，你购买了"+sp.toString()+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的团购中找到下单记录，取消订单后重新下单。");
 						userMessageService.insert(userMessage);
 					} else {
 						// 恭喜终于成团了。
@@ -136,7 +136,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 								orderGoods.getGoodsId());
 
 						// 下单之后给用户发送消息
-						userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 1);
+						userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 1, sp.toString(),addressInfo);
 					}
 
 				} else {
@@ -151,7 +151,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 									orderGoods.getGoodsId());
 
 							// 下单之后给用户发送消息
-							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
+							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0,goods.getName(),addressInfo);
 
 						} else {
 							// 发送单人通知
@@ -851,7 +851,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 							userMessageService.insert(userMessage);
 
 							// 取消订单之后给团里其他用户发送消息
-							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0);
+							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0,goods.getName(),"");
 
 						} else { // 本来就不成团
 							// 发送单人通知
