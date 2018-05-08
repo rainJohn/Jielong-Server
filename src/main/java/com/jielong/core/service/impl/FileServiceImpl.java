@@ -89,8 +89,9 @@ public class FileServiceImpl implements FileService{
 				Cell titleCell = titleRow.createCell(0);
 				CellRangeAddress cra=new CellRangeAddress(index, index, 0, 9);   //合并第一行所有的列
 			    //在sheet里增加合并单元格  
-			    sheet.addMergedRegion(cra);    //第一行: 标题	    
-			    titleCell.setCellValue(entry.getValue().get(0).getUserAddress().getDetail());    //第一行标题  "2017年3月工资明细表"	     
+			    sheet.addMergedRegion(cra);    //第一行: 标题	
+			    String title=(entry.getValue().get(0).getUserAddress().getDetail()).replace("***", "   ");
+			    titleCell.setCellValue(title);    
 			    titleCell.setCellStyle(titleStyle);
 			    
 			    //表头

@@ -2,7 +2,9 @@ package com.jielong.core.controller;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import com.jielong.core.beans.SignPickBean;
 import com.jielong.core.domain.Order;
 import com.jielong.core.service.OrderGroupService;
 import com.jielong.core.service.OrderService;
+import com.jielong.core.service.UserAddressService;
 
 
 
@@ -27,6 +30,8 @@ public class OrderController {
 	OrderService orderService;
 	@Autowired
 	OrderGroupService orderGroupService;
+	@Autowired
+	UserAddressService userAddressService;
 
 	@RequestMapping("/insert")
 	public ResponseBean<Integer> insert(@RequestBody Order order) {
@@ -82,13 +87,13 @@ public class OrderController {
 	}
 
 	/**
-	 * 查询所有待提货和已提货的订单
-	 * 
+	 * 按提货地点和时间查询所有待提货和已提货的订单
+	 * 偷懒了
 	 * @param jielongId
 	 * @return
 	 */
 	@RequestMapping("/selectPickOrder")
-	public ResponseBean<List<Order>> selectOrder(@RequestParam("jielongId") Integer jielongId) {
+	public ResponseBean<List> selectOrder(@RequestParam("jielongId") Integer jielongId) {
 		List<Order> orderList1 = orderService.selectByJielongId(jielongId).getData();
 		List<Order> orderList2 = orderGroupService.selectPickByJielongId(jielongId).getData();
 		List<Order> orderList = new ArrayList<Order>();
@@ -97,9 +102,28 @@ public class OrderController {
 		}
 		if (orderList2 != null) {
 			orderList.addAll(orderList2);
+		}		
+		//List<Map<String, List<Order>>> responseList=new ArrayList<Map<String, List<Order>>>();
+		List<List> responseList=new ArrayList<List>();
+		
+		//按addressId分组
+		Map<Integer, List<Order>> orderByStateMap=orderList.stream().collect(Collectors.groupingBy(Order::getAddressId));
+	    if (orderByStateMap!=null) {
+			for(Map.Entry<Integer, List<Order>> entry : orderByStateMap.entrySet()) {
+				Map<Integer, List<Order>> map=new HashMap<Integer, List<Order>>();
+				String addressInfo=userAddressService.selectById(entry.getKey()).getData().getDetail();
+				String address=addressInfo.replace("***", "  ");
+				
+				List order=new ArrayList<>();
+			    order.add(address);
+			    order.add(entry.getValue());
+			    
+				responseList.add(order);
+				
+			}
 		}
-
-		return new ResponseBean<List<Order>>(orderList);
+                
+		return new ResponseBean<List>(responseList);
 	}
 
 	// 接龙统计

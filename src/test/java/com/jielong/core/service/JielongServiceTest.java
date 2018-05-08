@@ -18,7 +18,7 @@ import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserMessage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 public class JielongServiceTest {
 	@Autowired
 	JielongService jielongService;

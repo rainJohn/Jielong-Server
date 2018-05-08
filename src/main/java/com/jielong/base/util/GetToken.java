@@ -3,8 +3,12 @@ package com.jielong.base.util;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+
+//CommandLineRunner会在项目启动后自动执行，这里将它设置为只在 prod 环境下执行，是为了在本地单元测试的时候，让它不自动执行
+@Profile("prod")
 @Component
 public class GetToken implements CommandLineRunner{
 

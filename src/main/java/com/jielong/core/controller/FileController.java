@@ -7,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,6 +96,7 @@ public class FileController {
 			
 			try {
 				 file = new File(path+"订单详情.xlsx");
+				 wb.write(new FileOutputStream(file)); 
 				
 				 filePath=ossUpload(file);
 				 
@@ -115,7 +120,7 @@ public class FileController {
 		// 创建OSSClient实例
 		OSSClient ossClient = new OSSClient(OSSClientConstants.ENDPOINT, OSSClientConstants.ACCESS_KEY_ID, OSSClientConstants.ACCESS_KEY_SECRET);
 		// 上传文件
-		String fileName=Utils.createFileName()+".xlsx";
+		String fileName="savedOrder/"+Utils.createFileName()+".xlsx";
 		ossClient.putObject(OSSClientConstants.BUCKET_NAME, fileName, file);
 		// 关闭client
 		ossClient.shutdown();
