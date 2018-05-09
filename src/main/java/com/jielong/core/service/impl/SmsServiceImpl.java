@@ -103,5 +103,65 @@ public class SmsServiceImpl implements SmsService {
 		
 		return responseBean;
 	}
+	
+	/**
+	 * 发送通知类类短信，可携带多个参数
+	 */
+	@Override
+	public ResponseBean<Integer> sendNotificationSMS(String phoneNumber, String templateCode,String params) {
+		
+		ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+		
+		//设置超时时间-可自行调整
+		System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+		System.setProperty("sun.net.client.defaultReadTimeout", "10000");		
+		
+		//初始化ascClient,暂时不支持多region（请勿修改）
+		IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+		try {
+			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+		} catch (ClientException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		 IAcsClient acsClient = new DefaultAcsClient(profile);
+		 //组装请求对象
+		 SendSmsRequest request = new SendSmsRequest();
+		 //使用post提交
+		 request.setMethod(MethodType.POST);
+		 //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为1000个手机号码,批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式；发送国际/港澳台消息时，接收号码格式为00+国际区号+号码，如“0085200000000”
+		 request.setPhoneNumbers(phoneNumber);
+		 //必填:短信签名-可在短信控制台中找到
+		 // request.setSignName("乔升科技");
+		  request.setSignName("creativefun");
+		 //必填:短信模板-可在短信控制台中找到
+		 request.setTemplateCode(templateCode);		 
+		
+	
+	    request.setTemplateParam(params);		 
+
+		 
+		//请求失败这里会抛ClientException异常
+		SendSmsResponse sendSmsResponse;
+		try {
+			sendSmsResponse = acsClient.getAcsResponse(request);
+			if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
+				//请求成功
+				responseBean.setData(1);
+			}else {
+				
+				 responseBean.setErrorCode(ErrorCode.SMS_EXCEPTION);
+			     responseBean.setErrorMessage(sendSmsResponse.getMessage());
+			}
+		} catch (ClientException e) {
+			 e.printStackTrace();
+			
+		     responseBean.setErrorCode(ErrorCode.SMS_EXCEPTION);
+		     responseBean.setErrorMessage(e.getErrMsg());
+		}
+		
+		return responseBean;
+	}
 
 }

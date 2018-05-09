@@ -24,12 +24,7 @@ public class UtilsTest {
 		}
 	}
 	
-/*	public double[] test(double a,double b,double a1, double b1, double sum1,double sum2) {
-		double x=0,y=0;
-		double tempX=(sum1-b*y)/a;
-		
-		
-	}*/
+
 	
 	@Test
 	public void testAddress() {
@@ -92,8 +87,8 @@ public class UtilsTest {
 		public int compare(Integer o1, Integer o2) {
 			// TODO Auto-generated method stub
 			return o1-o2;
-		}
-	}).filter(num->num>3).collect(Collectors.toList());
+		   }
+	    }).filter(num->num>3).collect(Collectors.toList());
       
       System.out.println("逆向排序后：");
       

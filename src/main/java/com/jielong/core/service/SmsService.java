@@ -16,4 +16,12 @@ public interface SmsService {
     * @return
     */
 	ResponseBean<String> sendVerCodeSMS(String phoneNumber,String templateCode);
+	/**
+	 * 发送通知类短信：可携带多个参数
+	 * @param phoneNumber
+	 * @param templateCode
+	 * @param params 参数
+	 * @return
+	 */
+	ResponseBean<Integer> sendNotificationSMS(String phoneNumber, String templateCode,String params);
 }
