@@ -13,6 +13,8 @@ import com.jielong.core.beans.ResponseBean;
 @SpringBootTest
 public class SMSServiceTest {
 
+	
+	//随便
 	@Autowired
 	SmsService smsService;
 
