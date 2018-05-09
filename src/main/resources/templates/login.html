@@ -1,35 +1,57 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
 <title>欢迎登录</title>
+<link rel="stylesheet" th:href="@{/css/common.css}" />
 <link rel="stylesheet" th:href="@{/css/login.css}" />
 </head>
 <body>
-  <p th:if="${loginError}"  class="error">Wrong user or password</p>
-  <!--action='/login' Spring Security规定值，不可更改 -->
-  <form name="loginForm" th:action="@{/login}" method="POST">   
-            <table>
-                <tr>
-                    <td>用户名：</td>
-                    <td><input type="text" name="username"/></td>
-                </tr>
-                <tr>
-                    <td>密码：</td>
-                    <td><input type="password" name="password"></td>
-                </tr>
-                <tr>
-                  <td> <input id="remember_me" name="remember_me" type="checkbox"/></td>
-                  <td> <label for="remember_me">Remember me</label></td>
-                </tr>
-                <tr style="text-align: center;" >
-                    <td colspan="2">
-                        <input type="submit" value="登录"/>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    
+	<section class="login_content">
+		<form name="loginForm" id="form" th:action="@{/login}" method="POST">
+			<div class="tc">
+				<h1>登录团购MART管理系统</h1>
+			</div>
+			<div class="form-group tc">
+				<input type="text" id="username" name="username"
+					class="form-control" placeholder="请输入用户名" style="margin: 0;"
+					required="" />
+			</div>
+			<div class="form-group tc">
+				<input type="password" id="password" name="password"
+					class="form-control" placeholder="请输入密码"
+					style="margin: 20px 0 0 0;" required="" />
+			</div>
+			<div class="text_align">
+				<tr>
+					<td><input id="remember_me" name="remember_me" type="checkbox" /></td>
+					<td><label for="remember_me">Remember me</label></td>
+				</tr>
+			</div>
+
+			<div class="buttonDiv tc">
+
+				<button type="submit" class="btn btn-default submintLogin">登
+					录</button>
+				<a href="#forget" class="to_register indexForgetPwd">忘记密码?</a>
+				<h3 th:if="${loginError}" class="error">用户名密码错误，请重试！</h3>
+			</div>
+
+			<div class="separator tc">
+				<p class="change_link">
+					还没帐号? <a href="#signup" class="to_register indexRegister"> 注册帐号
+					</a>
+				</p>
+				<br />
+				<div class="ktcConsult">
+					<h1>95创享</h1>
+					<p>Copyright © 2010-2018 上海乔升科技有限公司</p>
+				</div>
+			</div>
+		</form>
+	</section>
+
+
 </body>
 </html>

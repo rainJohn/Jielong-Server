@@ -1,4 +1,61 @@
+html,body{
+	height:100%;
+	margin:0;
+	padding:0;
+}
+body {
+	color: #73879C;
+	display:flex;
+	align-items:center;
+	background-image:url(../images/login_backg5.jpg);
+	background-size:100% 100%;
+	background-repeat:no-repeat ;
+}
+
 .error{
   color:red;	
 	
 }
+.login_content{
+	text-decoration: none;
+	width:600px;
+	height:600px;
+	/*border:1px solid #D8D8D8;  */
+	margin:0 auto;
+	padding-top:60px;
+	background-color:rgba(0,0,0,0.3);
+}
+.form-control{
+	width:300px;
+	height:30px;
+	background:#fff!important;
+	box-shadow: 0 0 0px 1000px white inset !important;  
+	-webkit-box-shadow: 0 0 0px 1000px white inset !important;  
+	border: 1px solid #D8D8D8 !important;
+}
+
+.separator {
+/* 	border-top: 1px solid #D8D8D8; */
+	margin-top: 10px;
+	padding-top: 10px;
+}
+.ktcConsult{
+	padding-top: 150px;
+}
+
+.form-group,.tc{
+	text-align:center;
+}
+.tc{
+	height:60px;
+}
+.buttonDiv{
+	padding-top:30px;
+}
+.text_align{
+	text-align:center;
+}
+
+
+		
+	
