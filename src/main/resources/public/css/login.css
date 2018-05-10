@@ -2,6 +2,7 @@ html,body{
 	height:100%;
 	margin:0;
 	padding:0;
+	color:#73879C;
 }
 body {
 	color: #73879C;
@@ -23,7 +24,7 @@ body {
 	/*border:1px solid #D8D8D8;  */
 	margin:0 auto;
 	padding-top:60px;
-	background-color:rgba(0,0,0,0.3);
+	background-color:rgba(0,0,0,0.4);
 }
 .form-control{
 	width:300px;
@@ -49,13 +50,15 @@ body {
 .tc{
 	height:60px;
 }
-.buttonDiv{
-	padding-top:30px;
+.buttonDiv,.error{
+	padding-top:10px;
 }
 .text_align{
 	text-align:center;
 }
-
+.common_color{
+	color:#73879C;
+}
 
 		
 	
