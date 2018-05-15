@@ -23,7 +23,7 @@ var slider = {
 		}
 	},
 	methods: {
-		//加载所以数据
+		//加载所有数据
 		initData(){
        	  this.$http.get("/queryCarousels").then((response) => {
       		  console.log(response)
@@ -50,7 +50,7 @@ var slider = {
 			this.$message({message:'上传图片失败'+err.type,type:"error"});
 			this.judeLoading = false;
 		},
-		//增加标记
+		//添加备注
 		addRemark(index){
 			console.log(index)
 			this.dialogRemarkVisible = true;
@@ -62,7 +62,7 @@ var slider = {
 		},
 		closeAddReMark(){
 			console.log(this.newRemark)
-			this.$http.get("/addRemarkById?id="+this.dataArr[this.newRemarkIndex].id+"&remake="+this.newRemark).then((res)=>{
+			this.$http.get("/addRemarkById?id="+this.dataArr[this.newRemarkIndex].id+"&remark="+this.newRemark).then((res)=>{
 				this.$message({message:'增加备注成功！',type:"success"});
 				this.initData();
 				console.log(res);

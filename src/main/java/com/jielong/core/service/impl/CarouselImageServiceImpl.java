@@ -93,9 +93,10 @@ public class CarouselImageServiceImpl implements CarouselImageService{
 	@Override
 	public ResponseBean<Integer> addRemarkById(int id, String remark) {
 		// TODO Auto-generated method stub
-		Carousel carousel = carouselMapper.selectByPrimaryKey(id);
+		Carousel carousel = new Carousel();
+		carousel.setId(id);
 		carousel.setRemark(remark);
-		int i = carouselMapper.updateByPrimaryKey(carousel);
+		int i = carouselMapper.updateByPrimaryKeySelective(carousel);
 		ResponseBean<Integer> call = new ResponseBean<Integer>(i);
 		if(i !=0){
 			
