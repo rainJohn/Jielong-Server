@@ -26,7 +26,7 @@
 						<el-container>
 							<el-header style="text-align: right; font-size: 12px">
 								<el-dropdown>
-									<i><span sec:authentication="name" class="logoutDrop">王小虎</span></i>
+									<i><span sec:authentication="name" class="logoutDrop"></span></i>
 									<el-dropdown-menu slot="dropdown">
 										<el-dropdown-item>
 											<a th:href="@{/logout}">退出</a>
@@ -47,7 +47,7 @@
 			<h1 class="contentTitle">欢迎来到团购小程序管理界面！</h1>
 		</template>
 
-		<!-- 上传轮播图片start -->
+<!-- 上传轮播图片start -->
 		<template id="slider">
 			<div >
 				<div>
@@ -123,7 +123,7 @@
 				<el-table-column prop="className" label="名称" align="center" ></el-table-column>
 				<el-table-column prop="id" label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="mini" type="primary" @click="watchNextClassify(tableData[scope.$index])">查看子分类</el-button>
+						<el-button size="mini" type="primary" @click="watchNextClassify(scope)">查看子分类</el-button>
 						<el-button size="mini" type="warning" @click="addClassify(scope)">修改</el-button>
 						<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
 					</template>
@@ -132,10 +132,10 @@
 		</template>
 				
 		<!--父类添加商品-->
-		<el-dialog title="添加商品" :visible.sync="dialogFormVisible">
-		<el-input v-model="newClassify" placeholder="请输入商品名称"></el-input>
+		<el-dialog title="添加/修改商品" :visible.sync="dialogFormVisible">
+		<el-input v-model="newAndEdit.newClassify" placeholder="请输入商品名称"></el-input>
 		  <div slot="footer" class="dialog-footer">
-		    <el-button @click="dialogFormVisible = false;newClassify = ''">取 消</el-button>
+		    <el-button @click="dialogFormVisible = false">取 消</el-button>
 		    <el-button type="primary" @click="closeAddClassify">确 定</el-button>
 		  </div>
 		</el-dialog>
@@ -144,17 +144,17 @@
 		<el-dialog  :visible.sync="dialogTableVisible">
 			<el-row>
 			<el-col :span="12">
-				<h1 class="contentTitle">{{sonTableData.data}}</h1>
+				<h1 class="contentTitle">{{sonTableTitle}}</h1>
 			</el-col>
 			<el-col :span="12">
-				<el-button type="success" class="addClassify fr" @click="addClassify('son')" ><i class="el-icon-plus"></i>添加</el-button>
+				<el-button type="success" class="addClassify fr" @click="addClassify('','true')"><i class="el-icon-plus"></i>添加</el-button>
 			</el-col>
 			</el-row>
-			<el-table :data="sonTableData.sonData" border stripe style="width: 100%">
-				<el-table-column prop="data" label="名称" align="center" ></el-table-column>
-				<el-table-column prop="address" label="操作" align="center">
+			<el-table :data="sonTableData" border stripe style="width: 100%">
+				<el-table-column prop="className" label="名称" align="center" ></el-table-column>
+				<el-table-column prop="id" label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="mini" type="warning" @click="addClassify(scope)">修改</el-button>
+						<el-button size="mini" type="warning" @click="addClassify(scope,'true')">修改</el-button>
 						<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
 					</template>
 				</el-table-column>

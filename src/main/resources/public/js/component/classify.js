@@ -2,50 +2,22 @@ var classify = {
 	template: "#classify",
 	data: function() {
 		return {
-//			tableData: [{
-//				data: '分类1',
-//				sonData: [{
-//				data: '分类11',
-//			}, {
-//				data: '分类22',
-//			}, {
-//				data: '分类32',
-//			}, ]
-//			}, {
-//				data: '分类2',
-//				sonData: [{
-//				data: '分类12',
-//			}, {
-//				data: '分类22',
-//			}, {
-//				data: '分类32',
-//			}, ]
-//			}, {
-//				data: '分类3',
-//				sonData: [{
-//				data: '分类13',
-//			}, {
-//				data: '分类23',
-//			}, {
-//				data: '分类33',
-//			}, ]
-//			}, ],
 			tableData:[],
+			sonTableData:[],//子分类数据
+			sonTableTitle:'',//子分类标题
 			dialogTableVisible: false,//查看子分类
         	dialogFormVisible: false,//新增编辑
-        	newClassify:"",//新分类
-        	judeEdit:"",//是否是编辑
-        	sonTableData:"",//子分类数据
+        	newAndEdit:{
+	           	newClassify:"",//新分类
+	        	judeEditId:"",//编辑id
+	        	isSon:false
+        	},
         	
 		}
 	},
-	//提醒一下，当使用路由参数时，例如从 /user/foo 导航到 user/bar，原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会再被调用。
 	created: function() {
 		this.initData();
-
-		console.log('创建了！22')
 	},
-	//watch检测路由的变化。to和from包含了路由切换前和切换后的信息641009\
 	watch: {
 		'$route' (to, from) {
 			console.log(to)
@@ -62,41 +34,110 @@ var classify = {
 			})			
 		},
 		//查看子分类
-		watchNextClassify(item) {
-			console.log(item)
-			this.sonTableData = item;
+		watchNextClassify(scope) {
+			console.log(scope)
+			console.log(scope.row.goodsSubClasses)
+			this.sonTableTitle = scope.row.className;
+			this.sonTableData = scope.row.goodsSubClasses;
 			this.dialogTableVisible = true;
 			
 		},
+		//删除
 		handleDelete(scope) {
 			console.log(scope)
-			this.tableData.splice(scope.$index,1);
+			 this.$confirm('是否确定删除此分类？', '提示', {
+	          confirmButtonText: '确定',
+	          cancelButtonText: '取消',
+	          type: 'warning'
+			}).then((res)=>{
+				this.$http.get("/deleteGoodsClassById?id="+scope.row.id).then((res)=>{
+					console.log(res)
+					if(res.status == 200 && res.body.errorCode == 0){
+						this.$message({message:'删除成功！',type:"success"});
+						this.initData();
+					}
+				})
+
+			}).catch((res)=>{
+				console.log('444')
+				
+			})
+
 		},
 		//打开分类模特框（父类）
-		addClassify(scope) {
+		addClassify(scope,isSon) {
 			console.log(scope);
-			if(scope.$index + 1){
-				this.judeEdit = scope.$index + 1;
-				this.newClassify = this.tableData[scope.$index].data;
+			console.log(isSon);
+			if(isSon){
+				this.newAndEdit.isSon = true;
+			}else{
+				this.newAndEdit.isSon = false;				
 			}
-			console.log(this.newClassify)
-
+			this.newAndEdit.newClassify = "";
+			this.newAndEdit.judeEditId = "";
+			if(scope.row){
+				this.newAndEdit.judeEditId = scope.row.id;
+				this.newAndEdit.newClassify = scope.row.className;
+			}
+			console.log(this.newAndEdit)
 			this.dialogFormVisible =true;
 
 		},
-		//关闭增加分类模特框（父类）
+		//关闭增加分类模特框（父类/子类）
 		closeAddClassify(){
-			console.log(this.judeEdit)
-			if(this.newClassify && this.judeEdit){
-				this.tableData[this.judeEdit - 1].data = this.newClassify;
-			}else if(this.newClassify){
-				this.tableData.push({
-					data: this.newClassify
-				})				
+			console.log(this.newAndEdit)
+			console.log(this.newAndEdit.isSon)
+			//父类
+			if(!this.newAndEdit.isSon){
+			//修改
+			console.log("父类")
+			
+			if(this.newAndEdit.newClassify && this.newAndEdit.judeEditId){
+				this.$http.post("/updateGoodsClass",{className:this.newAndEdit.newClassify,id:this.newAndEdit.judeEditId}).then((res)=>{
+					console.log(res)
+					if(res.status == 200 && res.body.errorCode == 0){
+						this.initData();
+					}
+				})
+			//新增
+			}else if(this.newAndEdit.newClassify){
+				this.$http.post("/addGoodsClass",{className:this.newAndEdit.newClassify}).then((res)=>{
+					console.log(res)
+					if(res.status == 200 && res.body.errorCode == 0){
+						this.initData();
+					}
+				})			
 			}
+			
+			//子类
+			}else{
+			//修改
+			console.log("子类")
+			if(this.newAndEdit.newClassify && this.newAndEdit.judeEditId){
+				this.$http.post("/updateGoodsSubClass",{className:this.newAndEdit.newClassify,id:this.newAndEdit.judeEditId}).then((res)=>{
+					console.log(res)
+					if(res.status == 200 && res.body.errorCode == 0){
+						this.initData();
+					}
+				})
+			//新增
+			}else if(this.newAndEdit.newClassify){
+				this.$http.post("/addGoodsSubClass",{className:this.newAndEdit.newClassify}).then((res)=>{
+					console.log(res)
+					if(res.status == 200 && res.body.errorCode == 0){
+						this.initData();
+					}
+				})			
+			}				
+			}
+			
+			
+			
+			
 			this.dialogFormVisible = false;
-			this.newClassify = "";
 		}
+		
+		
 	}
 }
 

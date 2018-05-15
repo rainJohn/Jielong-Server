@@ -19,23 +19,36 @@ body {
 }
 .login_content{
 	text-decoration: none;
-	width:600px;
-	height:600px;
+	width:400px;
+	height:400px;
 	/*border:1px solid #D8D8D8;  */
 	margin:0 auto;
 	padding-top:60px;
-	background-color:rgba(0,0,0,0.4);
+	/*background-color:rgba(0,0,0,0.4);*/
+	background-color:rgb(255,255,255);
+	border-radius: 6px;
+	
 }
 .form-control{
-	width:300px;
+	width:250px;
 	height:30px;
-	background:#fff!important;
+/*	background:#fff!important;*/	
+	text-indent: 10px;
 	box-shadow: 0 0 0px 1000px white inset !important;  
 	-webkit-box-shadow: 0 0 0px 1000px white inset !important;  
 	border: 1px solid #D8D8D8 !important;
 }
 
-.separator {
+.submintLogin{
+	width:250px;
+	height:30px;
+	color: #fff;
+    background-color: #20a0ff;
+    border-color: #20a0ff;
+    margin-bottom: 10px;
+}
+
+.separator{
 /* 	border-top: 1px solid #D8D8D8; */
 	margin-top: 10px;
 	padding-top: 10px;
@@ -50,7 +63,7 @@ body {
 .tc{
 	height:60px;
 }
-.buttonDiv,.error{
+.error{
 	padding-top:10px;
 }
 .text_align{
