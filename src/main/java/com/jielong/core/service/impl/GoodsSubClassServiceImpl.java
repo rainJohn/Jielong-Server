@@ -1,7 +1,6 @@
 package com.jielong.core.service.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,9 @@ public class GoodsSubClassServiceImpl implements GoodsSubClassService{
 	@Override
 	public ResponseBean<Integer> addGoodsSubClass(GoodsSubClass goodsSubClass) {
 		// TODO Auto-generated method stub
+		goodsSubClass.setCreatedAt(new Date());
+		goodsSubClass.setUpdatedAt(new Date());
+		goodsSubClass.setFlag(0);
 		int i = goodsSubClassDao.insert(goodsSubClass);
 		ResponseBean<Integer>  call= new ResponseBean<>(i);
 		if(i!=0){}else{
