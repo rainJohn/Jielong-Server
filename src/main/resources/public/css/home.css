@@ -93,9 +93,23 @@
 .marTop{
 	margin-top:40px;
 }
+.remarkText{
+	margin-left: 6px;
+	font-size: 14px;
+	color: #303133;
+}
+.remarkText::before{
+	content: "备注：";
+	color: #000000;
+	font-size: 16px;
+}
 
 /*产品分类  */
 .addClassify{
 	margin-bottom:20px;
 }
- 
+
+/*接龙管理*/
+.contHeaderSearch>.el-input{
+	width: 14%;
+}
