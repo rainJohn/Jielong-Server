@@ -13,7 +13,9 @@
  	overflow: auto;
  	color: #bfcbd9;
  }
- 
+ .allContLeft .el-menu{
+ 	border: 0;
+ }
  .allContRight {
  	background-color: #fff;
  }
@@ -35,8 +37,9 @@
  	height: 60px;
  	line-height: 60px;
  	color: #bfcbd9;
- 	font-size: 14px;
- 	text-indent: 40px;
+ 	font-size: 16px;
+ 	text-indent: 20px;
+ 	color: #ddd;
  }
  
  .routerLink:hover {
@@ -45,6 +48,14 @@
  
  .router-link-active {
  	background-color: rgba(220, 220, 220, 0.2)
+ }
+ 
+ .routerLink i{
+	margin-right: 10px;
+ }
+ 
+ #router_active{
+ 	color: #ffd04b;
  }
  
  .el-header {
@@ -58,16 +69,19 @@
  
  .logoutDrop {
  	display: inline-block;
- 	width: 60px;
+ 	min-width: 60px;
  	height: 60px;
  	line-height: 60px;
  	font-size: 14px;
  }
+ .logoutDrop::before{
+ 	content: "用户名：";
+ }
  
  .logo {
- 	/*background-image: url(../images/logo2.png);
+ 	background-image: url(../images/logo21.png);
 	background-size: 100% 100%;
-	background-repeat: no-repeat;*/
+	background-repeat: no-repeat;
  	height: 60px;
  }
  
@@ -76,7 +90,21 @@
  	margin-bottom: 20px;
  	color: #666;
  }
- 
+ /*.acr_cont{
+ 	position: relative;
+ 	min-height: 100%;
+ 	padding-bottom: 60px;
+ }
+ .el-footer{
+ 	height: 60px;
+ 	width: 100%;
+ 	position: absolute;
+ 	bottom: 0;
+ 	color: #666;
+ 	text-align: center;
+ 	font-size: 16px;
+ 	line-height: 60px;
+ }*/
 /*上传轮播图*/
 .sliderImgContent,.sliderImgCol{
 	text-align: center;
@@ -100,7 +128,7 @@
 }
 .remarkText::before{
 	content: "备注：";
-	color: #000000;
+	color: #000;
 	font-size: 16px;
 }
 
@@ -112,4 +140,18 @@
 /*接龙管理*/
 .contHeaderSearch>.el-input{
 	width: 14%;
+}
+
+/*帮助中心*/
+.hc_elcol{
+	font-size: 16px;
+	color: #333;
+	padding-bottom: 10px;
+}
+.hc_title{
+	font-size: 18px;
+	color: #000;
+}
+.hc_nauInput{
+	margin-bottom: 10px;
 }

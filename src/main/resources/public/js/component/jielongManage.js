@@ -1,31 +1,45 @@
 var jielongManage = {
-	template:"#jielongManage",
-	data:function(){
-		return{
-			tableData:[{
-				className:"22"
-			},{
-				className:"33"
-			}]
+	template: "#jielongManage",
+	data: function() {
+		return {
+			tableData: [{
+				className: "22"
+			}, {
+				className: "33"
+			}],
+			dialogTableVisible: false,
+			sonTableData: [{
+				className: "22"
+			}, {
+				className: "33"
+			}],
 		}
 	},
-	methods:{
-		handleDetails:function(scope){
-			console.log(scope)
+	created: function() {
+		this.initData();
+	},
+	methods: {
+		initData: function() {
+			this.$http.post("/jielong/selectByPage",{
+				'pageNum': 0,
+				'pageSize': 10
+			}).then((res) => {
+				console.log(res)
+			}).catch((err) => {
+				console.log(err)
+
+			})
 		},
-		handleDelete:function(scope){
+		handleDetails: function(scope) {
 			console.log(scope)
-		}		
-		
+			this.dialogTableVisible = true;
+		},
+		handleDelete: function(scope) {
+			console.log(scope)
+		}
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
 
-Vue.component("jielongManage",jielongManage);
+Vue.component("jielongManage", jielongManage);

@@ -19,7 +19,7 @@
 					<el-col :span="4" class="allContLeft">
 						<el-aside width="100%" height="100%">
 							<div class="logo"></div>
-							<a v-for="(value,key,index) in routerLinkArray" class="routerLink" :href="value.link">{{value.name}}</a>
+							<a v-for="(value,index) in routerLinkArray" class="routerLink" :href="value.link" @click="allRouterActive(index)" ref="allRouter"><i :class="value.icon"></i>{{value.name}}</a>
 						</el-aside>
 					</el-col>
 					<el-col :span="20" class="allContRight">
@@ -37,6 +37,9 @@
 							<el-main>
 								<router-view></router-view>
 							</el-main>
+							<!--<el-footer>
+								Copyright ©2018 CREATIVEFUN 95创享科技| QIAOSHENG 乔升科技
+							</el-footer>-->
 						</el-container>
 				</el-container>
 				</el-col>
@@ -110,7 +113,7 @@
 
 				<template>
 					<el-table :data="tableData" border stripe style="width: 100%">
-						<el-table-column prop="className" label="名称" align="center"></el-table-column>
+						<el-table-column prop="className" label="商品分类名称" align="center"></el-table-column>
 						<el-table-column prop="id" label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button size="mini" type="primary" @click="watchNextClassify(scope)">查看子分类</el-button>
@@ -131,17 +134,17 @@
 				</el-dialog>
 
 				<!--查看子类-->
-				<el-dialog :visible.sync="dialogTableVisible">
+				<el-dialog :visible.sync="dialogTableVisible" :title="sonTableTitle">
 					<el-row>
 						<el-col :span="12">
-							<h1 class="contentTitle">{{sonTableTitle}}</h1>
+							<h1 class="contentTitle"></h1>
 						</el-col>
 						<el-col :span="12">
 							<el-button type="success" class="addClassify fr" @click="addClassify('','true')"><i class="el-icon-plus"></i>添加</el-button>
 						</el-col>
 					</el-row>
 					<el-table :data="sonTableData" border stripe style="width: 100%">
-						<el-table-column prop="className" label="名称" align="center"></el-table-column>
+						<el-table-column prop="className" label="商品子分类名称" align="center"></el-table-column>
 						<el-table-column prop="id" label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button size="mini" type="warning" @click="addClassify(scope,'true')">修改</el-button>
@@ -183,6 +186,24 @@
 						</el-table-column>
 					</el-table>
 				</template>
+				
+				<!--查看详情-->
+				<el-dialog :visible.sync="dialogTableVisible" title="接龙详情">
+					<!--<el-row>
+						<el-col :span="12">
+							<h1 class="contentTitle">接龙详情</h1>
+						</el-col>
+					</el-row>-->
+					<el-table :data="sonTableData" border stripe style="width: 100%">
+						<el-table-column prop="className" label="名称" align="center"></el-table-column>
+						<el-table-column prop="id" label="操作" align="center">
+							<template slot-scope="scope">
+								<el-button size="mini" type="warning" @click="addClassify(scope,'true')">修改</el-button>
+								<el-button size="mini" type="danger" @click="handleDelete(scope,'true')">删除</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+				</el-dialog>
 			</div>
 		</template>
 		<!-- 接龙管理end -->		
@@ -205,16 +226,15 @@
 				</el-row>
 
 				<template>
-					<el-table :data="tableData"  ref="multipleTable" @selection-change="handleSelectionChange"> border stripe style="width: 100%">
+					<el-table :data="tableData"  ref="multipleTable" @selection-change="handleSelectionChange" border stripe style="width: 100%">
 						<el-table-column type="selection" width="60" align="center" ></el-table-column>
-						<el-table-column prop="className" label="接龙id" align="center"></el-table-column>
-						<el-table-column prop="className" label="主题" align="center"></el-table-column>
-						<el-table-column prop="className" label="发布者呢称" align="center"></el-table-column>
-						<el-table-column prop="className" label="发布时间" align="center"></el-table-column>
+						<el-table-column prop="className" label="id" align="center"></el-table-column>
+						<el-table-column prop="className" label="昵称(微信名)" align="center"></el-table-column>
+						<el-table-column prop="className" label="姓名" align="center"></el-table-column>
+						<el-table-column prop="className" label="手机号码" align="center"></el-table-column>
 						<el-table-column prop="id" label="操作" align="center">
 							<template slot-scope="scope">
-								<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
-								<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
+								<el-button size="mini" type="danger" @click="handleDelete(scope)">拉黑</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -228,26 +248,56 @@
 			<div>
 				<el-row>
 					<el-col :span="12">
-						<h1 class="contentTitle">帮助中心</h1>
+						<h1 class="contentTitle">帮助信息中心</h1>
 					</el-col>
 					<el-col :span="12">
-						<el-button type="success" class="addClassify fr"><i class="el-icon-plus"></i>添加</el-button>
+						<el-button type="success" class="addClassify fr" @click="handleAddUpdate()"><i class="el-icon-plus"></i>添加</el-button>
 					</el-col>
 				</el-row>
 
 				<template>
 					<el-table :data="tableData" border stripe style="width: 100%">
-						<el-table-column prop="className" label="标题" align="center"></el-table-column>
-						<el-table-column prop="className" label="发布时间" align="center"></el-table-column>
-						<el-table-column prop="className" label="关联接龙" align="center"></el-table-column>
+						<el-table-column prop="title" label="标题" align="center"></el-table-column>
+						<el-table-column prop="createTimeStr" label="发布时间" align="center"></el-table-column>
+						<el-table-column prop="link" label="关联接龙" align="center"></el-table-column>
 						<el-table-column prop="id" label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
+								<el-button size="mini" type="warning" @click="handleAddUpdate(scope,'true')">修改</el-button>
 								<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 				</template>
+				
+				<!--新增/修改帮助-->
+				<el-dialog title="添加/修改帮助" :visible.sync="dialogFormVisible">
+					<el-input v-model="newAndUpdate.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
+					<el-input  type="textarea" rows="5"  v-model="newAndUpdate.message" placeholder="请输入内容"></el-input>
+					<div slot="footer" class="dialog-footer">
+						<el-button @click="dialogFormVisible = false">取 消</el-button>
+						<el-button type="primary" @click="closeAddUpdate">确 定</el-button>
+					</div>
+				</el-dialog>
+				<!--新增/修改帮助-->
+				
+				<!--查看详情-->
+				<el-dialog :visible.sync="dialogTableVisible" title="查看详情">
+					<el-row>
+						<el-col :span="24" class="hc_elcol">
+							<span class="hc_title">标题：</span>{{sonTableData.title}}
+						</el-col>
+						<el-col :span="24" class="hc_elcol">
+							<span class="hc_title">内容：</span>{{sonTableData.message}}
+						</el-col>						
+						<el-col :span="24" class="hc_elcol">
+							<span class="hc_title">创建时间：</span>{{sonTableData.createTimeStr}}
+						</el-col>
+						<el-col :span="24" class="hc_elcol">
+							<span class="hc_title">修改时间：</span>{{sonTableData.updateTimeStr}}
+						</el-col>						
+					</el-row>
+				</el-dialog>				
 			</div>
 		</template>
 		<!-- 帮助中心end -->	
@@ -258,7 +308,7 @@
 	<script th:src="@{/js/lib/vue/vue-router.js}"></script>
 	<!-- import JavaScript -->
 	<script th:src="@{/js/lib/element-ui/element-ui.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+	<script th:src="@{/js/lib/vue/vue-resource.js}"></script>
 
 	<script th:src="@{/js/component/slider.js}"></script>
 	<script th:src="@{/js/component/classify.js}"></script>
