@@ -8,7 +8,7 @@ var userManage = {
 			tableDataCount:null, //数据长度
 			tableDataPageNum:0,	 //当前页数
 			tableDataPageSize:10,	//每页页数
-			multipleSelection: [],	//选择的用户
+			multipleSelection: [],	//选择的用户id
 			currentPage:1, //当前页数
 		}
 	},
@@ -39,6 +39,7 @@ var userManage = {
 		},
 		//选择的用户
 		handleSelectionChange: function(val) {
+			
 			console.log(val)
 			this.multipleSelection = val;
 		},
@@ -59,9 +60,18 @@ var userManage = {
 		//给选中用户发送消息
 		smtSelectedUser:function(){
 			console.log(this.multipleSelection)
+			
 			if(this.multipleSelection){
+				var users=this.multipleSelection;
+				var userIdList=new Array();
+			   
+				for(var i=0;i<users.length;i++){
+					userIdList.push(users[i].userId);
+					
+				}
+				
 				var obj = {
-					userIdList:this.multipleSelection,
+					userIdList:userIdList,
 					title:"测试",
 					message:"测试msg"
 				}
