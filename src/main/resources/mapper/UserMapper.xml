@@ -10,9 +10,10 @@
     <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sessionId, sessionValue, validTime,session_id,,open_id,createdAt, updatedAt
+    id, sessionId, sessionValue, validTime,session_id,,open_id,createdAt, updatedAt,state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -107,15 +108,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.User">
-    update user
-    set sessionId = #{sessionId,jdbcType=VARCHAR},
-      sessionValue = #{sessionValue,jdbcType=VARCHAR},
-      validTime = #{validTime,jdbcType=INTEGER},
-      session_key= #{sessionKey,jdbcType=VARCHAR},
-      open_id = #{openId,jdbcType=VARCHAR},
-      createdAt = #{createdAt,jdbcType=TIMESTAMP},
-      updatedAt = #{updatedAt,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+ 
 </mapper>

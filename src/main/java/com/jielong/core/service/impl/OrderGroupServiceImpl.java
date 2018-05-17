@@ -126,8 +126,8 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					//	userMessage.setTitle("拼团成功通知！");
 					//	userMessage.setMessage("您已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
 						userMessage.setTitle("下单成功通知！");
-					//	userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的团购查看.");
-						userMessage.setMessage("恭喜您，下单成功，你购买了"+sp.toString()+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的团购中找到下单记录，取消订单后重新下单。");
+					//	userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的Mart查看.");
+						userMessage.setMessage("恭喜您，下单成功，你购买了"+sp.toString()+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的Mart中找到下单记录，取消订单后重新下单。");
 						userMessageService.insert(userMessage);
 					} else {
 						// 恭喜终于成团了。
@@ -161,7 +161,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 						//	userMessage.setTitle("参团成功通知！");
 						//	userMessage.setMessage("您已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
 							userMessage.setTitle("下单成功通知");
-							userMessage.setMessage("恭喜您下单成功，您购买了"+goods.getName()+",本次团购的最小成团数量是"+setGroupNum+"，订单详情可前往我的->我参与的团购查看。转发到微信群，可以帮助团长一起促成团购哦！");
+							userMessage.setMessage("恭喜您下单成功，您购买了"+goods.getName()+",本次Mart的最小成团数量是"+setGroupNum+"，订单详情可前往我的->我参与的Mart查看。转发到微信群，可以帮助团长一起促成Mart哦！");
 							userMessageService.insert(userMessage);
 						}
 					}
@@ -432,7 +432,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					String address=userAddressService.selectById(orderGroup.getAddressId()).getData().getDetail();
 					//userMessage.setMessage(
 					//		"恭喜您，截止接龙结束，" + JielongName.getTopic() + "的" + goods.getName() + "已拼团成功，请尽快上门提货！");
-					userMessage.setMessage("亲爱的团员们，本次团购已结束。恭喜您购买到心仪的商品。团长会尽快备货，在"+address+"来为大家派发！");
+					userMessage.setMessage("亲爱的团员们，本次Mart已结束。恭喜您购买到心仪的商品。团长会尽快备货，在"+address+"来为大家派发！");
 					userMessageService.insert(userMessage);
 				}
 
@@ -457,7 +457,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					userMessage.setUserId(orderGroup.getCustId());
 					userMessage.setTitle("群发拼团失败通知！");
 					userMessage.setMessage(
-							"非常遗憾地告诉您，" + JielongName.getTopic() + "的" + goods.getName() + "未达到最小成团数量，本次团购未成功。您还可以去首页看看其他团购哦！");
+							"非常遗憾地告诉您，" + JielongName.getTopic() + "的" + goods.getName() + "未达到最小成团数量，本次Mart未成功。您还可以去首页看看其他Mart哦！");
 					userMessageService.insert(userMessage);
 				}
 

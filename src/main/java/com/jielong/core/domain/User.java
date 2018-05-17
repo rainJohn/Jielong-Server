@@ -16,6 +16,9 @@ public class User {
     private String sessionKey;
     
     private String openId;
+    //用户状态，1可用，0被拉黑
+    private Integer state;
+    
     protected Integer id;
     
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -85,6 +88,14 @@ public class User {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 	
