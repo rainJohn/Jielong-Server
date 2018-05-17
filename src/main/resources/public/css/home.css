@@ -142,6 +142,11 @@
 	width: 14%;
 }
 
+/*用户管理*/
+.um_elPagination{
+	margin: 20px 20px 0 0;
+}
+
 /*帮助中心*/
 .hc_elcol{
 	font-size: 16px;

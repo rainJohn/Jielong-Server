@@ -125,7 +125,7 @@
 				</template>
 
 				<!--父类添加商品-->
-				<el-dialog title="添加/修改商品" :visible.sync="dialogFormVisible">
+				<el-dialog title="添加/修改商品分类" :visible.sync="dialogFormVisible">
 					<el-input v-model="newAndEdit.newClassify" placeholder="请输入商品名称"></el-input>
 					<div slot="footer" class="dialog-footer">
 						<el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -216,28 +216,40 @@
 						<h1 class="contentTitle">用户管理</h1>
 					</el-col>
 					<el-col :span="24" class="contHeaderSearch">
-						<el-input  placeholder="请输入用户昵称"></el-input>
-						<el-input  placeholder="请输入用户名字"></el-input>
-						<el-input  placeholder="请输入手机号码"></el-input>
-						<el-button type="success" class="addClassify" ><i class="el-icon-search"></i>搜索</el-button>
-						<el-button type="success" class="addClassify" >给选中用户发送消息</el-button>
-						<el-button type="success" class="addClassify"  >给所有用户发送消息</el-button>
+						<el-input v-model="searchConditions.nickName"  placeholder="请输入用户昵称"></el-input>
+						<el-input v-model="searchConditions.name"  placeholder="请输入用户名字"></el-input>
+						<el-input v-model="searchConditions.phoneNumber"  placeholder="请输入手机号码"></el-input>
+						<el-button type="success" class="addClassify" @click="selectByConditions" ><i class="el-icon-search"></i>搜索</el-button>
+						<el-button type="success" @click="smtSelectedUser" >给选中用户发送消息</el-button>
+						<el-button type="success" @click="smtAllUser"  >给所有用户发送消息</el-button>
 					</el-col>
 				</el-row>
 
 				<template>
 					<el-table :data="tableData"  ref="multipleTable" @selection-change="handleSelectionChange" border stripe style="width: 100%">
 						<el-table-column type="selection" width="60" align="center" ></el-table-column>
-						<el-table-column prop="className" label="id" align="center"></el-table-column>
-						<el-table-column prop="className" label="昵称(微信名)" align="center"></el-table-column>
-						<el-table-column prop="className" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="className" label="手机号码" align="center"></el-table-column>
-						<el-table-column prop="id" label="操作" align="center">
+						<el-table-column prop="id" label="id" align="center"></el-table-column>
+						<el-table-column prop="nickName" label="昵称(微信名)" align="center"></el-table-column>
+						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
+						<el-table-column prop="phoneNumber" label="手机号码" align="center"></el-table-column>
+						<el-table-column prop="userId" label="操作" align="center">
 							<template slot-scope="scope">
-								<el-button size="mini" type="danger" @click="handleDelete(scope)">拉黑</el-button>
+								<el-button size="mini" type="danger" @click="handleDeleteUser(scope)">拉黑</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
+  					<div class="block">
+					<el-pagination
+					  class="um_elPagination fr"
+					  background
+					  layout="prev, pager, next"
+					  :total="tableDataCount"
+					  :page-size="tableDataPageSize"
+					  :current-page.sync="currentPage"
+					  @current-change="handleCurrentChange"
+					  >
+					</el-pagination>
+					</div>
 				</template>
 			</div>
 		</template>
