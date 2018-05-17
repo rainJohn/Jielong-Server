@@ -16,8 +16,8 @@ public class User {
     private String sessionKey;
     
     private String openId;
-    
     protected Integer id;
+    
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createdAt;	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

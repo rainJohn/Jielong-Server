@@ -52,7 +52,9 @@ public class UserMessageServiceImpl implements UserMessageService {
 	
 	@Override
 	public ResponseBean<Integer> insertBatch(UserMessage userMessage) {
-
+        userMessage.setCreateTime(new Date());
+        userMessage.setUpdateTime(new Date());
+        userMessage.setIsRead(0);
 		return new ResponseBean<Integer>(userMessageMapper.insertBatch(userMessage));
 	}
 	
