@@ -39,6 +39,12 @@ public class UserInfoController {
 		return userInfoService.selectByUserId(userId);
 	}
 	
+	@RequestMapping("/selectByConditions")
+	public ResponseBean<List<UserInfo>> selectByConditions(@RequestBody UserInfo userInfo){
+		return userInfoService.selectByConditions(userInfo);
+	}
+	
+	
 	
 	
 	
