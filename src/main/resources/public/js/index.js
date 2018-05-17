@@ -1,44 +1,35 @@
  new Vue({
       el: '#app',
       data: function() {      
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        judeLoading:false
-      };
       return {
     	routerLinkArray:[
-    	{link:"#/home",name:"首页"},
-    	{link:"#/slider",name:"轮播图管理"},
-    	{link:"#/classify",name:"商品分类管理"},
-    	{link:"#/jielongManage",name:"接龙管理"},
-    	{link:"#/userManage",name:"用户管理"},
-    	{link:"#/helpCenter",name:"帮助中心"}],
-        tableData: Array(20).fill(item)
+    	{link:"#/home",name:"首页",icon:"el-icon-menu"},
+    	{link:"#/slider",name:"轮播图管理",icon:"el-icon-picture"},
+    	{link:"#/classify",name:"商品分类管理",icon:"el-icon-goods"},
+    	{link:"#/jielongManage",name:"接龙管理",icon:"el-icon-refresh"},
+    	{link:"#/userManage",name:"用户管理",icon:"el-icon-view"},
+    	{link:"#/helpCenter",name:"帮助中心",icon:"el-icon-setting"}],
       }
       },
       created:function(){
-//     	  this.$http.post("/uploadCarousel",{name:"22"}).then((response) => {
-//    		  console.log(response)
-//            }).catch((err) => {
-//            	console.log(err)
-//            })  
+		
+      },
+      mounted:function(){
+      	this.$refs.allRouter[0].id = "router_active";
       },
       components:{
-    	"head-top":{
-    		template:"#headTop",
-    		data:function(){
-    			return{
-    				routerData:[1,2,3]
-    			}
-    		},
-    		methods:{
-    			handleCommand:function(){
-    				
-    			}
-    		}
-    	},
+
+      },
+      methods:{
+      	allRouterActive:function(index){
+      		this.$refs.allRouter.forEach((item,itemIndex)=>{
+      			if(itemIndex == index){
+      				this.$refs.allRouter[index].id = "router_active";
+      			}else{
+      				this.$refs.allRouter[itemIndex].id = "";
+      			}
+      		})
+      	}
       },
       router:new VueRouter({
 			routes:[{
@@ -47,7 +38,7 @@
 			},{
 				path:"/home",
 				component:{
-					template:'#myTemplate'
+					template:'#homeTemplate'
 				}
 			},{
 				path:'/slider',
@@ -55,6 +46,15 @@
 			},{
 				path:'/classify',
 				component:classify
+			},{
+				path:'/jielongManage',
+				component:jielongManage
+			},{
+				path:'/userManage',
+				component:userManage
+			},{
+				path:'/helpCenter',
+				component:helpCenter
 			}]
 		})
     })
