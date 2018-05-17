@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.jielong.core.domain.User;
 import com.jielong.core.domain.UserInfo;
 
 @Mapper
@@ -24,4 +25,14 @@ public interface UserInfoMapper {
     
     @Select("select * from user_info where user_id = #{userId}")
     List<UserInfo> selectByUserId(@Param("userId")Integer userId);
+    
+    @Select("select * from user_info")
+    List<UserInfo> selectAll();
+    
+    /**
+     * 根据条件查询
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> selectByConditions(UserInfo userInfo);
 }

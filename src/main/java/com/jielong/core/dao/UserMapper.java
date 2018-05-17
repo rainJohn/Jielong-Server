@@ -24,4 +24,8 @@ public interface UserMapper {
     
     @Select("select * from user where open_id = #{openId}")
     List<User> selectByOpenId(@Param("openId") String sessionId);
+    
+    //查询所有的用户id
+    @Select("select id from user")
+    List<Integer> selectAllId();
 }

@@ -1,5 +1,7 @@
 package com.jielong.core.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,11 @@ public class UserInfoController {
 	@RequestMapping("/insert")
 	public ResponseBean<Integer> insert(@RequestBody UserInfo userInfo){
 		return userInfoService.insert(userInfo);
+	}
+	
+	@RequestMapping("/selectAll")
+	public ResponseBean<List<UserInfo>> selectAll(){
+		return userInfoService.selectAll();
 	}
 	
 	@RequestMapping("/update")

@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jielong.base.util.ErrorCode;
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.dao.UserMapper;
 import com.jielong.core.domain.UserMessage;
 import com.jielong.core.service.UserMessageService;
 
@@ -15,6 +18,9 @@ import com.jielong.core.service.UserMessageService;
 public class UserMessageController {
 	@Autowired
 	UserMessageService userMessageService;
+	
+	@Autowired
+	UserMapper userMapper;
 	
 	@RequestMapping("/insert")
 	public ResponseBean<Integer> insert(@RequestBody UserMessage userMessage){
@@ -40,13 +46,36 @@ public class UserMessageController {
 		return userMessageService.updateReadeState(id);
 	}
 	
-	//批量插入 (参数:userIdList)
-	@RequestMapping("/insertBatch")
+	/**
+	 * 给选中用户发送消息
+	 * 批量插入 
+	 * @param userMessage(必须包含    参数:userIdList)
+	 * @return
+	 */
+	 @RequestMapping("/insertBatch")
 	public ResponseBean<Integer> insertBatch(@RequestBody UserMessage userMessage){
 		
 		return userMessageService.insertBatch(userMessage);
 		
 	}
+	
+	 /**
+	  * 给所有用户发送消息
+	  * @return
+	  */
+	 public ResponseBean<Integer> insertAll(@RequestBody UserMessage userMessage){
+	   ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+       //先查询出所有的用户id
+	   List<Integer> userIdList=userMapper.selectAllId();
+	   if (userIdList!=null && userIdList.size()>0) {
+		   userMessage.setUserIdList(userIdList);
+		   responseBean=userMessageService.insertBatch(userMessage);
+	    }else {
+	    	responseBean.setErrorCode(ErrorCode.NO_DATA_EXCEPTION);
+	    	responseBean.setErrorMessage("没有查询到用户信息");
+	    }
+	   return responseBean;
+	 }
 	
 	//根据用户id查询消息
 	@RequestMapping("/selectByUserId")
