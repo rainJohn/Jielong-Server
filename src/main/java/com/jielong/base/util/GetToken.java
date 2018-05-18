@@ -14,7 +14,7 @@ public class GetToken implements CommandLineRunner{
 
 	private static StringBuilder url=new StringBuilder("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential");
 	
-	public static String accessToken="";	
+	private static String accessToken="";	
 	
 
 

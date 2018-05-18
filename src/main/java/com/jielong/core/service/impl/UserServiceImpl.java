@@ -58,10 +58,9 @@ public class UserServiceImpl implements UserService{
 			User user=new User();
 			user.setSessionId(sessionId);
 			user.setSessionValue(sessionKey+openId);
-			user.setSessionKey(sessionKey);
-			
+			user.setSessionKey(sessionKey);			
 			user.setOpenId(openId);
-			
+			user.setState(1);  //用户状态，1可用，0被拉黑
 			user.setCreatedAt(new Date());
 			user.setUpdatedAt(new Date());
 			//user.setValidtime(7200000); 设置有效时间，单位毫秒，默认 720000
