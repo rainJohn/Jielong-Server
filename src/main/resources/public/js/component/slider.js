@@ -98,6 +98,8 @@ var slider = {
 				}).catch((err)=>{
 					this.$message({message:'删除轮播图片失败！',type:"error"});
 				})				
+			}).catch((res)=>{
+				
 			})
 
 		},		
