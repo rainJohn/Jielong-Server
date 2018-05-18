@@ -8,8 +8,10 @@ var userManage = {
 			tableDataCount:null, //数据长度
 			tableDataPageNum:0,	 //当前页数
 			tableDataPageSize:10,	//每页页数
-			multipleSelection: [],	//选择的用户id
+			multipleSelection: [],	//选择的用户
+			newAndUpdate:{},
 			currentPage:1, //当前页数
+			dialogFormVisible:false
 		}
 	},
 	created: function() {
@@ -41,6 +43,7 @@ var userManage = {
 		handleSelectionChange: function(val) {
 			
 			console.log(val)
+			this.newAndUpdate.multipleSelection = val;
 			this.multipleSelection = val;
 		},
 		//搜索用户
@@ -61,14 +64,13 @@ var userManage = {
 		smtSelectedUser:function(){
 			console.log(this.multipleSelection)
 			
-			if(this.multipleSelection){
-				
+
+			if(this.multipleSelection.length){
 				var users=this.multipleSelection;
 				var userIdList=new Array();
 			   
 				for(var i=0;i<users.length;i++){
 					userIdList.push(users[i].userId);
-					
 				}
 				
 				var obj = {
@@ -79,14 +81,26 @@ var userManage = {
 				console.log(obj)
 				this.$http.post("/userMessage/insertBatch",obj).then((res)=>{
 					console.log(res)
+				})
+			}
+			else{
+								this.$message({
+									message: '请勾选需要发送的用户！',
+									type: "error"
+								});
+				}
+			
+		},
+		closeAddUpdate:function(){
+				console.log(this.newAndUpdate)
+					this.$http.post("/userMessage/insertBatch",this.newAndUpdate).then((res)=>{
+					console.log(res)
 					if(res.status == 200 && res.body.errorCode == 0) {
 	
 					}
 				}).catch((err)=>{
 					console.log(err)
-				})
-			}
-			
+				})		
 		},
 		//给所有用户发送消息
 		smtAllUser:function(){

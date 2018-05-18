@@ -251,6 +251,17 @@
 					</el-pagination>
 					</div>
 				</template>
+				
+				<!--新增/修改帮助-->
+				<el-dialog title="填写发送的标题和内容" :visible.sync="dialogFormVisible">
+					<el-input v-model="newAndUpdate.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
+					<el-input  type="textarea" rows="5"  v-model="newAndUpdate.message" placeholder="请输入内容"></el-input>
+					<div slot="footer" class="dialog-footer">
+						<el-button @click="dialogFormVisible = false">取 消</el-button>
+						<el-button type="primary" @click="closeAddUpdate">确 定</el-button>
+					</div>
+				</el-dialog>
+				<!--新增/修改帮助-->
 			</div>
 		</template>
 		<!-- 用户管理end -->	
