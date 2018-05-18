@@ -234,7 +234,8 @@
 						<el-table-column prop="phoneNumber" label="手机号码" align="center"></el-table-column>
 						<el-table-column prop="userId" label="操作" align="center">
 							<template slot-scope="scope">
-								<el-button size="mini" type="danger" @click="handleDeleteUser(scope)">拉黑</el-button>
+								<el-button size="mini" type="danger" v-if="scope.row.state" @click="handleDeleteUser(scope)">加入黑名单</el-button>
+								<el-button size="mini" type="danger" v-if="!scope.row.state" @click="handleDeleteUser(scope)">移出黑名单</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -253,9 +254,9 @@
 				</template>
 				
 				<!--新增/修改帮助-->
-				<el-dialog title="填写发送的标题和内容" :visible.sync="dialogFormVisible">
-					<el-input v-model="newAndUpdate.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
-					<el-input  type="textarea" rows="5"  v-model="newAndUpdate.message" placeholder="请输入内容"></el-input>
+				<el-dialog title="填写发送消息的标题和内容" :visible.sync="dialogFormVisible">
+					<el-input v-model="sendAllMsg.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
+					<el-input  type="textarea" rows="5"  v-model="sendAllMsg.message" placeholder="请输入内容"></el-input>
 					<div slot="footer" class="dialog-footer">
 						<el-button @click="dialogFormVisible = false">取 消</el-button>
 						<el-button type="primary" @click="closeAddUpdate">确 定</el-button>
