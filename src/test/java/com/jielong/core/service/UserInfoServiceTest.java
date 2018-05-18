@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.domain.User;
 import com.jielong.core.domain.UserInfo;
 
 
@@ -19,6 +20,9 @@ public class UserInfoServiceTest {
  
 	@Autowired
 	UserInfoService userInfoService;
+	
+	@Autowired
+	UserService userService;
 	
 	/**
 	 * 根据条件查询
@@ -47,6 +51,18 @@ public class UserInfoServiceTest {
 		
 		List<UserInfo> list=userInfoService.selectAll().getData();
 		list.forEach(userInfo->System.out.println(userInfo.getNickName()+" "+userInfo.getState()));
+		
+	}
+	
+	@Test
+	public void testUpdateUserState() {
+		 User user=new User();
+		 user.setId(24);
+		 user.setState(1);
+		 
+		 int result=userService.updateState(user).getData();
+		 Assert.assertEquals(1, result);
+		
 		
 	}
 }

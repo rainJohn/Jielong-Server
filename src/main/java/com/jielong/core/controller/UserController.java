@@ -39,8 +39,9 @@ public class UserController {
     */
    @RequestMapping("/updateState")
    public ResponseBean<Integer> updateState(@RequestBody User user){
-	   Integer result=userMapper.updateUserState(user);
-	   return new ResponseBean<Integer>(result);
+	
+	   ResponseBean<Integer> result=userService.updateState(user);
+	   return result;
    }
 
 }

@@ -12,6 +12,7 @@
     <result column="delivery_address" jdbcType="VARCHAR" property="deliveryAddress" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, name, nick_name, avatar_url, phone_number, email, delivery_address, 
@@ -151,16 +152,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByConditions" parameterType="com.jielong.core.domain.UserInfo" resultMap="BaseResultMap">
-    select * from user_info
+    select a.*,b.state from user_info a left join user b on a.user_id=b.id
     <where>
       <if test="name !=null and name !=''">
-		  name like "%"#{name}"%"
+		  a.name like "%"#{name}"%"
 	  </if>
 	  <if test="nickName!=null and nickName!='' ">
-	      and nick_name like "%"#{nickName}"%"
+	      and a.nick_name like "%"#{nickName}"%"
 	  </if>
 	  <if test="phoneNumber!=null and phoneNumber!='' ">
-	      and phone_number like "%"#{phoneNumber}"%"
+	      and a.phone_number like "%"#{phoneNumber}"%"
 	  </if>
     
    </where> 
