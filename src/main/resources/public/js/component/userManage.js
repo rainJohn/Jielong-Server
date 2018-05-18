@@ -4,7 +4,7 @@ var userManage = {
 		return {
 			tableAllData: [], //所有数据
 			tableData: [], //显示数据
-			searchConditions: {},
+			searchConditions: {nickName:null,name:null,phoneNumber:null},
 			tableDataCount: null, //数据长度
 			tableDataPageNum: 0, //当前页数
 			tableDataPageSize: 10, //每页页数
@@ -25,12 +25,12 @@ var userManage = {
 	methods: {
 		initData: function() {
 			this.$http.get("/userInfo/selectAll").then((res) => {
-				//				console.dir(res.body.data);
+//								console.dir(res.body.data);
 				if(res.status == 200 && res.body.errorCode == 0) {
 					this.tableAllData = res.body.data;
 					this.tableDataCount = res.body.data.length;
 					this.tableData = this.tableAllData.slice(this.tableDataPageNum * 10, this.tableDataPageNum * 10 + 10);
-					console.dir(this.tableData)
+//					console.dir(this.tableData)
 				}
 			})
 		},
@@ -41,7 +41,7 @@ var userManage = {
 		},
 		//拉黑		
 		handleDeleteUser: function(scope) {
-			console.log(scope)
+//			console.log(scope)
 			var dialogMsg = null;
 			if (scope.row.state) {
 				var dialogMsg = scope.row.nickName +" 加入黑名单"
@@ -60,9 +60,13 @@ var userManage = {
 				}
 //				console.log(user)
 				this.$http.post("/user/updateState",user).then((res)=>{
-					console.log(res)
+//					console.log(res)
 					if(res.status == 200 && res.body.errorCode == 0) {
-					this.initData();
+					if(this.searchConditions.nickName || this.searchConditions.name || this.searchConditions.phoneNumber){
+						this.selectByConditions();
+					}else{
+						this.initData();
+					}
 					this.$message({message:'成功把此 '+dialogMsg+"！",type:"success"});
 					}
 				})
@@ -72,14 +76,14 @@ var userManage = {
 		},
 		//选择的用户
 		handleSelectionChange: function(val) {
-			console.log(val)
+//			console.log(val)
 			this.sendAllMsg.multipleSelection = val;
 		},
 		//搜索用户
 		selectByConditions: function() {
-			//console.log(this.searchConditions)
+//			console.log(this.searchConditions)
 			this.$http.post("/userInfo/selectByConditions", this.searchConditions).then((res) => {
-				console.log(res)
+				console.log(res.body.data)
 				if(res.status == 200 && res.body.errorCode == 0) {
 					this.tableAllData = res.body.data;
 					this.tableDataCount = res.body.data.length;
