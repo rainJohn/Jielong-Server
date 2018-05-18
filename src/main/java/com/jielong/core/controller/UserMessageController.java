@@ -51,7 +51,7 @@ public class UserMessageController {
 	 * 批量插入 
 	 * @param userMessage(必须包含    参数:userIdList)
 	 * @return
-	 */
+	 */	
 	 @RequestMapping("/insertBatch")
 	public ResponseBean<Integer> insertBatch(@RequestBody UserMessage userMessage){
 		
@@ -63,6 +63,7 @@ public class UserMessageController {
 	  * 给所有用户发送消息
 	  * @return
 	  */
+	 @RequestMapping("/insertAll")
 	 public ResponseBean<Integer> insertAll(@RequestBody UserMessage userMessage){
 	   ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
        //先查询出所有的用户id

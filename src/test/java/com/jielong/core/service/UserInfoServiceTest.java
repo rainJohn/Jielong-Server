@@ -41,4 +41,12 @@ public class UserInfoServiceTest {
 			System.out.println("123");
 		}
 	}
+	
+	@Test
+	public void testSelectAll() {
+		
+		List<UserInfo> list=userInfoService.selectAll().getData();
+		list.forEach(userInfo->System.out.println(userInfo.getNickName()+" "+userInfo.getState()));
+		
+	}
 }

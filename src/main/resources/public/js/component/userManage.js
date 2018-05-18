@@ -62,6 +62,7 @@ var userManage = {
 			console.log(this.multipleSelection)
 			
 			if(this.multipleSelection){
+				
 				var users=this.multipleSelection;
 				var userIdList=new Array();
 			   

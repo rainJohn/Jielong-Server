@@ -26,7 +26,7 @@ public interface UserInfoMapper {
     @Select("select * from user_info where user_id = #{userId}")
     List<UserInfo> selectByUserId(@Param("userId")Integer userId);
     
-    @Select("select * from user_info")
+    @Select("select a.*,b.state from user_info a left join user b on a.user_id=b.id")
     List<UserInfo> selectAll();
     
     /**

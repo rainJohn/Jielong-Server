@@ -20,6 +20,9 @@ public class UserInfo {
     private String email;
 
     private String deliveryAddress;
+    
+    //用户状态
+    private Integer state;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
@@ -106,4 +109,13 @@ public class UserInfo {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+    
 }
