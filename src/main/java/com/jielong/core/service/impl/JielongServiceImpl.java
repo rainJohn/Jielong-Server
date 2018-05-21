@@ -439,5 +439,11 @@ public class JielongServiceImpl implements JielongService {
 	  Integer result=jielongMapper.updateByPrimaryKeySelective(jielong);      
 	  return new ResponseBean<Integer>(result);
 	}
+	
+	@Override
+	public ResponseBean<Integer> deleteJielong(Integer id) {
+		Integer result=jielongMapper.deleteJielong(id);
+		return new ResponseBean<Integer>(result);
+	}
 
 }

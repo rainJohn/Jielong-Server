@@ -43,8 +43,11 @@ public interface JielongService {
    ResponseBean<Integer> selectAllCount();
    
    ResponseBean<Jielong> selectById(Integer id);
-   
+   //结束接龙
    ResponseBean<Integer> closeJielong(Integer id);
+   
+   //删除接龙
+   ResponseBean<Integer> deleteJielong(Integer id);
    
    ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean);
    
