@@ -83,7 +83,7 @@ var userManage = {
 		selectByConditions: function() {
 //			console.log(this.searchConditions)
 			this.$http.post("/userInfo/selectByConditions", this.searchConditions).then((res) => {
-				console.log(res.body.data)
+//				console.log(res.body.data)
 				if(res.status == 200 && res.body.errorCode == 0) {
 					this.tableAllData = res.body.data;
 					this.tableDataCount = res.body.data.length;
@@ -95,7 +95,7 @@ var userManage = {
 		},
 		//给选中用户发送消息
 		smtSelectedUser: function() {
-			console.log(this.sendAllMsg.multipleSelection)
+//			console.log(this.sendAllMsg.multipleSelection)
 			if(this.sendAllMsg.multipleSelection.length) {
 				this.sendAllMsg.title = "";
 				this.sendAllMsg.message = "";
@@ -117,7 +117,7 @@ var userManage = {
 			this.dialogFormVisible = true;
 		},
 		closeAddUpdate: function() {
-			console.log(this.sendAllMsg)
+//			console.log(this.sendAllMsg)
 			if(this.sendAllMsg.title && this.sendAllMsg.message) {
 				var users = this.sendAllMsg.multipleSelection;
 				var userIdList = new Array();
@@ -130,9 +130,9 @@ var userManage = {
 				}
 				if(!this.sendAllMsg.isAllMsg) {
 					obj.userIdList = userIdList;
-					console.log(obj)
+//					console.log(obj)
 					this.$http.post("/userMessage/insertBatch", obj).then((res) => {
-						console.log(res)
+//						console.log(res)
 						if(res.status == 200 && res.body.errorCode == 0) {
 							this.$message({
 								message: '发送消息成功！',
@@ -142,9 +142,9 @@ var userManage = {
 						}
 					})
 				} else {
-					console.log(obj)
+//					console.log(obj)
 					this.$http.post("/userMessage/insertAll", obj).then((res) => {
-						console.log(res)
+//						console.log(res)
 						if(res.status == 200 && res.body.errorCode == 0) {
 							this.$message({
 								message: '发送消息成功！',

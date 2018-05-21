@@ -105,6 +105,7 @@
  	font-size: 16px;
  	line-height: 60px;
  }*/
+
 /*上传轮播图*/
 .sliderImgContent,.sliderImgCol{
 	text-align: center;
@@ -141,7 +142,20 @@
 .contHeaderSearch>.el-input{
 	width: 14%;
 }
-
+.jielongBack_img{
+	width: 120px;
+	height: 120px;
+	margin-right: 12px;
+}
+.jl_title{
+	vertical-align: top;
+}
+.addrTime{
+	margin-right: 12px;
+}
+.addrTime::after{
+	content: "  ; ";
+}
 /*用户管理*/
 .um_elPagination{
 	margin: 20px 20px 0 0;
