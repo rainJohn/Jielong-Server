@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.jielong.core.beans.JlConditionsBean;
 import com.jielong.core.domain.Jielong;
 
 @Mapper
@@ -29,6 +30,9 @@ public interface JielongMapper {
     @Select("select * from jielong where status=1 order by created_at desc")
     List<Jielong> selectUsed();
     
+    //条件查询
+    List<Jielong> selectByConditions(JlConditionsBean jlConditionsBean);
+    
     @Select("select * from jielong where user_id= #{userId} order by created_at desc")
     List<Jielong> selectByUserId(@Param("userId") Integer userId);
     
@@ -48,9 +52,13 @@ public interface JielongMapper {
     @Select("select count(*) from jielong where status=1")
     Integer  selectCount();
     
+    @Select("select count(*) from jielong ")
+    Integer selectAllCount();
+    
     @Select("select topic from jielong where id=#{id}")
     String selectTopic(@Param("id")Integer id);
     
+   
     /**
      * 设置接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
      * @return

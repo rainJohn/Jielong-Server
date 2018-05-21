@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.util.StringUtil;
 import com.jielong.base.util.ErrorCode;
+import com.jielong.core.beans.JlConditionsBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
@@ -206,6 +207,7 @@ public class JielongServiceImpl implements JielongService {
 	/**
 	 * 查询所有的接龙
 	 */
+	@Transactional
 	@Override
 	public ResponseBean<List<Jielong>> selectAll(PageBean pageBean) {
 		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
@@ -248,6 +250,53 @@ public class JielongServiceImpl implements JielongService {
 
 		ResponseBean<List<Jielong>> responseBean = new ResponseBean<List<Jielong>>(jielongs);
 		return responseBean;
+	}
+	
+	/**
+	 * 按条件查询
+	 */
+	@Transactional
+	@Override
+	public ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean) {
+		
+				List<Jielong> jielongs = jielongMapper.selectByConditions(bean);
+
+				for (Jielong jielong : jielongs) {	
+					
+					
+					// 发布用户信息
+					UserInfo userInfo = userInfoMapper.selectByUserId(jielong.getUserId()).get(0);
+					jielong.setUserInfo(userInfo);
+					// 商品列表
+					List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
+					jielong.setGoodsList(goodsList);
+
+					// 图片列表
+					String images = jielong.getIntroImages();
+					if (StringUtil.isNotEmpty(images)) {
+						String[] introImages = images.split(",");
+						List<String> imagList = Arrays.asList(introImages);
+						jielong.setImageList(imagList);
+					}
+
+					// 自提地址列表
+					String address = jielong.getGoodsAddresses();
+					if (StringUtil.isNotEmpty(address)) {
+						List<UserAddress> addressList = new ArrayList<UserAddress>();
+						String[] addresses = address.split(",");
+						for (int i = 0; i < addresses.length; i++) {
+							Integer addressId = Integer.parseInt(addresses[i]);
+							UserAddress ads = addressMapper.selectByPrimaryKey(addressId);
+							addressList.add(ads);
+						}
+						jielong.setTakeGoodsAddressList(addressList);
+
+					} //
+
+				}
+
+				ResponseBean<List<Jielong>> responseBean = new ResponseBean<List<Jielong>>(jielongs);
+				return responseBean;
 	}
 
 	@Transactional
@@ -319,6 +368,12 @@ public class JielongServiceImpl implements JielongService {
 	@Override
 	public ResponseBean<Integer> selectCount() {
 		return new ResponseBean<Integer>(jielongMapper.selectCount());
+	}
+	
+	@Override
+	public ResponseBean<Integer> selectAllCount() {
+		// TODO Auto-generated method stub
+		return new ResponseBean<Integer>(jielongMapper.selectAllCount());
 	}
 
 	@Transactional

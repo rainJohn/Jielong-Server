@@ -3,6 +3,7 @@ package com.jielong.core.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.jielong.core.beans.JlConditionsBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
@@ -39,9 +40,13 @@ public interface JielongService {
    
    ResponseBean<Integer> selectCount(); 
    
+   ResponseBean<Integer> selectAllCount();
+   
    ResponseBean<Jielong> selectById(Integer id);
    
    ResponseBean<Integer> closeJielong(Integer id);
+   
+   ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean);
    
    
 

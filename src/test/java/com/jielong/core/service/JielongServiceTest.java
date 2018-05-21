@@ -82,7 +82,7 @@ public class JielongServiceTest {
        
        ResponseBean<List<Jielong>> responseBean=jielongService.selectAll(pageBean);
        List<Jielong> list=responseBean.getData();
-       list.forEach(jieLong->System.out.println(jieLong.getTopic()));
+       list.forEach(jieLong->System.out.println(jieLong.getTopic()+":"+jieLong.getStatus()));
        
 	}
 	

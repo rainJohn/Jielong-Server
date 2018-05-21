@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jielong.core.beans.JlConditionsBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
@@ -55,6 +56,17 @@ public class JielongController {
 		return jielongService.selectAll(pageBean);
 	}
 	
+	/**
+	 * 按条件查询接龙
+	 * @param bean
+	 * @return
+	 */
+	@RequestMapping("/selectByConditions")
+	public ResponseBean<List<Jielong>> selectByConditions(@RequestBody JlConditionsBean bean){
+		return jielongService.selectByConditions(bean);
+		
+	}
+	
 	
 	/**
 	 * 根据userId查询
@@ -97,6 +109,15 @@ public class JielongController {
 	@RequestMapping("/selectCount")
 	public ResponseBean<Integer> selectCount(){
 		return jielongService.selectCount();
+	}
+	
+	/**
+	 * 查询所有接龙记录数量
+	 * @return
+	 */
+	@RequestMapping("/selectAllCount")
+	public ResponseBean<Integer> selectAllCount(){
+		return jielongService.selectAllCount();
 	}
 	
 	/**
