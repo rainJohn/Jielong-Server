@@ -155,45 +155,6 @@ public class JielongServiceImpl implements JielongService {
 		for (Jielong jielong : finishJielong) {
 			orderGroupService.closeJieLong(jielong.getId());
 		}
-//		for (Jielong jielong : finishJielong) {
-//			//当前时间大于结束时间的接龙处理(order_group_console已关闭的console_flg = 1不处理，只处理=0的)
-//			//update  order_group_console 的接龙结束状态
-//			List<OrderGroupConsole> orderGroupConsoleList= orderGroupConsoleMapper.selectByJieLongId(jielong.getId());
-//			for (OrderGroupConsole orderGroupConsole : orderGroupConsoleList) {
-//				//查询order_group 表 发送消息 及更新状态
-//				List<OrderGroup> orderGroupList = orderGroupMapper.selectByJieLongGoodsId(orderGroupConsole.getJielongId(),orderGroupConsole.getGoodsId());
-//				for (OrderGroup orderGroup : orderGroupList) {
-//					Goods goods= goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
-//					if(orderGroupConsole.getGroupOkFlg() == 1){
-//						//拼团成功每个下单的客户消息发送，状态更新
-//						UserMessage userMessage=new UserMessage();
-//						userMessage.setUserId(orderGroup.getCustId());
-//						userMessage.setTitle("群发拼团成功通知！");
-//						userMessage.setMessage("恭喜接龙"+jielong.getTopic() + "的"+ goods.getName()+"拼团成功，即可上门提货！");
-//						userMessageService.insert(userMessage);
-//						//更新一个订单的状态，根据ID,正常待提货
-//						orderGroupMapper.updateStateById(2,0,orderGroup.getId());
-//						
-//					} else {
-//						//拼团失败每个下单的客户消息发送，状态更新
-//						UserMessage userMessage=new UserMessage();
-//						userMessage.setUserId(orderGroup.getCustId());
-//						userMessage.setTitle("群发拼团失败通知！");
-//						userMessage.setMessage("遗憾的告诉您接龙"+jielong.getTopic() + "的"+ goods.getName()+"拼团失败！");
-//						userMessageService.insert(userMessage);
-//						//关闭接龙后团购失败，状态改变
-//						orderGroupMapper.updateStateById(0,1,orderGroup.getId());
-//					}
-//					
-//				}
-//				//更新OrderGroupConsole接龙状态
-//				orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
-//				
-//			}
-//			
-//		}
-		//caoxx 团购接龙结束调用 end
-		
 		
 		//检查接龙的结束状态
 		Integer finishResult=jielongMapper.setFinishStatus();
@@ -205,6 +166,53 @@ public class JielongServiceImpl implements JielongService {
 		List<Jielong> jielongs = jielongMapper.selectUsed();
 
 		for (Jielong jielong : jielongs) {		
+			
+			
+			// 发布用户信息
+			UserInfo userInfo = userInfoMapper.selectByUserId(jielong.getUserId()).get(0);
+			jielong.setUserInfo(userInfo);
+			// 商品列表
+			List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
+			jielong.setGoodsList(goodsList);
+
+			// 图片列表
+			String images = jielong.getIntroImages();
+			if (StringUtil.isNotEmpty(images)) {
+				String[] introImages = images.split(",");
+				List<String> imagList = Arrays.asList(introImages);
+				jielong.setImageList(imagList);
+			}
+
+			// 自提地址列表
+			String address = jielong.getGoodsAddresses();
+			if (StringUtil.isNotEmpty(address)) {
+				List<UserAddress> addressList = new ArrayList<UserAddress>();
+				String[] addresses = address.split(",");
+				for (int i = 0; i < addresses.length; i++) {
+					Integer addressId = Integer.parseInt(addresses[i]);
+					UserAddress ads = addressMapper.selectByPrimaryKey(addressId);
+					addressList.add(ads);
+				}
+				jielong.setTakeGoodsAddressList(addressList);
+
+			} //
+
+		}
+
+		ResponseBean<List<Jielong>> responseBean = new ResponseBean<List<Jielong>>(jielongs);
+		return responseBean;
+	}
+	
+	/**
+	 * 查询所有的接龙
+	 */
+	@Override
+	public ResponseBean<List<Jielong>> selectAll(PageBean pageBean) {
+		PageHelper.startPage(pageBean.getPageNum(), pageBean.getPageSize());
+		// 查询所有接龙
+		List<Jielong> jielongs = jielongMapper.selectAll();
+
+		for (Jielong jielong : jielongs) {	
 			
 			
 			// 发布用户信息

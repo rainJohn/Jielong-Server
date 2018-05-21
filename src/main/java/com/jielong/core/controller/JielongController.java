@@ -36,7 +36,7 @@ public class JielongController {
 	}
 	
 	/**
-	 * 分页查询
+	 * 分页查询可用接龙
 	 * @param pageBean
 	 * @return
 	 */
@@ -44,6 +44,18 @@ public class JielongController {
 	public ResponseBean<List<Jielong>> selectByPage(@RequestBody PageBean pageBean){
 		return jielongService.selectByPage(pageBean);
 	}
+	
+	/**
+	 * 分页查询所有接龙
+	 * @param pageBean
+	 * @return
+	 */
+	@RequestMapping("/selectAll")
+	public ResponseBean<List<Jielong>> selectAll(@RequestBody PageBean pageBean){
+		return jielongService.selectAll(pageBean);
+	}
+	
+	
 	/**
 	 * 根据userId查询
 	 *

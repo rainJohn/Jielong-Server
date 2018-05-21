@@ -107,7 +107,7 @@
   <select id="queryCarousels" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from carousel
+    from carousel order by createTime
   </select>
   
   <select id="queryStartCarousels" resultMap="BaseResultMap">

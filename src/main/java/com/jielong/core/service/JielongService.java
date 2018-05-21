@@ -13,7 +13,19 @@ public interface JielongService {
 	
    ResponseBean<Integer> insert(Jielong jielong);
    
+   /**
+    * 分页查询所有可用的接龙
+    * @param pageBean
+    * @return
+    */
    ResponseBean<List<Jielong>> selectByPage(PageBean pageBean);
+   
+   /**
+    * 查询所有的接龙
+    * @param pageBean
+    * @return
+    */
+   ResponseBean<List<Jielong>> selectAll(PageBean pageBean);
    
    ResponseBean<List<Jielong>> selectByUserId(Integer userId);
    
