@@ -104,7 +104,7 @@ public class JielongController {
 	}
 	
 	/**
-	 * 查询所有记录数
+	 * 查询所有可用记录数
 	 */
 	@RequestMapping("/selectCount")
 	public ResponseBean<Integer> selectCount(){

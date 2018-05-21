@@ -265,8 +265,11 @@ public class JielongServiceImpl implements JielongService {
 					
 					
 					// 发布用户信息
-					UserInfo userInfo = userInfoMapper.selectByUserId(jielong.getUserId()).get(0);
-					jielong.setUserInfo(userInfo);
+					List<UserInfo> userInfoList = userInfoMapper.selectByUserId(jielong.getUserId());
+					if (userInfoList!=null && userInfoList.size()>0) {
+						jielong.setUserInfo(userInfoList.get(0));
+					}
+					
 					// 商品列表
 					List<Goods> goodsList = goodsMapper.selectByJielongId(jielong.getId());
 					jielong.setGoodsList(goodsList);
