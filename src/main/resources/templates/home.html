@@ -25,7 +25,7 @@
 					</el-col>
 					<el-col :span="20" class="allContRight">
 						<el-container>
-							<el-header style="text-align: right; font-size: 12px">
+							<el-header>
 								<el-dropdown>
 									<i><span sec:authentication="name" class="logoutDrop"></span></i>
 									<el-dropdown-menu slot="dropdown">
@@ -176,7 +176,7 @@
 			</el-row>
 
 			<el-table :data="tableData" border stripe style="width: 100%">
-				<el-table-column prop="id" label="接龙id" align="center"></el-table-column>
+				<el-table-column prop="id" label="接龙id" align="center" width="70"></el-table-column>
 				<el-table-column prop="topic" label="主题" align="center"></el-table-column>
 				<el-table-column prop="userInfo.nickName" label="发布者呢称" align="center"></el-table-column>
 				<el-table-column prop="createTimeStr" label="发布时间" align="center"></el-table-column>
@@ -229,15 +229,53 @@
 					<span class="hc_title">设置取货点及时间：</span>
 					<span v-for="(itemAddr,index) in goodsAddrs" class="addrTime">{{itemAddr}}</span>
 				</el-col>
-				<!--<el-col :span="24" class="hc_elcol">
+				<el-col :span="24" class="hc_elcol">
 					<span class="hc_title">截止时间：</span>{{sonTableData.finishTime}}
-				</el-col>-->
-												<!--<el-col :span="24" class="hc_elcol">
-					<span class="hc_title">最小成团数据：</span>{{sonTableData.goodsList[0].groupSum}}
-					
-				</el-col>-->
-
-			</el-row>finishTime
+				</el-col>
+				<el-col :span="24" class="hc_elcol" v-if="sonTableData.goodsList">
+					<span class="hc_title" v-if="sonTableData.goodsList[0].groupSum">最小成团数量：</span>{{sonTableData.goodsList[0].groupSum}}
+				</el-col>
+				<el-col :span="24" v-if="sonTableData.goodsList">
+				<el-table
+					:data = "sonTableData.goodsList">
+					<el-table-column label="接龙商品" align="center">
+						<el-table-column
+							prop="name"
+							label="商品名称"
+							align="center">
+						</el-table-column>
+						<el-table-column
+							prop="serverPaths"
+							label="商品图片"
+							min-width="400"
+							align="center"
+							>
+							<template slot-scope="scope">
+								<img v-for="(item,index) in scope.row.serverPaths" class="jielongBack_img"  :src="domainUpload + item"/>
+							</template>
+						</el-table-column>
+						<el-table-column
+							prop="specification"
+							label="规格"
+							align="center">
+						</el-table-column>
+						<el-table-column
+							prop="price"
+							label="价格"
+							align="center">
+						</el-table-column>						
+						<el-table-column
+							prop="repertory"
+							label="Mart总量"
+							align="center">
+						</el-table-column>						
+						
+					</el-table-column>
+				</el-table>
+				</el-col>
+				
+				
+			</el-row>
 		</div>
 	</transition>
 	<!--查看详情-->

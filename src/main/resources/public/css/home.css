@@ -59,12 +59,19 @@
  }
  
  .el-header {
+ 	display: block;
  	background-color: #EFF2F7;
+ 	overflow: hidden;
+ 	z-index: 999;
+ 	width: 83.333333334%;
  	height: 60px;
- 	display: flex;
+ 	/*display: flex;
  	justify-content: flex-end;
- 	align-items: center;
- 	padding-left: 20px;
+ 	align-items: center;*/
+ 	text-align: right; 
+ 	font-size: 12px;
+ 	padding-right: 40px;
+ 	position:fixed;
  }
  
  .logoutDrop {
@@ -89,6 +96,9 @@
  	font-size: 20px;
  	margin-bottom: 20px;
  	color: #666;
+ }
+ .rightBottomCont{
+ 	margin-top: 60px;
  }
  /*.acr_cont{
  	position: relative;

@@ -57,11 +57,21 @@ var jielongManage = {
 		//查看详情
 		handleDetails: function(scope) {
 			console.log(scope)
+			//格式化商品图片
+			scope.row.goodsList.map(function(item,index){
+				console.log(item.serverPaths instanceof Array)
+				if(!(item.serverPaths instanceof Array)){
+					item.serverPaths = item.serverPaths.split(",");
+					return item;
+				}
+			})
+			console.log(scope)
 			this.formatGoodsAddr(scope.row);
 			this.sonTableData = scope.row;
 			this.isShow = !this.isShow;
 			this.dialogTableVisible = true;
 		},
+		//转换售货地址和时间格式
 		formatGoodsAddr:function(item){
 //			console.log(item);
 			var goodsAddr = item.goodsAddresses.split(",");
