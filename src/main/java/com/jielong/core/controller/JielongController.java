@@ -92,6 +92,15 @@ public class JielongController {
 		 orderGroupService.closeJieLong(id);
          return jielongService.closeJielong(id);                   		
 	}
+	/**
+	 * 删除接龙(假删除)
+	 * @param id 接龙的id
+	 * @return
+	 */
+	@RequestMapping("/deleteJielong")
+	public ResponseBean<Integer> deleteJielong(@RequestParam("id") Integer id){
+		return jielongService.deleteJielong(id);
+	}
 	
 	/**
 	 * 更新浏览人数
