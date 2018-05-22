@@ -59,12 +59,19 @@
  }
  
  .el-header {
+ 	display: block;
  	background-color: #EFF2F7;
+ 	overflow: hidden;
+ 	z-index: 999;
+ 	width: 83.333333334%;
  	height: 60px;
- 	display: flex;
+ 	/*display: flex;
  	justify-content: flex-end;
- 	align-items: center;
- 	padding-left: 20px;
+ 	align-items: center;*/
+ 	text-align: right; 
+ 	font-size: 12px;
+ 	padding-right: 40px;
+ 	position:fixed;
  }
  
  .logoutDrop {
@@ -90,6 +97,9 @@
  	margin-bottom: 20px;
  	color: #666;
  }
+ .rightBottomCont{
+ 	margin-top: 60px;
+ }
  /*.acr_cont{
  	position: relative;
  	min-height: 100%;
@@ -105,6 +115,7 @@
  	font-size: 16px;
  	line-height: 60px;
  }*/
+
 /*上传轮播图*/
 .sliderImgContent,.sliderImgCol{
 	text-align: center;
@@ -141,7 +152,20 @@
 .contHeaderSearch>.el-input{
 	width: 14%;
 }
-
+.jielongBack_img{
+	width: 120px;
+	height: 120px;
+	margin-right: 12px;
+}
+.jl_title{
+	vertical-align: top;
+}
+.addrTime{
+	margin-right: 12px;
+}
+.addrTime::after{
+	content: "  ; ";
+}
 /*用户管理*/
 .um_elPagination{
 	margin: 20px 20px 0 0;

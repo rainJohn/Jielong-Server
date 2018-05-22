@@ -7,6 +7,7 @@
 		<link rel="stylesheet" th:href="@{/css/common.css}" />
 		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 		<link rel="stylesheet" th:href="@{/css/element-ui/index.css}">
+		<link rel="stylesheet" th:href="@{/css/animate/animate.css}">
 
 		<link rel="stylesheet" th:href="@{/css/home.css}" />
 
@@ -24,7 +25,7 @@
 					</el-col>
 					<el-col :span="20" class="allContRight">
 						<el-container>
-							<el-header style="text-align: right; font-size: 12px">
+							<el-header>
 								<el-dropdown>
 									<i><span sec:authentication="name" class="logoutDrop"></span></i>
 									<el-dropdown-menu slot="dropdown">
@@ -34,7 +35,7 @@
 									</el-dropdown-menu>
 								</el-dropdown>
 							</el-header>
-							<el-main>
+							<el-main class="rightBottomCont">
 								<router-view></router-view>
 							</el-main>
 							<!--<el-footer>
@@ -158,54 +159,129 @@
 		<!-- 商品分类管理end -->
 		
 		<!-- 接龙管理start -->
-		<template id="jielongManage">
-			<div>
-				<el-row>
-					<el-col :span="24">
-						<h1 class="contentTitle">接龙管理</h1>
-					</el-col>
-					<el-col :span="24" class="contHeaderSearch">
-						<el-input  placeholder="请输入接龙主题名称"></el-input>
-						<el-input  placeholder="请输入商品名称"></el-input>
-						<el-input  placeholder="请输入用户昵称"></el-input>
-						<el-button type="success" class="addClassify" ><i class="el-icon-search"></i>搜索</el-button>
-					</el-col>
-				</el-row>
+	<template id="jielongManage">
+	<div>
+	<transition   enter-active-class="animated bounceInRight" v-on:enter="beforeEnter">
+		<div v-show="isShow">
+			<el-row>
+				<el-col :span="24">
+					<h1 class="contentTitle">接龙管理</h1>
+				</el-col>
+				<el-col :span="24" class="contHeaderSearch">
+					<el-input placeholder="请输入接龙主题名称"></el-input>
+					<el-input placeholder="请输入商品名称"></el-input>
+					<el-input placeholder="请输入用户昵称"></el-input>
+					<el-button type="success" class="addClassify"><i class="el-icon-search"></i>搜索</el-button>
+				</el-col>
+			</el-row>
 
-				<template>
-					<el-table :data="tableData" border stripe style="width: 100%">
-						<el-table-column prop="className" label="接龙id" align="center"></el-table-column>
-						<el-table-column prop="className" label="主题" align="center"></el-table-column>
-						<el-table-column prop="className" label="发布者呢称" align="center"></el-table-column>
-						<el-table-column prop="className" label="发布时间" align="center"></el-table-column>
-						<el-table-column prop="id" label="操作" align="center">
-							<template slot-scope="scope">
-								<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
-								<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-				</template>
-				
-				<!--查看详情-->
-				<el-dialog :visible.sync="dialogTableVisible" title="接龙详情">
-					<!--<el-row>
-						<el-col :span="12">
-							<h1 class="contentTitle">接龙详情</h1>
-						</el-col>
-					</el-row>-->
-					<el-table :data="sonTableData" border stripe style="width: 100%">
-						<el-table-column prop="className" label="名称" align="center"></el-table-column>
-						<el-table-column prop="id" label="操作" align="center">
-							<template slot-scope="scope">
-								<el-button size="mini" type="warning" @click="addClassify(scope,'true')">修改</el-button>
-								<el-button size="mini" type="danger" @click="handleDelete(scope,'true')">删除</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-				</el-dialog>
+			<el-table :data="tableData" border stripe style="width: 100%">
+				<el-table-column prop="id" label="接龙id" align="center" width="70"></el-table-column>
+				<el-table-column prop="topic" label="主题" align="center"></el-table-column>
+				<el-table-column prop="userInfo.nickName" label="发布者呢称" align="center"></el-table-column>
+				<el-table-column prop="createTimeStr" label="发布时间" align="center"></el-table-column>
+				<el-table-column prop="status" label="接龙状态" align="center">
+					<template slot-scope="scope">
+						<span v-if="scope.row.status == 1">进行中</span>
+						<span v-else-if="scope.row.status == 2">Mart结束</span>
+						<span v-else-if="scope.row.status == 3">活动提前终止</span>
+						<span v-else>其它情况</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="userId" label="操作" align="center">
+					<template slot-scope="scope">
+						<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
+						<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<div class="block">
+				<el-pagination class="um_elPagination fr" background layout="prev, pager, next" :total="tableDataCount" :page-size="tableDataPageSize" :current-page.sync="currentPage" @current-change="handleCurrentChange">
+				</el-pagination>
 			</div>
-		</template>
+			</div>
+	</transition>
+	
+	<!--查看详情-->
+	<transition  enter-active-class="animated bounceInRight"  v-on:before-enter="beforeEnter">
+		<div v-show="!isShow">
+			<el-row>
+				<el-col :span="11" class="hc_elcol">
+					<el-button @click="isShow = !isShow" type="primary">返回接龙主列表</el-button>
+				</el-col>
+				<el-col :span="13">
+					<h1 class="contentTitle">查看接龙详情</h1>
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title">接龙主题：</span>{{sonTableData.topic}}
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title jl_title">接龙描述：</span>{{sonTableData.description}}
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title jl_title">接龙图片：</span>
+					<img v-for="(item,index) in sonTableData.imageList" class="jielongBack_img"  :src="domainUpload + item"/>
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title">Mart城市：</span>{{sonTableData.addressName}}
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title">设置取货点及时间：</span>
+					<span v-for="(itemAddr,index) in goodsAddrs" class="addrTime">{{itemAddr}}</span>
+				</el-col>
+				<el-col :span="24" class="hc_elcol">
+					<span class="hc_title">截止时间：</span>{{sonTableData.finishTime}}
+				</el-col>
+				<el-col :span="24" class="hc_elcol" v-if="sonTableData.goodsList">
+					<span class="hc_title" v-if="sonTableData.goodsList[0].groupSum">最小成团数量：</span>{{sonTableData.goodsList[0].groupSum}}
+				</el-col>
+				<el-col :span="24" v-if="sonTableData.goodsList">
+				<el-table
+					:data = "sonTableData.goodsList">
+					<el-table-column label="接龙商品" align="center">
+						<el-table-column
+							prop="name"
+							label="商品名称"
+							align="center">
+						</el-table-column>
+						<el-table-column
+							prop="serverPaths"
+							label="商品图片"
+							min-width="400"
+							align="center"
+							>
+							<template slot-scope="scope">
+								<img v-for="(item,index) in scope.row.serverPaths" class="jielongBack_img"  :src="domainUpload + item"/>
+							</template>
+						</el-table-column>
+						<el-table-column
+							prop="specification"
+							label="规格"
+							align="center">
+						</el-table-column>
+						<el-table-column
+							prop="price"
+							label="价格"
+							align="center">
+						</el-table-column>						
+						<el-table-column
+							prop="repertory"
+							label="Mart总量"
+							align="center">
+						</el-table-column>						
+						
+					</el-table-column>
+				</el-table>
+				</el-col>
+				
+				
+			</el-row>
+		</div>
+	</transition>
+	<!--查看详情-->
+
+				</div>
+</template>
 		<!-- 接龙管理end -->		
 		
 		<!-- 用户管理start -->
@@ -235,7 +311,7 @@
 						<el-table-column prop="userId" label="操作" align="center">
 							<template slot-scope="scope">
 								<el-button size="mini" type="danger" v-if="scope.row.state" @click="handleDeleteUser(scope)">加入黑名单</el-button>
-								<el-button size="mini" type="danger" v-if="!scope.row.state" @click="handleDeleteUser(scope)">移出黑名单</el-button>
+								<el-button size="mini" type="warning" v-if="!scope.row.state" @click="handleDeleteUser(scope)">移出黑名单</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
