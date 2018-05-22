@@ -11,7 +11,9 @@ var jielongManage = {
 			tableDataPageSize: 10, //每页页数
 			currentPage: 1, //当前页数
 			dialogTableVisible:false,
-			goodsAddrs:[]
+			goodsAddrs:[],//接龙详情自提点及时间
+			searchConditions: {topic:null,goodsName:null,userNickName:null,pageNum:0,pageSize:10},
+			isWebPagination:false,
 		}
 	},
 	created: function() {
@@ -25,47 +27,75 @@ var jielongManage = {
 				'pageNum': this.tableDataPageNum,
 				'pageSize': this.tableDataPageSize
 			}).then((res) => {
-				console.log(res);
-				console.log(res.body.data);
+//				console.log(res.body.data);
 				if(res.status == 200 && res.body.errorCode == 0) {
 					this.tableData = res.body.data;
-					
 				}
 			}).catch((err) => {
-				console.log(err)
-
+//				console.log(err)
 			})
 		},
 		initDataCount:function(){
+			if(!this.isWebPagination){
 			this.$http.get("/jielong/selectAllCount").then((res)=>{
-				console.log(res.body.data);
+//				console.log(res.body.data);
 				if(res.status == 200 && res.body.errorCode == 0){
 					this.tableDataCount = res.body.data;
 				}
 			})
+			}else{
+			console.log(this.searchConditions);
+			this.$http.post("/jielong/selectByConditions",this.searchConditions).then((res)=>{
+//				console.log(res.body.data);
+				if(res.status == 200 && res.body.errorCode == 0){
+					this.tableData = res.body.data.jielongList;
+					this.tableDataCount = res.body.data.count;
+				}
+			})					
+			}
 		},
-		handleCurrentChange:function(val){
-				console.log(val)
-				this.tableDataPageNum = val;
-				this.initData();
+		//搜索
+		selectByConditions:function(){
+//			console.log(this.searchConditions);
+			this.searchConditions.pageNum = 0;
+			this.searchConditions.pageSize = 10;
+			this.$http.post("/jielong/selectByConditions",this.searchConditions).then((res)=>{
+//				console.log(res.body.data);
+				if(res.status == 200 && res.body.errorCode == 0){
+					this.isWebPagination = true;
+					this.tableData = res.body.data.jielongList;
+					this.tableDataCount = res.body.data.count;
+					this.tableDataPageNum = 0;
+					this.currentPage = 1;
+				}
+			})			
 			
 		},
-		beforeEnter:function(){
-			console.log("222")
+		//页签按钮
+		handleCurrentChange:function(val){
+//				console.log(val)
+				if(!this.isWebPagination){
+					this.tableDataPageNum = val;
+					this.initData();
+				}else{
+					this.searchConditions.pageNum = val;
+					this.initDataCount();
+					
+				}
 			
 		},
 		//查看详情
 		handleDetails: function(scope) {
-			console.log(scope)
+//			console.log(scope)
 			//格式化商品图片
 			scope.row.goodsList.map(function(item,index){
-				console.log(item.serverPaths instanceof Array)
+//				console.log(item.serverPaths instanceof Array)
 				if(!(item.serverPaths instanceof Array)){
 					item.serverPaths = item.serverPaths.split(",");
 					return item;
 				}
 			})
-			console.log(scope)
+//			console.log(scope)
 			this.formatGoodsAddr(scope.row);
 			this.sonTableData = scope.row;
 			this.isShow = !this.isShow;
@@ -90,9 +120,28 @@ var jielongManage = {
 			})			
 			
 		},
-		
+		//删除接龙
 		handleDelete: function(scope) {
-			console.log(scope)
+//			console.log(scope)
+			this.$confirm("是否确认把此接龙删除","提示",{
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then((res)=>{
+				this.$http.get("/jielong/deleteJielong",{params:{id:scope.row.id}}).then((res)=>{
+//					console.log(res);
+					if(res.status == 200 && res.body.errorCode == 0){
+						if(!this.isWebPagination){
+							this.selectByConditions();
+						}else{
+							this.initDataCount();
+						}
+						this.$message({message:"删除接龙成功！",type:"success"});
+					}
+				})
+			}).catch((res)=>{
+//				console.log(res)
+			})
 		}
 
 	}

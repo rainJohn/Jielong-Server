@@ -157,133 +157,129 @@
 			</div>
 		</template>
 		<!-- 商品分类管理end -->
-		
+
 		<!-- 接龙管理start -->
-	<template id="jielongManage">
-	<div>
-	<transition   enter-active-class="animated bounceInRight" v-on:enter="beforeEnter">
-		<div v-show="isShow">
-			<el-row>
-				<el-col :span="24">
-					<h1 class="contentTitle">接龙管理</h1>
-				</el-col>
-				<el-col :span="24" class="contHeaderSearch">
-					<el-input placeholder="请输入接龙主题名称"></el-input>
-					<el-input placeholder="请输入商品名称"></el-input>
-					<el-input placeholder="请输入用户昵称"></el-input>
-					<el-button type="success" class="addClassify"><i class="el-icon-search"></i>搜索</el-button>
-				</el-col>
-			</el-row>
+		<template id="jielongManage">
+			<div>
+				<transition enter-active-class="animated bounceInRight">
+					<div v-show="isShow">
+						<el-row>
+							<el-col :span="24">
+								<h1 class="contentTitle">接龙管理</h1>
+							</el-col>
+							<el-col :span="24" class="contHeaderSearch">
+								<el-input v-model="searchConditions.topic" placeholder="请输入接龙主题名称"></el-input>
+								<el-input v-model="searchConditions.goodsName" placeholder="请输入商品名称"></el-input>
+								<el-input v-model="searchConditions.userNickName" placeholder="请输入用户昵称"></el-input>
+								<el-button type="success" class="addClassify" @click="selectByConditions"><i class="el-icon-search"></i>搜索</el-button>
+							</el-col>
+						</el-row>
 
-			<el-table :data="tableData" border stripe style="width: 100%">
-				<el-table-column prop="id" label="接龙id" align="center" width="70"></el-table-column>
-				<el-table-column prop="topic" label="主题" align="center"></el-table-column>
-				<el-table-column prop="userInfo.nickName" label="发布者呢称" align="center"></el-table-column>
-				<el-table-column prop="createTimeStr" label="发布时间" align="center"></el-table-column>
-				<el-table-column prop="status" label="接龙状态" align="center">
-					<template slot-scope="scope">
-						<span v-if="scope.row.status == 1">进行中</span>
-						<span v-else-if="scope.row.status == 2">Mart结束</span>
-						<span v-else-if="scope.row.status == 3">活动提前终止</span>
-						<span v-else>其它情况</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="userId" label="操作" align="center">
-					<template slot-scope="scope">
-						<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
-						<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<div class="block">
-				<el-pagination class="um_elPagination fr" background layout="prev, pager, next" :total="tableDataCount" :page-size="tableDataPageSize" :current-page.sync="currentPage" @current-change="handleCurrentChange">
-				</el-pagination>
-			</div>
-			</div>
-	</transition>
-	
-	<!--查看详情-->
-	<transition  enter-active-class="animated bounceInRight"  v-on:before-enter="beforeEnter">
-		<div v-show="!isShow">
-			<el-row>
-				<el-col :span="11" class="hc_elcol">
-					<el-button @click="isShow = !isShow" type="primary">返回接龙主列表</el-button>
-				</el-col>
-				<el-col :span="13">
-					<h1 class="contentTitle">查看接龙详情</h1>
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title">接龙主题：</span>{{sonTableData.topic}}
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title jl_title">接龙描述：</span>{{sonTableData.description}}
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title jl_title">接龙图片：</span>
-					<img v-for="(item,index) in sonTableData.imageList" class="jielongBack_img"  :src="domainUpload + item"/>
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title">Mart城市：</span>{{sonTableData.addressName}}
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title">设置取货点及时间：</span>
-					<span v-for="(itemAddr,index) in goodsAddrs" class="addrTime">{{itemAddr}}</span>
-				</el-col>
-				<el-col :span="24" class="hc_elcol">
-					<span class="hc_title">截止时间：</span>{{sonTableData.finishTime}}
-				</el-col>
-				<el-col :span="24" class="hc_elcol" v-if="sonTableData.goodsList">
-					<span class="hc_title" v-if="sonTableData.goodsList[0].groupSum">最小成团数量：</span>{{sonTableData.goodsList[0].groupSum}}
-				</el-col>
-				<el-col :span="24" v-if="sonTableData.goodsList">
-				<el-table
-					:data = "sonTableData.goodsList">
-					<el-table-column label="接龙商品" align="center">
-						<el-table-column
-							prop="name"
-							label="商品名称"
-							align="center">
-						</el-table-column>
-						<el-table-column
-							prop="serverPaths"
-							label="商品图片"
-							min-width="400"
-							align="center"
-							>
-							<template slot-scope="scope">
-								<img v-for="(item,index) in scope.row.serverPaths" class="jielongBack_img"  :src="domainUpload + item"/>
-							</template>
-						</el-table-column>
-						<el-table-column
-							prop="specification"
-							label="规格"
-							align="center">
-						</el-table-column>
-						<el-table-column
-							prop="price"
-							label="价格"
-							align="center">
-						</el-table-column>						
-						<el-table-column
-							prop="repertory"
-							label="Mart总量"
-							align="center">
-						</el-table-column>						
-						
-					</el-table-column>
-				</el-table>
-				</el-col>
-				
-				
-			</el-row>
-		</div>
-	</transition>
-	<!--查看详情-->
+						<el-table :data="tableData" border stripe style="width: 100%">
+							<el-table-column prop="id" label="接龙id" align="center" width="70"></el-table-column>
+							<el-table-column prop="topic" label="主题" align="center"></el-table-column>
+							<el-table-column prop="userInfo.nickName" label="发布者呢称" align="center"></el-table-column>
+							<el-table-column prop="createTimeStr" label="发布时间" align="center"></el-table-column>
+							<el-table-column prop="status" label="接龙状态" align="center">
+								<template slot-scope="scope">
+									<span v-if="scope.row.status == 1">进行中</span>
+									<span v-else-if="scope.row.status == 2">Mart结束</span>
+									<span v-else-if="scope.row.status == 3">活动提前终止</span>
+									<span v-else>已被删除</span>
+								</template>
+							</el-table-column>
+							<el-table-column prop="userId" label="操作" align="center">
+								<template slot-scope="scope">
+									<el-button size="mini" type="primary" @click="handleDetails(scope)">查看详情</el-button>
+									<el-button size="mini" type="danger" @click="handleDelete(scope)">删除</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+						<div class="block">
+							<el-pagination class="um_elPagination fr" background layout="prev, pager, next" :total="tableDataCount" :page-size="tableDataPageSize" :current-page.sync="currentPage" @current-change="handleCurrentChange">
+							</el-pagination>
+						</div>
+					</div>
+				</transition>
 
-				</div>
-</template>
-		<!-- 接龙管理end -->		
-		
+				<!--查看详情-->
+				<transition enter-active-class="animated bounceInRight" leave-active-class="animated TimFadeOutLeft">
+					<div v-show="!isShow">
+						<el-row>
+							<el-col :span="11" class="hc_elcol">
+								<el-button @click="isShow = !isShow" type="primary"><i class="el-icon-d-arrow-left"></i>返回接龙主列表</el-button>
+							</el-col>
+							<el-col :span="13">
+								<h1 class="contentTitle">查看接龙详情</h1>
+							</el-col>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title">接龙主题：</span>{{sonTableData.topic}}
+							</el-col>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title jl_title">接龙描述：</span>{{sonTableData.description}}
+							</el-col>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title jl_title">接龙图片：</span>
+								<img v-for="(item,index) in sonTableData.imageList" class="jielongBack_img" :src="domainUpload + item" />
+							</el-col>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title">Mart城市：</span>{{sonTableData.addressName}}
+							</el-col>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title">设置取货点及时间：</span>
+								<span v-for="(itemAddr,index) in goodsAddrs" class="addrTime">{{itemAddr}}</span>
+							</el-col>
+							<div v-if="sonTableData.finishTime">
+							<el-col :span="24" class="hc_elcol" v-if="sonTableData.finishTime">
+								<span class="hc_title">截止时间：</span>{{sonTableData.finishTime}}
+							</el-col>
+							</div>
+							<div v-if="sonTableData.goodsList">
+								<el-col :span="24" class="hc_elcol" v-if="sonTableData.goodsList[0].groupSum" >
+								<span class="hc_title">最小成团数量：</span>{{sonTableData.goodsList[0].groupSum}}
+							</el-col>
+							</div>
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title" >浏览人数：</span>
+								<span class="jl_browseSum">{{sonTableData.browseSum}}</span>
+							</el-col>							
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title">参与人数：</span>
+								<span class="jl_browseSum">{{sonTableData.joinSum}}</span>
+							</el-col>									
+							<el-col :span="24" class="hc_elcol">
+								<span class="hc_title">参与金额：</span>
+								<span class="jl_joinMoney">{{sonTableData.joinMoney}}</span>
+							</el-col>							
+							<el-col :span="24" v-if="sonTableData.goodsList">
+								<el-table :data="sonTableData.goodsList" stripe border>
+									<el-table-column label="接龙商品" align="center">
+										<el-table-column prop="name" label="商品名称" align="center">
+										</el-table-column>
+										<el-table-column prop="serverPaths" label="商品图片" min-width="400" align="center">
+											<template slot-scope="scope">
+												<img v-for="(item,index) in scope.row.serverPaths" class="jielongBack_img" :src="domainUpload + item" />
+											</template>
+										</el-table-column>
+										<el-table-column prop="specification" label="规格" align="center">
+										</el-table-column>
+										<el-table-column prop="price" label="价格" align="center">
+										</el-table-column>
+										<el-table-column prop="repertory" label="Mart总量" align="center">
+										</el-table-column>
+
+									</el-table-column>
+								</el-table>
+							</el-col>
+
+						</el-row>
+					</div>
+				</transition>
+				<!--查看详情-->
+			</div>
+		</template>
+		<!-- 接龙管理end -->
+
 		<!-- 用户管理start -->
 		<template id="userManage">
 			<div>
@@ -292,18 +288,18 @@
 						<h1 class="contentTitle">用户管理</h1>
 					</el-col>
 					<el-col :span="24" class="contHeaderSearch">
-						<el-input v-model="searchConditions.nickName"  placeholder="请输入用户昵称"></el-input>
-						<el-input v-model="searchConditions.name"  placeholder="请输入用户名字"></el-input>
-						<el-input v-model="searchConditions.phoneNumber"  placeholder="请输入手机号码"></el-input>
-						<el-button type="success" class="addClassify" @click="selectByConditions" ><i class="el-icon-search"></i>搜索</el-button>
-						<el-button type="success" @click="smtSelectedUser" >给选中用户发送消息</el-button>
-						<el-button type="success" @click="smtAllUser"  >给所有用户发送消息</el-button>
+						<el-input v-model="searchConditions.nickName" placeholder="请输入用户昵称"></el-input>
+						<el-input v-model="searchConditions.name" placeholder="请输入用户名字"></el-input>
+						<el-input v-model="searchConditions.phoneNumber" placeholder="请输入手机号码"></el-input>
+						<el-button type="success" class="addClassify" @click="selectByConditions"><i class="el-icon-search"></i>搜索</el-button>
+						<el-button type="success" @click="smtSelectedUser">给选中用户发送消息</el-button>
+						<el-button type="success" @click="smtAllUser">给所有用户发送消息</el-button>
 					</el-col>
 				</el-row>
 
 				<template>
-					<el-table :data="tableData"  ref="multipleTable" @selection-change="handleSelectionChange" border stripe style="width: 100%">
-						<el-table-column type="selection" width="60" align="center" ></el-table-column>
+					<el-table :data="tableData" ref="multipleTable" @selection-change="handleSelectionChange" border stripe style="width: 100%">
+						<el-table-column type="selection" width="60" align="center"></el-table-column>
 						<el-table-column prop="id" label="id" align="center"></el-table-column>
 						<el-table-column prop="nickName" label="昵称(微信名)" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
@@ -315,24 +311,16 @@
 							</template>
 						</el-table-column>
 					</el-table>
-  					<div class="block">
-					<el-pagination
-					  class="um_elPagination fr"
-					  background
-					  layout="prev, pager, next"
-					  :total="tableDataCount"
-					  :page-size="tableDataPageSize"
-					  :current-page.sync="currentPage"
-					  @current-change="handleCurrentChange"
-					  >
-					</el-pagination>
+					<div class="block">
+						<el-pagination class="um_elPagination fr" background layout="prev, pager, next" :total="tableDataCount" :page-size="tableDataPageSize" :current-page.sync="currentPage" @current-change="handleCurrentChange">
+						</el-pagination>
 					</div>
 				</template>
-				
+
 				<!--新增/修改帮助-->
 				<el-dialog title="填写发送消息的标题和内容" :visible.sync="dialogFormVisible">
 					<el-input v-model="sendAllMsg.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
-					<el-input  type="textarea" rows="5"  v-model="sendAllMsg.message" placeholder="请输入内容"></el-input>
+					<el-input type="textarea" rows="5" v-model="sendAllMsg.message" placeholder="请输入内容"></el-input>
 					<div slot="footer" class="dialog-footer">
 						<el-button @click="dialogFormVisible = false">取 消</el-button>
 						<el-button type="primary" @click="closeAddUpdate">确 定</el-button>
@@ -341,8 +329,8 @@
 				<!--新增/修改帮助-->
 			</div>
 		</template>
-		<!-- 用户管理end -->	
-		
+		<!-- 用户管理end -->
+
 		<!-- 帮助中心start -->
 		<template id="helpCenter">
 			<div>
@@ -369,18 +357,18 @@
 						</el-table-column>
 					</el-table>
 				</template>
-				
+
 				<!--新增/修改帮助-->
 				<el-dialog title="添加/修改帮助" :visible.sync="dialogFormVisible">
 					<el-input v-model="newAndUpdate.title" placeholder="请输入标题" class="hc_nauInput"></el-input>
-					<el-input  type="textarea" rows="5"  v-model="newAndUpdate.message" placeholder="请输入内容"></el-input>
+					<el-input type="textarea" rows="5" v-model="newAndUpdate.message" placeholder="请输入内容"></el-input>
 					<div slot="footer" class="dialog-footer">
 						<el-button @click="dialogFormVisible = false">取 消</el-button>
 						<el-button type="primary" @click="closeAddUpdate">确 定</el-button>
 					</div>
 				</el-dialog>
 				<!--新增/修改帮助-->
-				
+
 				<!--查看详情-->
 				<el-dialog :visible.sync="dialogTableVisible" title="查看详情">
 					<el-row>
@@ -389,18 +377,18 @@
 						</el-col>
 						<el-col :span="24" class="hc_elcol">
 							<span class="hc_title">内容：</span>{{sonTableData.message}}
-						</el-col>						
+						</el-col>
 						<el-col :span="24" class="hc_elcol">
 							<span class="hc_title">创建时间：</span>{{sonTableData.createTimeStr}}
 						</el-col>
 						<el-col :span="24" class="hc_elcol">
 							<span class="hc_title">修改时间：</span>{{sonTableData.updateTimeStr}}
-						</el-col>						
+						</el-col>
 					</el-row>
-				</el-dialog>				
+				</el-dialog>
 			</div>
 		</template>
-		<!-- 帮助中心end -->	
+		<!-- 帮助中心end -->
 
 	</body>
 	<!-- import Vue before Element -->
@@ -408,7 +396,7 @@
 	<script th:src="@{/js/lib/vue/vue-router.js}"></script>
 	<!-- import JavaScript -->
 	<script th:src="@{/js/lib/element-ui/element-ui.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
 	<script th:src="@{/js/component/slider.js}"></script>
 	<script th:src="@{/js/component/classify.js}"></script>
 	<script th:src="@{/js/component/jielongManage.js}"></script>
