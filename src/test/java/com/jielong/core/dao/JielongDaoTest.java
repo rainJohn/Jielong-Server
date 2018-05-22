@@ -1,7 +1,7 @@
 package com.jielong.core.dao;
 
 import java.util.List;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,18 @@ public class JielongDaoTest {
 	  
 	  List<Jielong> list=jielongMapper.selectByConditions(bean);
 	  list.forEach(jielong->System.out.println(jielong.getTopic()));
+  }
+  
+  
+  /**
+   * 删除接龙
+   */
+  @Test
+  public void deleteTest() {
+    int result=jielongMapper.deleteJielong(142);
+    
+    Assert.assertEquals(1, result);
+	  
   }
 	
 }

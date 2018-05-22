@@ -37,15 +37,15 @@ public interface JielongMapper {
     List<Jielong> selectByUserId(@Param("userId") Integer userId);
     
     //更新浏览人数
-    @Update("update jielong set browse_sum=browse_sum+1 where id= #{id}")
+    @Update("update jielong set browse_sum=browse_sum+1,updated_at=now() where id= #{id}")
     int updateBrowse(@Param("id") Integer id);
     
     //更新参与人数和接龙金额（添加）
-    @Update("update jielong set join_sum=join_sum+1,join_money=join_money+#{joinMoney} where id=#{id}")
+    @Update("update jielong set join_sum=join_sum+1,join_money=join_money+#{joinMoney}, updated_at=now() where id=#{id}")
     Integer updateJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
    
     //更新参与人数和接龙金额（减少，用于取消订单）
-    @Update("update jielong set join_sum=join_sum-1,join_money=join_money-#{joinMoney} where id=#{id}")
+    @Update("update jielong set join_sum=join_sum-1,join_money=join_money-#{joinMoney},updated_at=now() where id=#{id}")
     Integer reduceJoin(@Param("id") Integer id,@Param("joinMoney") BigDecimal joinMoney);
     
     
@@ -73,6 +73,11 @@ public interface JielongMapper {
     @Select("select * from jielong where status=1 and set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i') and id in(select jielong_id from order_group_console where console_flg = 0)")
     List<Jielong> selectFinishJielong();
     
-    @Update("update jielong set status=4 where id=#{id}")
+    /**
+     * 删除接龙
+     * @param id
+     * @return
+     */
+    @Update("update jielong set status=4,updated_at=now() where id=#{id}")
     Integer deleteJielong(@Param("id") Integer id);
 }
