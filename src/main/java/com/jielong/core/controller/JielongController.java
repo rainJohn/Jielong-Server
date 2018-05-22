@@ -57,7 +57,7 @@ public class JielongController {
 	}
 	
 	/**
-	 * 按条件查询接龙
+	 * 按条件分页查询接龙
 	 * @param bean
 	 * @return
 	 */

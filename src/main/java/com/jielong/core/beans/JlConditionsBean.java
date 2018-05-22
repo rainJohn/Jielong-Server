@@ -1,6 +1,6 @@
 package com.jielong.core.beans;
 
-public class JlConditionsBean {
+public class JlConditionsBean extends PageBean{
 	private String topic;
 	private String goodsName;
 	private String userNickName;

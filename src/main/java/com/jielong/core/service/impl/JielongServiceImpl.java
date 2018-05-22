@@ -259,6 +259,7 @@ public class JielongServiceImpl implements JielongService {
 	@Override
 	public ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean) {
 		
+		        PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
 				List<Jielong> jielongs = jielongMapper.selectByConditions(bean);
 
 				for (Jielong jielong : jielongs) {	
