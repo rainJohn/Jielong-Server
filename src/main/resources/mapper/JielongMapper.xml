@@ -235,6 +235,7 @@
          and user_id in (select distinct user_id from user_info where nick_name like "%"#{userNickName}"%")  
      </if>
     </where>
+     order by created_at desc
  </select>
  
  

@@ -6,6 +6,7 @@ import java.util.List;
 import com.jielong.core.domain.Goods;
 
 public class PickCountBean {
+	
 	private Goods goods;
 	//参与金龙人数
 	private Integer joinPeopleSum;
