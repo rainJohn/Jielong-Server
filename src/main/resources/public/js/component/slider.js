@@ -19,7 +19,7 @@ var slider = {
 		//加载所有数据
 		initData(){
        	  this.$http.get("/queryCarousels").then((response) => {
-      		  console.log(response.body)
+//    		  console.log(response.body)
       		  	if(response.body){
       		  		this.dataArr = response.body;
       		  	}
