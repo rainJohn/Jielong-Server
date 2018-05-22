@@ -1,5 +1,6 @@
 package com.jielong.core.service;
 
+import java.beans.Beans;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.jielong.core.beans.JlConditionsBean;
+import com.jielong.core.beans.JlConditionsResponseBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.OrderGroupConsoleMapper;
@@ -84,6 +87,21 @@ public class JielongServiceTest {
        List<Jielong> list=responseBean.getData();
        list.forEach(jieLong->System.out.println(jieLong.getTopic()+":"+jieLong.getStatus()));
        
+	}
+	
+	@Test
+	public void testSelectByConditions() {
+		
+		JlConditionsBean bean=new JlConditionsBean();
+		bean.setPageNum(0);
+		bean.setPageSize(10);
+		
+		ResponseBean<JlConditionsResponseBean> responseBean=jielongService.selectByConditions(bean);
+		JlConditionsResponseBean response=responseBean.getData();
+		System.out.println(response.getCount());
+		System.out.println(response.getJielongList().size());
+		
+		
 	}
 	
 

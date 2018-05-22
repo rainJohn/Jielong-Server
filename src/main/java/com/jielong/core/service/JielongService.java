@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.jielong.core.beans.JlConditionsBean;
+import com.jielong.core.beans.JlConditionsResponseBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
@@ -49,7 +50,8 @@ public interface JielongService {
    //删除接龙
    ResponseBean<Integer> deleteJielong(Integer id);
    
-   ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean);
+   //按条件分页查询
+   ResponseBean<JlConditionsResponseBean> selectByConditions(JlConditionsBean bean);
    
    
 

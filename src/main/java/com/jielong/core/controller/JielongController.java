@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jielong.core.beans.JlConditionsBean;
+import com.jielong.core.beans.JlConditionsResponseBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.domain.Jielong;
@@ -62,7 +63,7 @@ public class JielongController {
 	 * @return
 	 */
 	@RequestMapping("/selectByConditions")
-	public ResponseBean<List<Jielong>> selectByConditions(@RequestBody JlConditionsBean bean){
+	public ResponseBean<JlConditionsResponseBean> selectByConditions(@RequestBody JlConditionsBean bean){
 		return jielongService.selectByConditions(bean);
 		
 	}

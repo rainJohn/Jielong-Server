@@ -33,6 +33,10 @@ public interface JielongMapper {
     //条件查询
     List<Jielong> selectByConditions(JlConditionsBean jlConditionsBean);
     
+    //按条件查询总记录数
+    Integer  selectCountByConditions(JlConditionsBean jlConditionsBean);
+    
+    
     @Select("select * from jielong where user_id= #{userId} order by created_at desc")
     List<Jielong> selectByUserId(@Param("userId") Integer userId);
     

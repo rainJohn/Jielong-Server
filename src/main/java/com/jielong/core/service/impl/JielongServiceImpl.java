@@ -15,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.util.StringUtil;
 import com.jielong.base.util.ErrorCode;
 import com.jielong.core.beans.JlConditionsBean;
+import com.jielong.core.beans.JlConditionsResponseBean;
 import com.jielong.core.beans.PageBean;
 import com.jielong.core.beans.ResponseBean;
 import com.jielong.core.dao.CommonDao;
@@ -37,7 +38,7 @@ import com.jielong.core.service.UserMessageService;
 
 @Service
 public class JielongServiceImpl implements JielongService {
-
+    
 	@Autowired
 	JielongMapper jielongMapper;
 
@@ -257,9 +258,16 @@ public class JielongServiceImpl implements JielongService {
 	 */
 	@Transactional
 	@Override
-	public ResponseBean<List<Jielong>> selectByConditions(JlConditionsBean bean) {
+	public ResponseBean<JlConditionsResponseBean> selectByConditions(JlConditionsBean bean) {
 		
+		        JlConditionsResponseBean  jlConditionsResponseBean=new JlConditionsResponseBean();
+		        
+		        //查询总记录数
+		        Integer count=jielongMapper.selectCountByConditions(bean);
+		        jlConditionsResponseBean.setCount(count);
+		        
 		        PageHelper.startPage(bean.getPageNum(), bean.getPageSize());
+		        
 				List<Jielong> jielongs = jielongMapper.selectByConditions(bean);
 
 				for (Jielong jielong : jielongs) {	
@@ -298,8 +306,8 @@ public class JielongServiceImpl implements JielongService {
 					} //
 
 				}
-
-				ResponseBean<List<Jielong>> responseBean = new ResponseBean<List<Jielong>>(jielongs);
+                jlConditionsResponseBean.setJielongList(jielongs);
+				ResponseBean<JlConditionsResponseBean> responseBean = new ResponseBean<>(jlConditionsResponseBean);
 				return responseBean;
 	}
 
