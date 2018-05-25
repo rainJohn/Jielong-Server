@@ -66,105 +66,94 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		ResponseBean<Integer> responseBean = new ResponseBean<Integer>();
 		String orderNum = Utils.createFileName();
 		List<OrderGoods> orderGoodsList = order.getOrderGoods();
+		//Jielong主题
+		String topic=jielongMapper.selectTopic(order.getJielongId());
+		UserAddress address=userAddressService.selectById(order.getAddressId()).getData();
+		//下单地址
+		String addressInfo=address.getDetail().replace("***", " 提货时间");
+		
 		if (orderGoodsList != null && orderGoodsList.size() > 0) {
 			
-			StringBuilder sp = new StringBuilder();  //商品名称
-			String addressInfo="";
+			StringBuilder goodsInfo = new StringBuilder();  //商品名称
 			
 			for (int i = 0; i < orderGoodsList.size(); i++) {
 				
-				UserAddress address=userAddressService.selectById(order.getAddressId()).getData();
-				addressInfo=address.getDetail();
-				
-				OrderGroup orderGroupGoods = new OrderGroup();
-				// 订单编号
-				orderGroupGoods.setOrderId(orderNum);
-				// 接龙ID
-				orderGroupGoods.setJielongId(order.getJielongId());
-				// 购买者ID
-				orderGroupGoods.setCustId(order.getUserId());
-				orderGroupGoods.setCustName(order.getUserName());
-				orderGroupGoods.setCustPhone(order.getUserPhone());
-				orderGroupGoods.setCustNote(order.getRemark());
-				orderGroupGoods.setAddressId(order.getAddressId());
-
-				OrderGoods orderGoods = orderGoodsList.get(i);
-				orderGroupGoods.setGoodsId(orderGoods.getGoodsId());
-				orderGroupGoods.setCustBuyNum(orderGoods.getSum());
-				orderGroupGoods.setCustBuyPrice(orderGoods.getMoney());
-				BigDecimal buyAllMoney = new BigDecimal(0);
-				buyAllMoney = orderGoods.getMoney().multiply(new BigDecimal(orderGoods.getSum()));
-				orderGroupGoods.setCustBuyAllMoney(buyAllMoney);
-				// 交易状态
-				orderGroupGoods.setTradeFlg(0);
-				// 订单状态
-				orderGroupGoods.setOrderFlg(0);
-				
 			
 				
+				OrderGroup orderGroup = new OrderGroup();
+				// 订单编号
+				orderGroup.setOrderId(orderNum);
+				// 接龙ID
+				orderGroup.setJielongId(order.getJielongId());
+				// 购买者ID
+				orderGroup.setCustId(order.getUserId());
+				orderGroup.setCustName(order.getUserName());
+				orderGroup.setCustPhone(order.getUserPhone());
+				orderGroup.setCustNote(order.getRemark());
+				orderGroup.setAddressId(order.getAddressId());
 
-				orderGroupMapper.insertSelective(orderGroupGoods);
+				OrderGoods orderGoods = orderGoodsList.get(i);
+				orderGroup.setGoodsId(orderGoods.getGoodsId());
+				orderGroup.setCustBuyNum(orderGoods.getSum());
+				orderGroup.setCustBuyPrice(orderGoods.getMoney());
+				BigDecimal buyAllMoney = new BigDecimal(0);
+				buyAllMoney = orderGoods.getMoney().multiply(new BigDecimal(orderGoods.getSum()));
+				orderGroup.setCustBuyAllMoney(buyAllMoney);
+				// 交易状态
+				orderGroup.setTradeFlg(0);
+				// 订单状态
+				orderGroup.setOrderFlg(0);			
+			
+				
+                //插入数据
+				orderGroupMapper.insertSelective(orderGroup);
 
 				// 取得接龙商品的成团数
 				Goods goods = new Goods();
 				goods = goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
-				sp.append(goods.getName());
-				int setGroupNum = Integer.valueOf(goods.getGroupSum());
-
+				//购买商品信息： 商品名称+数量+规格
+				goodsInfo.append(goods.getName()).append(orderGoods.getSum()).append(goods.getSpecification());
+				//取得该商品的成团数量
+				int groupNum = Integer.valueOf(goods.getGroupSum());
+                //取得 该商品目前已经的成团数量
 				int newGroupNum = Optional
 						.ofNullable(orderGroupMapper.selectByCustBuyNum(order.getJielongId(), orderGoods.getGoodsId()))
 						.orElse(0);
-				if (newGroupNum >= setGroupNum) {
-					// 成团状态
-					// 查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
-					Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(),
-							orderGoods.getGoodsId());
+				
+				//该商品拼团成功
+				if (newGroupNum >= groupNum) {
+					//查看原来的成团状态
+					Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(), orderGoods.getGoodsId());
+					//本来就拼团成功
 					if (oldGroupOkFlg == 1) {
-						// 发送单人通知 已经是成功的团了。
-						UserMessage userMessage = new UserMessage();
-						userMessage.setUserId(order.getUserId());
-					//	userMessage.setTitle("拼团成功通知！");
-					//	userMessage.setMessage("您已成功参团，拼团成功，如在接龙结束后拼团依然成功，即可上门提货！订单详情请前往我的->我参与的接龙查看.");
-						userMessage.setTitle("下单成功通知！");
-					//	userMessage.setMessage("恭喜您，下单成功，您购买的订单已成团，订单详情请前往我的->我参与的Mart查看.");
-						userMessage.setMessage("恭喜您，下单成功，你购买了"+sp.toString()+",请于"+addressInfo+"提货，如需修改订单，您可以在我的-我参与的Mart中找到下单记录，取消订单后重新下单。");
-						userMessageService.insert(userMessage);
+						// 只给当前用户发送拼团成功的消息
+						StringBuilder message=new StringBuilder();
+						message.append("恭喜您成功下单：“").append(topic).append("”的“").append(goodsInfo)
+						       .append("”，你选择了“").append(addressInfo).append("”取货，请您牢记！如有问题，可以随时与发起人进行沟通。订单详情请前往“我的”-“我参与的Mart”进行查看");
+						sendMessage("下单成功通知！", message.toString(), order.getUserId());
+						
+						
 					} else {
-						// 恭喜终于成团了。
-						// 更新ordergroupconsole表
-						int updateRet = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(),
-								orderGoods.getGoodsId());
-
-						// 下单之后给用户发送消息
-						userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 1, sp.toString(),addressInfo);
+						// 加上这个用户之后，所有人拼团成功
+						// 更新orderGroupConsole表
+						int updateRet = orderGroupConsoleMapper.updateGroupOkFlg(1, order.getJielongId(),orderGoods.getGoodsId());
+                        StringBuilder sb=new StringBuilder();
+                        sb.append("恭喜您成功下单：“").append(topic).append("”的“").append(goodsInfo).append("”，您选择了“").append(addressInfo).append("”取货，请您牢记！如有问题，可以随时与发起人进行沟通。\r\n" + 
+                        		"订单详情请前往“我的”-“我参与的Mart”进行查看");
+						//群发拼团成功消息 
+						sendGroupMessage(order.getJielongId(), orderGoods.getGoodsId(), 1,sb.toString());
 					}
 
-				} else {
-					// 成团状态
-					// 查看ordergroupconsole表的GroupOkFlg状态如果已经是1了
-					Integer oldGroupOkFlg = orderGroupConsoleMapper.selectGroupOkState(order.getJielongId(),
-							orderGoods.getGoodsId());
-					if (oldGroupOkFlg != null) {
-						if (oldGroupOkFlg == 1) {
-							// 有撤单的情况!从成团变成了 未成团。群发通知
-							int updateret = orderGroupConsoleMapper.updateGroupOkFlg(0, order.getJielongId(),
-									orderGoods.getGoodsId());
-
-							// 下单之后给用户发送消息
-							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0,goods.getName(),addressInfo);
-
-						} else {
-							// 发送单人通知
-							// 下单之后给用户发送消息
-							UserMessage userMessage = new UserMessage();
-							userMessage.setUserId(order.getUserId());
-						//	userMessage.setTitle("参团成功通知！");
-						//	userMessage.setMessage("您已成功参团，拼团人数暂不足，请等候拼团成功！订单详情请前往我的->我参与的接龙查看。");
-							userMessage.setTitle("下单成功通知");
-							userMessage.setMessage("恭喜您下单成功，您购买了"+goods.getName()+",本次Mart的最小成团数量是"+setGroupNum+"，订单详情可前往我的->我参与的Mart查看。转发到微信群，可以帮助团长一起促成Mart哦！");
-							userMessageService.insert(userMessage);
-						}
-					}
+				} else {  //该商品还没有拼团成功
+		
+					// 给该用户发送消息							
+					StringBuilder sb=new StringBuilder();
+					
+					sb.append("您已成功预订：\"").append(topic).append("\"的\"").append(goodsInfo)
+					  .append("\",").append("此Mart需要满足最小成团数量 ").append(groupNum).append(" 才可成功,满足数量后，系统会发送通知。您也可以将此Mart转发到微信群或朋友圈，帮助发起人一起促成。")
+					  .append("订单详情请前往\"我的\"-\"我参与的Mart\"进行查看");
+					
+					sendMessage("下单成功通知！", sb.toString(), order.getUserId());
 
 				}
 				// 减少对应商品的库存
@@ -179,6 +168,9 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 
 		return null;
 	}
+	
+	
+	
 
 	// 根据顾客id查询订单(参与的接龙)
 	@Transactional
@@ -234,8 +226,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 				// orderGoods.setOrderId(orderGroup.getOrderId());
 				orderGoods.setSum(ordergroup.getCustBuyNum());
 
-				OrderGroupConsole orderGroupConsole = orderGroupConsoleMapper
-						.selectByJielongAndGoods(ordergroup.getJielongId(), ordergroup.getGoodsId());
+				OrderGroupConsole orderGroupConsole = orderGroupConsoleMapper.selectByJielongAndGoods(ordergroup.getJielongId(), ordergroup.getGoodsId());
 
 				Integer orderFlg = ordergroup.getOrderFlg();
 
@@ -259,8 +250,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 						// 待拼团成功，差几人计算
 						Integer setGroupNum = Integer.valueOf(goods.getGroupSum());
 
-						Integer newGroupNum = orderGroupMapper.selectByCustBuyNum(ordergroup.getJielongId(),
-								ordergroup.getGoodsId());
+						Integer newGroupNum = orderGroupMapper.selectByCustBuyNum(ordergroup.getJielongId(),ordergroup.getGoodsId());
 
 						if (setGroupNum != null && newGroupNum != null) {
 							int numtmp = setGroupNum - newGroupNum;
@@ -407,33 +397,29 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		List<OrderGroupConsole> listOrderGroupConsole = orderGroupConsoleMapper.selectByJieLongId(jielongId);
 
 		// 接龙名取得
-		Jielong JielongName = jielongMapper.selectByPrimaryKey(jielongId);
+		String JielongName = jielongMapper.selectTopic(jielongId);
 		for (OrderGroupConsole orderGroupConsole : listOrderGroupConsole) {
 			// 商品成功成团与否FLG
 			if (orderGroupConsole.getGroupOkFlg() == 1) {
 				// 拼团成功 最终结果更新
 				// 1.关闭order_group_console表，状态关闭
-				orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(),
-						orderGroupConsole.getGoodsId());
+				orderGroupConsoleMapper.updateLastStateFlg(1, orderGroupConsole.getJielongId(),	orderGroupConsole.getGoodsId());
 
 				// 2.关闭order_group表，状态关闭,trade_flg 0 -> 2,order_flg 0 -> 0 where trade_flg = 0
 				// and order_flg = 0
-				orderGroupMapper.updateLastStateFlg(2, 0, orderGroupConsole.getJielongId(),
-						orderGroupConsole.getGoodsId());
+				orderGroupMapper.updateLastStateFlg(2, 0, orderGroupConsole.getJielongId(),	orderGroupConsole.getGoodsId());
 
-				List<OrderGroup> orderGroupList = orderGroupMapper
-						.selectByJieLongGoodsId(orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
+				List<OrderGroup> orderGroupList = orderGroupMapper.selectByJieLongGoodsId(orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
 				for (OrderGroup orderGroup : orderGroupList) {
 					Goods goods = goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
-					// 拼团成功每个下单的客户消息发送，状态更新
-					UserMessage userMessage = new UserMessage();
-					userMessage.setUserId(orderGroup.getCustId());
-					userMessage.setTitle("群发拼团成功通知！");
-					String address=userAddressService.selectById(orderGroup.getAddressId()).getData().getDetail();
-					//userMessage.setMessage(
-					//		"恭喜您，截止接龙结束，" + JielongName.getTopic() + "的" + goods.getName() + "已拼团成功，请尽快上门提货！");
-					userMessage.setMessage("亲爱的团员们，本次Mart已结束。恭喜您购买到心仪的商品。团长会尽快备货，在"+address+"来为大家派发！");
-					userMessageService.insert(userMessage);
+					
+					String address=userAddressService.selectById(orderGroup.getAddressId()).getData().getDetail().replace("***", " 提货时间");
+					
+					StringBuilder sb=new StringBuilder();
+					sb.append("您好！您参与的：“").append(JielongName).append("”已截团，请您在：“").append(address).append("”进行提货，请您牢记！")
+					  .append("如有问题，可以随时与发起人进行沟通。\r\n订单详情请前往“我的”-“我参与的Mart”进行查看"); 
+					sendMessage("截团通知", sb.toString(),orderGroup.getCustId());
+					
 				}
 
 			} else {
@@ -452,13 +438,11 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 						.selectByJieLongGoodsId(orderGroupConsole.getJielongId(), orderGroupConsole.getGoodsId());
 				for (OrderGroup orderGroup : orderGroupList) {
 					Goods goods = goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
-					// 拼团成功每个下单的客户消息发送，状态更新
-					UserMessage userMessage = new UserMessage();
-					userMessage.setUserId(orderGroup.getCustId());
-					userMessage.setTitle("群发拼团失败通知！");
-					userMessage.setMessage(
-							"非常遗憾地告诉您，" + JielongName.getTopic() + "的" + goods.getName() + "未达到最小成团数量，本次Mart未成功。您还可以去首页看看其他Mart哦！");
-					userMessageService.insert(userMessage);
+					
+					// 拼团成功每个下单的客户消息发送，状态更新					
+					String message="非常遗憾地告诉您，由于商家提前终止了Mart(此行为与我们平台无关)，" + JielongName + "的" + goods.getName() + "未满足最小成团数量，本次订单自动关闭。您还可以去首页看看其他Mart哦！";
+					sendMessage("团购失败通知！", message, orderGroup.getCustId());
+					
 				}
 
 			}
@@ -468,6 +452,8 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		// return 0 为接龙结束异常 1为正常
 		return 1;
 	}
+	
+	
 
 	@Transactional
 	@Override
@@ -577,8 +563,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 			}
 
 		}
-		// ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
-		// Integer result=orderGroupMapper.signPick(signPickBean);
+	
 		responseBean.setData(result);
 		return responseBean;
 	}
@@ -793,6 +778,8 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		ResponseBean<Integer> responseBean = new ResponseBean<Integer>();
 
 		Integer result = orderGroupMapper.updateStateById(0, 1, order.getId());
+		//查询该接龙的主题
+		String topic=jielongMapper.selectTopic(order.getJielongId());
 		// 减少参与人数和接龙金额
 		jielongMapper.reduceJoin(order.getJielongId(), order.getSumMoney());
 
@@ -817,18 +804,10 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					// 之前就是成团的
 					if (oldGroupOkFlg == 1) {
 						// 发送单人通知 撤单后还是成功的团
-						UserMessage userMessage = new UserMessage();
-						userMessage.setUserId(order.getUserId());
-						userMessage.setTitle("取消参团通知！");
-						userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
-						userMessageService.insert(userMessage);
+						sendMessage("取消参团通知！", "您已成功取消参团，敬请下次惠顾，谢谢！", order.getUserId());
 					} else {
 						// 之前不成团，状态应该没有这种情况
-						UserMessage userMessage = new UserMessage();
-						userMessage.setUserId(order.getUserId());
-						userMessage.setTitle("取消参团通知！");
-						userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
-						userMessageService.insert(userMessage);
+						sendMessage("取消参团通知！", "您已成功取消参团，敬请下次惠顾，谢谢！", order.getUserId());
 					}
 
 				} else { // 取消订单后不成团
@@ -844,23 +823,18 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 									orderGoods.getGoodsId());
 
 							// 给本人发送消息
-							UserMessage userMessage = new UserMessage();
-							userMessage.setUserId(order.getUserId());
-							userMessage.setTitle("取消参团通知！！");
-							userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
-							userMessageService.insert(userMessage);
+							sendMessage("取消参团通知！", "您已成功取消参团，敬请下次惠顾，谢谢！", order.getUserId());
 
-							// 取消订单之后给团里其他用户发送消息
-							userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0,goods.getName(),"");
+							// 给团里其他用户发送消息
+							//userMessageService.groupStateModify(order.getJielongId(), orderGoods.getGoodsId(), 0,goods.getName(),"");
+							StringBuilder sb=new StringBuilder();
+							sb.append("您预订的“").append(topic).append("”的“").append(goods.getName()).append("”").append(",由于有人取消了参团，导致拼团人数暂不足，请等候拼团成功！订单详情请前往“我的”-“我参与的Mart”进行查看。");
+							sendGroupMessage(order.getJielongId(), orderGoods.getGoodsId(), 0,sb.toString());
 
 						} else { // 本来就不成团
 							// 发送单人通知
 							// 下单之后给用户发送消息
-							UserMessage userMessage = new UserMessage();
-							userMessage.setUserId(order.getUserId());
-							userMessage.setTitle("取消参团通知！");
-							userMessage.setMessage("您已成功取消参团，敬请下次惠顾，谢谢！");
-							userMessageService.insert(userMessage);
+							sendMessage("取消参团通知！", "您已成功取消参团，敬请下次惠顾，谢谢！", order.getUserId());
 						}
 					}
 
@@ -871,6 +845,52 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 
 		responseBean.setData(result);
 		return responseBean;
+	}
+	
+	/**
+	 * 发送消息
+	 * @param title
+	 * @param message
+	 * @param userId
+	 */
+	public void sendMessage(String title,String message,Integer userId) {
+		UserMessage userMessage = new UserMessage();
+		userMessage.setUserId(userId);
+		userMessage.setTitle(title);
+		userMessage.setMessage(message);
+		userMessageService.insert(userMessage);
+	}
+	
+   /**
+    * 群发消息	
+    * @param jieLongId
+    * @param goodsId
+    * @param flag    1:成团群发,2不成团群发
+    * @param Message 消息详情
+    */
+   public void sendGroupMessage(Integer jieLongId, Integer goodsId, Integer flag,String Message) {
+		
+		List<Integer> listUserId = new ArrayList<Integer>();
+		listUserId = orderGroupMapper.selectByUserId(jieLongId, goodsId);
+		
+		UserMessage userMessage = new UserMessage();
+		
+		if (listUserId!=null&&listUserId.size()>0) {
+			if(flag == 1){
+				//成团发送
+				userMessage.setTitle("下单成功通知！");				
+				
+			} else {
+				//不成团发送
+				userMessage.setTitle("参团状态改变通知！");
+			}
+			userMessage.setMessage(Message);
+			userMessage.setUserIdList(listUserId);
+			userMessageService.insertBatch(userMessage);
+			
+		}		
+		
+		
 	}
 
 }

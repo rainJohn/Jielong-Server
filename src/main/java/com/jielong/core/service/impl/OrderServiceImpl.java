@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
 		orderMapper.insertSelective(order);
 		Integer orderId = commonDao.getLastId();
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder goodsInfo = new StringBuilder();
 		if (orderGoodsList != null && orderGoodsList.size() > 0) {
 			for (int i = 0; i < orderGoodsList.size(); i++) {
 				OrderGoods orderGoods = orderGoodsList.get(i);
@@ -99,7 +99,8 @@ public class OrderServiceImpl implements OrderService {
 				orderGoodsService.insert(orderGoods);
 				// 商品信息
 				Goods goods = goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());
-				sb.append(goods.getName()).append(" ");
+				
+				goodsInfo.append(goods.getName()).append(orderGoods.getSum()).append(goods.getSpecification());
 				// 减少对应商品的库存
 				goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
 			}
@@ -107,17 +108,33 @@ public class OrderServiceImpl implements OrderService {
 
 		// 下单之后，更新接龙参与人数、参与金额等信息
 		jielongService.updateJoin(order.getJielongId(), sumMoney);
+		
+		//给用户发送消息
+		sendMessage(goodsInfo.toString(), order);
 
+		responseBean.setData(1);
+		return responseBean;
+	}
+	
+	public void sendMessage(String goodsInfo,Order order) {
+		//获取Jielong主题
+		String topic=jielongMapper.selectTopic(order.getJielongId());
+		
+		//获取下单地址				
+		String addressInfo=userAddressService.selectById(order.getAddressId()).getData().getDetail().replace("***", "  提货时间");
+				
+		StringBuilder message=new StringBuilder();
+		message.append("恭喜您成功下单：\"").append(topic).append("\"的\"").append(goodsInfo)
+		       .append("\",").append("您选择了于\"").append(addressInfo).append("\"取货，").append("请您牢记！如有问题，可以随时与发起人员沟通。")
+		       .append("订单详情请前往\"我的\"-\"我参与的Mart\"进行查看。");
 		// 下单之后给用户发送消息
 		UserMessage userMessage = new UserMessage();
 		userMessage.setUserId(order.getUserId());
 		userMessage.setTitle("下单成功通知！");
-		// userMessage.setMessage("你已成功下单，请尽快上门提货！订单详情请前往我的->我参与的接龙查看。");
-		userMessage.setMessage("恭喜您在VanMart成功下单咯！您购买了" + sb.toString() + "等商品，订单详情可前往我的->我参与的Mart查看。超值Mart，赶快转发给好朋友们吧！");
+		userMessage.setMessage(message.toString());
 		userMessageService.insert(userMessage);
-
-		responseBean.setData(1);
-		return responseBean;
+		
+		
 	}
 
 	// 根据顾客id查询订单(参与的接龙)
@@ -333,33 +350,33 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return new ResponseBean<>(pickCountBeanList);
 	}
-	
+
 	/**
 	 * 取消订单
 	 */
 	@Transactional
 	@Override
 	public ResponseBean<Integer> cancelOrder(Integer orderId) {
-		
-		Order order=new Order();
+
+		Order order = new Order();
 		order.setId(orderId);
-		//state:4 订单取消
+		// state:4 订单取消
 		order.setState(4);
-		Integer result=orderMapper.updateByPrimaryKeySelective(order);
-		
-		Order updateOrder=orderMapper.selectByPrimaryKey(orderId);
+		Integer result = orderMapper.updateByPrimaryKeySelective(order);
+
+		Order updateOrder = orderMapper.selectByPrimaryKey(orderId);
 		// 减少参与人数和接龙金额
 		jielongMapper.reduceJoin(updateOrder.getJielongId(), updateOrder.getSumMoney());
-		//订单内商品列表
-		List<OrderGoods> orderGoodsList =orderGoodsMapper.selectByOrderId(orderId);
-		if(orderGoodsList!=null && orderGoodsList.size()>0) {
-			for(OrderGoods orderGoods: orderGoodsList) {
-				//增加库存
+		// 订单内商品列表
+		List<OrderGoods> orderGoodsList = orderGoodsMapper.selectByOrderId(orderId);
+		if (orderGoodsList != null && orderGoodsList.size() > 0) {
+			for (OrderGoods orderGoods : orderGoodsList) {
+				// 增加库存
 				goodsMapper.addRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
-			}		   
-			
+			}
+
 		}
-		ResponseBean<Integer> responseBean=new ResponseBean<Integer>(result);
+		ResponseBean<Integer> responseBean = new ResponseBean<Integer>(result);
 		return responseBean;
 	}
 
