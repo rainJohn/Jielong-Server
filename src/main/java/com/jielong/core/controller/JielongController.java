@@ -90,7 +90,7 @@ public class JielongController {
 	 */
 	@RequestMapping("/closeJielong")
 	public ResponseBean<Integer> closeJielong(@RequestParam("id") Integer id){
-		 orderGroupService.closeJieLong(id);
+		 orderGroupService.closeJieLong(id,1);
          return jielongService.closeJielong(id);                   		
 	}
 	/**

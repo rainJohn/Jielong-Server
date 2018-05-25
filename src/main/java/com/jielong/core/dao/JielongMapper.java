@@ -71,7 +71,7 @@ public interface JielongMapper {
     Integer setFinishStatus();
     
     /**
-     * 查询接龙的状态为结束 ：如果当前的时间大于Jielong的结束时间
+     * 查询接龙的状态为结束的 ：如果当前的时间大于Jielong的结束时间
      * @return
      */
     @Select("select * from jielong where status=1 and set_finish_time=1 and DATE_FORMAT(NOW(),'%Y/%m/%d %H:%i') > str_to_date(finish_time,'%Y/%m/%d %H:%i') and id in(select jielong_id from order_group_console where console_flg = 0)")

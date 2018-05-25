@@ -387,9 +387,13 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 
 	}
 
+	/**
+	 * 关闭Jielong
+	 * @param flag:1用户手动结束接龙，2接龙时间到，自动结束
+	 */
 	@Transactional
 	@Override
-	public int closeJieLong(Integer jielongId) {
+	public int closeJieLong(Integer jielongId,int flag) {
 
 		// 传入为结束接龙ID
 		// 1.判断结束的接龙是否是已经成团的接龙
@@ -416,8 +420,15 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 					String address=userAddressService.selectById(orderGroup.getAddressId()).getData().getDetail().replace("***", " 提货时间");
 					
 					StringBuilder sb=new StringBuilder();
-					sb.append("您好！您参与的：“").append(JielongName).append("”已截团，请您在：“").append(address).append("”进行提货，请您牢记！")
-					  .append("如有问题，可以随时与发起人进行沟通。\r\n订单详情请前往“我的”-“我参与的Mart”进行查看"); 
+					if (flag==1) { //手动关闭Mart
+						sb.append("您好！您参与的：“").append(JielongName).append("”已由团长提前截团，请您在：“").append(address).append("”进行提货，请您牢记！")
+						  .append("如有问题，可以随时与发起人进行沟通。\r\n订单详情请前往“我的”-“我参与的Mart”进行查看"); 
+					}
+					if (flag==2) {
+						sb.append("您好！您参与的：“").append(JielongName).append("”已截团，请您在：“").append(address).append("”进行提货，请您牢记！")
+						  .append("如有问题，可以随时与发起人进行沟通。\r\n订单详情请前往“我的”-“我参与的Mart”进行查看"); 
+					}
+					
 					sendMessage("截团通知", sb.toString(),orderGroup.getCustId());
 					
 				}
@@ -439,8 +450,15 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 				for (OrderGroup orderGroup : orderGroupList) {
 					Goods goods = goodsMapper.selectByPrimaryKey(orderGroup.getGoodsId());
 					
-					// 拼团成功每个下单的客户消息发送，状态更新					
-					String message="非常遗憾地告诉您，由于商家提前终止了Mart(此行为与我们平台无关)，" + JielongName + "的" + goods.getName() + "未满足最小成团数量，本次订单自动关闭。您还可以去首页看看其他Mart哦！";
+					// 拼团成功每个下单的客户消息发送，状态更新		
+					String message="";
+					if (flag==1) { //手动关闭Mart
+						 message="非常遗憾地通知您，由于商家提前终止了Mart(此行为与我们平台无关)，" + JielongName + "的" + goods.getName() + "未满足最小成团数量，本次订单自动关闭。您还可以去首页看看其他Mart哦！";
+					}
+					if (flag==2) {
+						 message="非常遗憾地通知您，截止Mart结束，" + JielongName + "的" + goods.getName() + "未满足最小成团数量，本次订单自动关闭。您还可以去首页看看其他Mart哦！";
+					}
+					
 					sendMessage("团购失败通知！", message, orderGroup.getCustId());
 					
 				}

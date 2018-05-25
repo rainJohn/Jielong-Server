@@ -152,13 +152,14 @@ public class JielongServiceImpl implements JielongService {
 	@Transactional
 	@Override
 	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
-		//caoxx 团购接龙结束调用 start
+		//查询状态为1(进行中)且当前时间大于接龙结束时间的接龙
 		List<Jielong> finishJielong = jielongMapper.selectFinishJielong();
+		
 		for (Jielong jielong : finishJielong) {
-			orderGroupService.closeJieLong(jielong.getId());
+			orderGroupService.closeJieLong(jielong.getId(),2);
 		}
 		
-		//检查接龙的结束状态
+		//将当前时间大于结束时间的接龙状态更新为2（结束）
 		Integer finishResult=jielongMapper.setFinishStatus();
 		
 		
