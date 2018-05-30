@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 //CommandLineRunner会在项目启动后自动执行，这里将它设置为只在 prod 环境下执行，是为了在本地单元测试的时候，让它不自动执行
 @Profile("prod")
+//@Profile("linux")
 @Component
 public class GetToken implements CommandLineRunner{
 

@@ -148,8 +148,8 @@ public class OrderController {
 					BigDecimal moneySum=new BigDecimal(0);
 					if (startTime != null && endTime != null) {
 						pickBeans = pickCountBean.getPickBeans().stream()
-								.filter(pickBean -> startTime.compareTo(pickBean.getCreatedAt()) < 0)
-								.filter(pickBean -> endTime.compareTo(pickBean.getCreatedAt()) > 0)
+								.filter(pickBean -> startTime.compareTo(pickBean.getCreatedAt().split(" ")[0]) <= 0)
+								.filter(pickBean -> endTime.compareTo(pickBean.getCreatedAt().split(" ")[0]) >= 0)
 								.collect(Collectors.toList());
 
 					}
@@ -173,8 +173,8 @@ public class OrderController {
 					BigDecimal moneySum=new BigDecimal(0);
 					if (startTime != null && endTime != null) {
 						pickBeans = pickCountBean2.getPickBeans().stream()
-								.filter(pickBean -> startTime.compareTo(pickBean.getCreatedAt()) < 0)
-								.filter(pickBean -> endTime.compareTo(pickBean.getCreatedAt()) > 0)
+								.filter(pickBean -> startTime.compareTo(pickBean.getCreatedAt().split(" ")[0]) <= 0)
+								.filter(pickBean -> endTime.compareTo(pickBean.getCreatedAt().split(" ")[0]) >= 0)
 								.collect(Collectors.toList());
 
 					}

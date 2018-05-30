@@ -20,9 +20,9 @@
 	
 		</commentGenerator>
 		
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/jielong" password="123456"
-			userId="root" />
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"  
+			connectionURL="jdbc:mysql://47.100.12.188:3306/jielong" password="123456"
+			userId="jielong" />
 
 		<!-- 生成model模型 -->
 		<javaModelGenerator targetPackage="com.jielong.core.domain"
@@ -45,7 +45,7 @@
 
 
 
-		<table schema="" tableName="user_message" domainObjectName="UserMessage"
+		<table schema="" tableName="contact_us" domainObjectName="ContactUs"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false">

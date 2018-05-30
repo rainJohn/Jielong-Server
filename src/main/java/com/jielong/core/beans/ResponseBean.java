@@ -38,6 +38,11 @@ public class ResponseBean<T> {
 		this.data = data;
 	}
 
+	@Override
+	public String toString() {
+		return "ResponseBean [errorCode=" + errorCode + ", errorMessage=" + errorMessage + ", data=" + data + "]";
+	}
+
 	
 	
 	

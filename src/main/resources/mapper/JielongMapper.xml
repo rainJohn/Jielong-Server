@@ -89,13 +89,13 @@
         status,
       </if>
        <if test="browseSum != null">
-        status,
+        browseSum,
       </if>
        <if test="joinSum != null">
-        status,
+        browseSum,
       </if>
        <if test="joinMoney != null">
-        status,
+        browseSum,
       </if>
     </trim>
     

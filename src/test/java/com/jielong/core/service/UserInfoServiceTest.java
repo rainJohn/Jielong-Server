@@ -24,6 +24,9 @@ public class UserInfoServiceTest {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	UserAddressService addressService;
+	
 	/**
 	 * 根据条件查询
 	 */
@@ -64,5 +67,11 @@ public class UserInfoServiceTest {
 		 Assert.assertEquals(1, result);
 		
 		
+	}
+	
+	@Test
+	public void testDeleteAddress() {
+		ResponseBean<Integer> responseBean=addressService.deleteById(128);
+		System.out.println(responseBean);
 	}
 }

@@ -259,9 +259,9 @@ public class Jielong {
 
 	
 	public String getCreateTimeStr() {
-		TimeZone timeZone = TimeZone.getDefault();  
+	//	TimeZone timeZone = TimeZone.getDefault();  
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		simpleDateFormat.setTimeZone(timeZone);  
+	//	simpleDateFormat.setTimeZone(timeZone);  
 		if(getCreatedAt()!=null) {
 		  return simpleDateFormat.format(getCreatedAt());
 		}else {
@@ -271,9 +271,9 @@ public class Jielong {
 	}
 
 	public String getUpdateTimeStr() {
-		TimeZone timeZone = TimeZone.getDefault();  
+	//	TimeZone timeZone = TimeZone.getDefault();  
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		simpleDateFormat.setTimeZone(timeZone);  
+	//	simpleDateFormat.setTimeZone(timeZone);  
 		if (getUpdatedAt()!=null) {
 			return simpleDateFormat.format(getUpdatedAt());   
 		}else {

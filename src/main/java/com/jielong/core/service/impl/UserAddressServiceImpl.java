@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.jielong.base.util.ErrorCode;
 import com.jielong.core.beans.ResponseBean;
+import com.jielong.core.dao.JielongMapper;
 import com.jielong.core.dao.UserAddressMapper;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.service.UserAddressService;
@@ -17,6 +18,8 @@ public class UserAddressServiceImpl implements UserAddressService {
 	
 	@Autowired
 	UserAddressMapper userAddressMapper;
+	@Autowired
+	JielongMapper jielongMapper;
 
 	@Override
 	public ResponseBean<Integer> insertSelective(UserAddress address) {
@@ -27,8 +30,30 @@ public class UserAddressServiceImpl implements UserAddressService {
 
 	@Override
 	public ResponseBean<Integer> deleteById(Integer id) {
+		
+		ResponseBean<Integer> responseBean=new ResponseBean<Integer>();
+		
+		//查询有没有接龙使用该地址
+		List<String> addressIdList=jielongMapper.selectAddress(id.toString());
+		if (addressIdList!=null && addressIdList.size()>0) {
+			for (String string : addressIdList) {
+				String[] addressArray=string.split(",");
+				if (addressArray.length>0) {
+					for (String address : addressArray) {
+						if (address.equals(id.toString())) {
+							responseBean.setErrorCode(ErrorCode.DELETE_EXCEPTION);
+							responseBean.setErrorMessage("该地址正在使用中，暂时无法删除！");
+							return responseBean;
+						}
+					}
+				}
+				
+			}
+		}
+		
+		
 		int result=userAddressMapper.deleteByPrimaryKey(id);
-		ResponseBean<Integer> responseBean=new ResponseBean<Integer>(result);
+		responseBean.setData(result);
 		return responseBean;
 	}
 

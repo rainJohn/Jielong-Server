@@ -84,4 +84,7 @@ public interface JielongMapper {
      */
     @Update("update jielong set status=4,updated_at=now() where id=#{id}")
     Integer deleteJielong(@Param("id") Integer id);
+    
+    @Select("select goods_addresses from jielong where status=1 and goods_addresses  LIKE CONCAT(CONCAT('%', #{addressId}), '%')")
+    List<String> selectAddress(@Param("addressId") String addressId);
 }
