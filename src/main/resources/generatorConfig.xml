@@ -45,7 +45,7 @@
 
 
 
-		<table schema="" tableName="contact_us" domainObjectName="ContactUs"
+		<table schema="" tableName="contact_us_website" domainObjectName="ContactUsWebsite"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false">
