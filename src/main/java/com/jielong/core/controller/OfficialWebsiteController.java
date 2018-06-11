@@ -1,5 +1,6 @@
 package com.jielong.core.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class OfficialWebsiteController {
 		return contactUsService.insert(contactUs);
 	}
 	
+	@CrossOrigin(origins = "http://domain2.com", maxAge = 3600)
 	@RequestMapping("/website/contactUs")
 	public ResponseBean<Integer> contactUsWebsite(@RequestBody ContactUsWebsite contactUsWebsite){
 		 return contactUsWebsiteService.insert(contactUsWebsite);
