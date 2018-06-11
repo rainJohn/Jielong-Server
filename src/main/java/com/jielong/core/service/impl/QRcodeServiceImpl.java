@@ -22,7 +22,7 @@ public class QRcodeServiceImpl implements QRcodeService{
         InputStream inputStream=null;
 		try {
 			JSONObject jsonObject=new JSONObject();
-			jsonObject.put("path", "pages/detail/detail?jielongId="+id);
+			jsonObject.put("path", "pages/detail/detail?id="+id+"&fromMine=0");
 			
 			inputStream = NetworkConnection.getStream(url+accessToken, jsonObject.toString());
 		} catch (JSONException e) {
