@@ -14,9 +14,11 @@ public class OrderGroupConsole {
     private Integer groupOkFlg;
 
     private Integer consoleFlg;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7")
     private Date createdAt;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7")
     private Date updatedAt;
 
     public Integer getId() {

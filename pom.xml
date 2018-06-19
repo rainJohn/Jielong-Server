@@ -78,6 +78,12 @@
 			<artifactId>android-json</artifactId>
 			<version>0.0.20131108.vaadin1</version>
 		</dependency>
+		
+		<!-- Dom4j解析xml文档 -->
+		<dependency>  
+           <groupId>dom4j</groupId>  
+           <artifactId>dom4j</artifactId>  
+        </dependency>  
 
 		<!-- <dependency>
 			<groupId>org.apache.shiro</groupId>

@@ -30,7 +30,7 @@ public class GetToken implements CommandLineRunner{
 	}
 
 	public static void netAccessToken() throws JSONException {
-		url.append("&appid=").append(Constant.APPID).append("&secret=").append(Constant.SECRET);
+		url.append("&appid=").append(Constants.APPID).append("&secret=").append(Constants.SECRET);
 		String result=NetworkConnection.get(url.toString());
 		JSONObject jsonObject=new JSONObject(result);
 		String token=jsonObject.getString("access_token");

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jielong.base.util.Constant;
+import com.jielong.base.util.Constants;
 import com.jielong.base.util.ErrorCode;
 import com.jielong.base.util.NetworkConnection;
 import com.jielong.base.util.Utils;
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService{
    	    Map<String, Object> resultMap=new HashMap<String, Object>();
 	   
 	    StringBuilder sb=new StringBuilder("https://api.weixin.qq.com/sns/jscode2session?");
-		sb.append("appid="+Constant.APPID+"&");
-		sb.append("secret="+Constant.SECRET+"&");
+		sb.append("appid="+Constants.APPID+"&");
+		sb.append("secret="+Constants.SECRET+"&");
 		sb.append("js_code="+code+"&");
 		sb.append("grant_type=authorization_code");
 		

@@ -24,10 +24,10 @@ public class UserInfo {
     //用户状态
     private Integer state;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date createdAt;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date updatedAt;
 
     public Integer getId() {

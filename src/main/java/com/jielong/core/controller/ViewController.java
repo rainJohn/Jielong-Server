@@ -10,7 +10,7 @@ public class ViewController {
 	/** 
 	 * @return 首页
 	 */
-	@RequestMapping("/home")
+	@RequestMapping(value= {"/","/home"})
 	public String home()
 	{ 
 		return "home";

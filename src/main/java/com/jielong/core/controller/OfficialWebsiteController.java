@@ -23,7 +23,7 @@ public class OfficialWebsiteController {
 		return contactUsService.insert(contactUs);
 	}
 	
-	@CrossOrigin(origins = "http://domain2.com", maxAge = 3600)
+	@CrossOrigin(origins = "https://www.95cfun.com", maxAge = 3600)
 	@RequestMapping("/website/contactUs")
 	public ResponseBean<Integer> contactUsWebsite(@RequestBody ContactUsWebsite contactUsWebsite){
 		 return contactUsWebsiteService.insert(contactUsWebsite);

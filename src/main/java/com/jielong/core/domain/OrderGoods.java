@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class OrderGoods {
     private Integer id;
 
@@ -15,9 +17,10 @@ public class OrderGoods {
     private Integer sum;
 
     private BigDecimal money;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7")
     private Date createdAt;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7") 
     private Date updatedAt;
     
     private Goods goods;

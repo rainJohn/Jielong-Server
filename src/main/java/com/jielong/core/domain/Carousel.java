@@ -11,10 +11,10 @@ public class Carousel {
 
     private String type;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date createtime;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date updatetime;
 
     private String remark;

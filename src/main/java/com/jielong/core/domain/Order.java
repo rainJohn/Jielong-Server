@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Order {
     private Integer id;
 
@@ -28,9 +30,10 @@ public class Order {
     private Integer state;
 
     private String remark;
-
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date createdAt;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date updatedAt;
     
     private List<OrderGoods> orderGoods;

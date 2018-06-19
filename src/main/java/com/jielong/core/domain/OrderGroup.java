@@ -37,10 +37,10 @@ public class OrderGroup {
     
     private String createdAtStr;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7") 
     private Date createdAt;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date updatedAt;
     
     //提货地址

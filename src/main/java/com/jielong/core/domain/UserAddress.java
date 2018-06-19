@@ -16,10 +16,10 @@ public class UserAddress {
     private Integer longitude;
     private Integer latitude;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date createdAt;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
     private Date updatedAt;
 
     

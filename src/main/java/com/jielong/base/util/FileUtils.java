@@ -39,11 +39,11 @@ public class FileUtils {
             //文件后缀名
             String fileSuffix=originalName[originalName.length-1];
             String fileName=Utils.createFileName() +"."+fileSuffix;
-            File parentFile=new File(Constant.UPLOADED_FOLDER);
+            File parentFile=new File(Constants.UPLOADED_FOLDER);
             if (!(parentFile.exists()&& parentFile.isDirectory())) {
 				parentFile.mkdirs();
 			}
-            Path path = Paths.get(Constant.UPLOADED_FOLDER +fileName);
+            Path path = Paths.get(Constants.UPLOADED_FOLDER +fileName);
             
             Files.write(path, bytes);
             responseBean.setData("/getImage/"+fileName);

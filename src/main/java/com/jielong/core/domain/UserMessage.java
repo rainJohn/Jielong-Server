@@ -23,10 +23,10 @@ public class UserMessage {
 	protected String createTimeStr;
 	protected String updateTimeStr;
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
 	private Date createTime;
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7")
 	private Date updateTime;
 
 	private List<Integer> userIdList;

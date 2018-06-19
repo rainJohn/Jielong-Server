@@ -47,11 +47,10 @@ public class Jielong {
     private BigDecimal joinMoney;
     
    
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7") 
     private Date createdAt;
     
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT-7") 
     private Date updatedAt;
     
     private Integer status;     //接龙状态 1：进行中 2：活动结束  3：提前终止 4：其他情况

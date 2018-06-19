@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.jielong.base.util.Utils;
 import com.aliyun.oss.OSSClient;
-import com.jielong.base.util.Constant;
+import com.jielong.base.util.Constants;
 import com.jielong.base.util.FileUtils;
 import com.jielong.base.util.OSSClientConstants;
 import com.jielong.core.beans.ResponseBean;
@@ -48,7 +48,7 @@ public class FileController {
 	public void getFile(@PathVariable String url,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
 		 
 		  try {
-			  String fileUrl=Constant.UPLOADED_FOLDER +url;
+			  String fileUrl=Constants.UPLOADED_FOLDER +url;
 			  
 			  String[] tempArray=fileUrl.split("\\.");
 			  String fileType=tempArray[tempArray.length-1];
@@ -82,7 +82,7 @@ public class FileController {
 	public String downloadOrder(@RequestParam("jielongId")Integer jielongId,HttpServletResponse response) {
 		
 		XSSFWorkbook wb=fileService.exportOrder(jielongId);
-		String path=Constant.SAVED_FOLDER;
+		String path=Constants.SAVED_FOLDER;
 		File dirFile=new File(path);
 		File file=null;
 		String filePath="";
