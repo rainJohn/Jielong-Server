@@ -2,12 +2,16 @@ package com.jielong.core.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jielong.base.util.Constants;
+import com.jielong.base.util.ErrorCode;
 import com.jielong.base.util.Utils;
 import com.jielong.core.beans.PickBean;
 import com.jielong.core.beans.PickCountBean;
@@ -31,6 +35,7 @@ import com.jielong.core.service.OrderService;
 import com.jielong.core.service.UserAddressService;
 import com.jielong.core.service.UserInfoService;
 import com.jielong.core.service.UserMessageService;
+import com.jielong.core.service.UserService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -51,16 +56,22 @@ public class OrderServiceImpl implements OrderService {
 	UserInfoService userInfoService;
 
 	@Autowired
-	OrderService orderService;
-
-	@Autowired
 	GoodsMapper goodsMapper;
 	@Autowired
 	JielongMapper jielongMapper;
 
 	@Autowired
 	OrderGoodsMapper orderGoodsMapper;
-
+	
+	@Autowired
+	WxPayServiceImpl wxPayService;
+	
+	@Autowired
+	UserService userService;
+	
+	/**
+	 * 不含支付时插入订单
+	 */
 	@Transactional
 	@Override
 	public ResponseBean<Integer> insert(Order order) {
@@ -115,6 +126,122 @@ public class OrderServiceImpl implements OrderService {
 		responseBean.setData(1);
 		return responseBean;
 	}
+
+	/**
+	 * 含支付时插入订单逻辑
+	 */
+	@Transactional
+	@Override
+	public ResponseBean<Map<String, String>> insertWithPay(Order order) {
+		
+		ResponseBean<Map<String, String>> responseBean = new ResponseBean<>();
+
+		// 订单内商品列表
+		List<OrderGoods> orderGoodsList = order.getOrderGoods();
+
+		String orderNum = Utils.createFileName();
+		// 订单编号
+		order.setOrderNum(orderNum);
+		// 订单状态 1下单成功，待支付
+		order.setState(1);
+		// 订单总金额
+		BigDecimal sumMoney = new BigDecimal(0);
+		
+		if (orderGoodsList != null && orderGoodsList.size() > 0) {
+			for (OrderGoods orderGoods : orderGoodsList) {
+		        //检查一下该商品的库存
+				Integer repertory=goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId()).getRepertory();
+				if (repertory<=0) {
+					//库存不足
+					responseBean.setErrorCode(ErrorCode.REPERTORY_EXCEPTION);
+					responseBean.setErrorMessage("有商品库存不足");
+					return responseBean;
+				}
+				BigDecimal price = orderGoods.getMoney();
+				Integer sum = orderGoods.getSum();
+				BigDecimal tempMOney = price.multiply(new BigDecimal(sum));
+				sumMoney = sumMoney.add(tempMOney);
+			}
+		}
+
+		order.setSumMoney(sumMoney);
+
+		orderMapper.insertSelective(order);
+		Integer orderId = commonDao.getLastId();
+
+		//StringBuilder goodsInfo = new StringBuilder();
+		if (orderGoodsList != null && orderGoodsList.size() > 0) {
+			for (int i = 0; i < orderGoodsList.size(); i++) {
+				OrderGoods orderGoods = orderGoodsList.get(i);
+				orderGoods.setOrderId(orderId);
+				orderGoodsService.insert(orderGoods);
+			}
+		}
+		
+		//调用微信支付
+		//1、获取用户的openId
+		String openId=userService.selectById(order.getUserId()).getOpenId();
+		String goodsDesc="VanMart-景点门票";
+		//订单总金额，要换成单位  分
+		int totalFee=sumMoney.multiply(new BigDecimal(100)).intValue();
+		//TODO:测试时用1分
+		//int totalFee=1;
+		Map<String, String> map=wxPayService.wxPay(openId, goodsDesc, orderNum,totalFee,0);
+		if (null!=map) {
+			responseBean.setData(map);
+		}else {
+			responseBean.setErrorCode(ErrorCode.PAY_EXCEPTION);
+			responseBean.setErrorMessage("支付发生错误");
+		}
+		
+        //商品库存、参与人数、参与金额等更新信息要在微信支付的异步通知url中调用
+		
+		// 下单之后，更新接龙参与人数、参与金额等信息
+		//jielongService.updateJoin(order.getJielongId(), sumMoney);
+		
+		//给用户发送消息
+		//sendMessage(goodsInfo.toString(), order);
+		
+		return responseBean;
+	}
+	
+	/**
+	 * 更新订单信息(商品库存、接龙参与人数、参与金额等信息)，微信支付异步通知url中调用
+	 * @param order 订单
+	 */
+	@Override
+	@Transactional
+	public void updateOrder(Order order) {		
+		StringBuilder goodsInfo = new StringBuilder();
+	   	//获取订单内包含的商品信息，减少其库存
+		List<OrderGoods> goodsList=orderGoodsService.selectByOrderId(order.getId());
+		for (OrderGoods orderGoods : goodsList) {
+			// 减少对应商品的库存
+			goodsMapper.updateRepertory(orderGoods.getGoodsId(), orderGoods.getSum());
+			// 商品信息
+			Goods goods = goodsMapper.selectByPrimaryKey(orderGoods.getGoodsId());				
+			goodsInfo.append(goods.getName()).append(orderGoods.getSum()).append(goods.getSpecification());
+		}
+		
+		//更新订单状态 : 待支付->已支付(1->2)
+		Order newOrder=new Order();
+		newOrder.setId(order.getId());
+		newOrder.setState(2);
+		orderMapper.updateByPrimaryKeySelective(newOrder);
+		
+		
+		// 下单之后，更新接龙参与人数、参与金额等信息
+		jielongService.updateJoin(order.getJielongId(), order.getSumMoney());
+				
+		//给用户发送消息
+		sendMessage(goodsInfo.toString(), order);			
+		
+		
+		
+		
+	}
+	
+	
 	
 	public void sendMessage(String goodsInfo,Order order) {
 		//获取Jielong主题

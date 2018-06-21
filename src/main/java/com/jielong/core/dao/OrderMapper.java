@@ -32,6 +32,10 @@ public interface OrderMapper {
     @Select("select * from jielong_order where jielong_id=#{jielongId} order by created_at asc")
     List<Order> selectByJielongId(@Param("jielongId")Integer jielongId);
     
+    //根据订单编号查询订单
+    @Select("select * from jielong_order where order_num=#{orderNum}")
+    Order selectByOrderNum(@Param("orderNum")String orderNum);
+    
     //设置自提标记
     Integer signPick(SignBean signBean);
     

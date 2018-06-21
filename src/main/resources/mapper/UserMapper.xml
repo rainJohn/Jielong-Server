@@ -3,17 +3,17 @@
 <mapper namespace="com.jielong.core.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.jielong.core.domain.User">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sessionId" jdbcType="VARCHAR" property="sessionId" />
-    <result column="sessionValue" jdbcType="VARCHAR" property="sessionValue" />
-    <result column="validTime" jdbcType="INTEGER" property="validTime" />
-    <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="session_value" jdbcType="VARCHAR" property="sessionValue" />
+    <result column="valid_time" jdbcType="INTEGER" property="validTime" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sessionId, sessionValue, validTime,session_id,,open_id,createdAt, updatedAt,state
+    id, session_id, session_value,session_key,valid_time,open_id,created_at, updated_at,state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -33,13 +33,13 @@
         id,
       </if>
       <if test="sessionId != null">
-        sessionId,
+        session_id,
       </if>
       <if test="sessionValue != null">
-        sessionValue,
+        session_value,
       </if>
       <if test="validTime != null">
-        validTime,
+        valid_time,
       </if>
       <if test="sessionKey != null">
         session_key,
@@ -48,10 +48,10 @@
         open_id,
       </if>
       <if test="createdAt != null">
-        createdAt,
+        created_at,
       </if>
       <if test="updatedAt != null">
-        updatedAt,
+        updated_at,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -85,13 +85,13 @@
     update user
     <set>
       <if test="sessionId != null">
-        sessionId = #{sessionId,jdbcType=VARCHAR},
+        session_id = #{sessionId,jdbcType=VARCHAR},
       </if>
       <if test="sessionValue != null">
-        sessionValue = #{sessionValue,jdbcType=VARCHAR},
+        session_value = #{sessionValue,jdbcType=VARCHAR},
       </if>
       <if test="validTime != null">
-        validTime = #{validTime,jdbcType=INTEGER},
+        valid_time = #{validTime,jdbcType=INTEGER},
       </if>
       <if test="sessionKey != null">
         session_key= #{sessionKey,jdbcType=VARCHAR},
@@ -100,10 +100,10 @@
         open_id = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        createdAt = #{createdAt,jdbcType=TIMESTAMP},
+        create_dt = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        updatedAt = #{updatedAt,jdbcType=TIMESTAMP},
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

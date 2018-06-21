@@ -154,7 +154,7 @@ public class JielongServiceImpl implements JielongService {
 	public ResponseBean<List<Jielong>> selectByPage(PageBean pageBean) {
 		//查询状态为1(进行中)且当前时间大于接龙结束时间的接龙
 		List<Jielong> finishJielong = jielongMapper.selectFinishJielong();
-		
+		//关闭接龙
 		for (Jielong jielong : finishJielong) {
 			orderGroupService.closeJieLong(jielong.getId(),2);
 		}

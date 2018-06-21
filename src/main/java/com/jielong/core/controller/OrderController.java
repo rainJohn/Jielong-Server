@@ -43,6 +43,18 @@ public class OrderController {
 		}
 
 	}
+	
+	
+	@RequestMapping("/insertWithPay")
+	public ResponseBean<Map<String, String>> insertWithPay(@RequestBody Order order) {
+		Integer isSetGroup = order.getIsSetGroup();
+		if (isSetGroup == 1) {
+			return orderGroupService.insertWithPay(order);
+		} else {
+			return orderService.insertWithPay(order);
+		}
+
+	}
 
 	/**
 	 * 根据顾客id查询参与的接龙

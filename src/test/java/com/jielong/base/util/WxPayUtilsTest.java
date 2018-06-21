@@ -20,10 +20,10 @@ public class WxPayUtilsTest {
 		
 	@Test
 	public void prePayTest() {
-		WxPayServiceImpl wxPayService=new WxPayServiceImpl();
+		/*WxPayServiceImpl wxPayService=new WxPayServiceImpl();
 		String orderNum="12321212122121212";
 		String openId="oQ_fh5FbPEail4QKnFnVYgDOSc14";
-		wxPayService.wxPay(openId,null, orderNum,100,"47.88.54.113");
+		wxPayService.wxPay(openId,null, orderNum,100,"47.88.54.113");*/
 	}
 	
 	

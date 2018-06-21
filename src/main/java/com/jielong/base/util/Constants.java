@@ -14,7 +14,8 @@ public class Constants {
   //支付密钥
   public static final String PAY_KEY="E0E1954FB86B4CDDA3DB69E13629AAA7";
   //支付异步通知url
-  public static final String NOTIFY_URL="https://www.95cfuns.com/wxpay/notify";
+//  public static final String NOTIFY_URL="https://www.95cfuns.com/wxpay/notify";
+  public static final String NOTIFY_URL="http://47.88.54.113:8081/wxpay/notify";
   //微信支付统一下单url
   public static final String UNIFIEDORDER_URL="https://api.mch.weixin.qq.com/pay/unifiedorder";
   //服务器ip地址

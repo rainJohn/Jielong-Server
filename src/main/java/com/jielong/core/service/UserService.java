@@ -17,6 +17,8 @@ public interface UserService {
 	   */
 	ResponseBean<Integer> updateState(User user);
 	
+	User selectById(Integer id);
+	
 	
 
 }
