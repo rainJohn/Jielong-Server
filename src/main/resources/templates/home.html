@@ -19,8 +19,8 @@
 				<el-container>
 					<el-col :span="4" class="allContLeft">
 						<el-aside width="100%" height="100%">
-							<div class="logo"></div>
-							<a v-for="(value,index) in routerLinkArray" class="routerLink" :href="value.link" @click="allRouterActive(index)" ref="allRouter"><i :class="value.icon"></i>{{value.name}}</a>
+							<div class="logo" :class="logo2"></div>
+							<a v-for="(value,index) in routerLinkArray" class="routerLink" :href="value.link" @click="allRouterActive(index)" ref="allRouter"><i :class="value.icon"></i><span v-text="value.name"></span></a>
 						</el-aside>
 					</el-col>
 					<el-col :span="20" class="allContRight">
@@ -85,7 +85,7 @@
 							<el-upload action="/uploadCarousel" list-type="picture-card" :show-file-list="false" :on-progress="handleProgress" :on-success="handleSuccess" :on-error="handleError" name="carousel">
 								<i class="el-icon-plus"></i>
 							</el-upload>
-							<el-col>
+							</el-col>
 					</el-row>
 				</div>
 				<!--父类添加商品-->
@@ -96,7 +96,7 @@
 						<el-button type="primary" @click="closeAddReMark">确 定</el-button>
 					</div>
 				</el-dialog>
-				<div>
+				</div>
 		</template>
 		<!-- 上传轮播图片end -->
 

@@ -86,12 +86,14 @@
  }
  
  .logo {
- 	background-image: url(../images/logo21.png);
+/*  	background-image: url(../images/logo21.png); */
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
  	height: 60px;
  }
- 
+ .logo2{
+ background-image: url(../images/logo21.png);
+ }
  .contentTitle{
  	font-size: 20px;
  	margin-bottom: 20px;

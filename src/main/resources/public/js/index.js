@@ -12,7 +12,7 @@
       }
       },
       created:function(){
-		
+    	  this.logo2 = "logo2";
       },
       mounted:function(){
       	this.$refs.allRouter[0].id = "router_active";
