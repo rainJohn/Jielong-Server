@@ -9,10 +9,12 @@
     	{link:"#/jielongManage",name:"接龙管理",icon:"el-icon-refresh"},
     	{link:"#/userManage",name:"用户管理",icon:"el-icon-view"},
     	{link:"#/helpCenter",name:"帮助中心",icon:"el-icon-setting"}],
+    	initCont:"initDataFalse",
       }
       },
       created:function(){
     	  this.logo2 = "logo2";
+    	  this.initCont = "initDataTrue";
       },
       mounted:function(){
       	this.$refs.allRouter[0].id = "router_active";

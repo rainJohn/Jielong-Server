@@ -112,6 +112,12 @@
 .jl_joinMoney::before{
 	content: "$  ";
 }
+.initDataFalse{
+	visibility: hidden;
+}
+.initDataTrue{
+	visibility: visible;
+}
 
 /*上传轮播图*/
 .sliderImgContent,.sliderImgCol{
