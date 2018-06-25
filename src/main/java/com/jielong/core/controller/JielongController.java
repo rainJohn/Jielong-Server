@@ -149,10 +149,10 @@ public class JielongController {
 		     
 		     List<Order> orderList2=orderGroupService.selectJoinByJielongId(jieLongId).getData();
 		     List<Order> orderList=new ArrayList<Order>();
-		     if (orderList1!=null) {
+		     if (orderList1.size()>0) {
 				orderList.addAll(orderList1.stream().filter(order->order.getState()==2||order.getState()==3).collect(Collectors.toList()));
 			 }
-		     if (orderList2!=null) {
+		     if (orderList2.size()>0) {
 		    	 orderList.addAll(orderList2);
 			 }
 		     

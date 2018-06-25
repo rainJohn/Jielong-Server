@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>springboot</groupId>
-	<artifactId>baihai-jielong-server</artifactId>
+	<artifactId>bohai-jielong-server</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -149,7 +149,7 @@
 	</dependencies>
 
 	<build>
-
+		
 		<plugins>
 			<!-- 打成jar包插件 -->
 			<plugin>
