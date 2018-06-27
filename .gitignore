@@ -28,4 +28,5 @@ hs_err_pid*
 /.project
 /src/main/resources/generatorConfig.xml
 /uploadFiles/
-/.idea/
+.idea
+
