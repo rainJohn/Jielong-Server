@@ -19,7 +19,9 @@ public class User {
     //用户状态，1可用，0被拉黑
     private Integer state;
     
-    protected Integer id;
+    private Integer id;
+    
+    private Integer parent_id;
     
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createdAt;	
@@ -97,6 +99,16 @@ public class User {
 	public void setState(Integer state) {
 		this.state = state;
 	}
+
+	public Integer getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(Integer parent_id) {
+		this.parent_id = parent_id;
+	}
+	
+	
 	
 	
 	

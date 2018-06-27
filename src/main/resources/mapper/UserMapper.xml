@@ -11,9 +11,10 @@
     <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sessionId, sessionValue, validTime,session_id,,open_id,createdAt, updatedAt,state
+    id, parent_id,sessionId, sessionValue, validTime,session_id,,open_id,createdAt, updatedAt,state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -31,6 +32,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
       </if>
       <if test="sessionId != null">
         sessionId,
@@ -58,6 +62,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
       <if test="sessionId != null">
         #{sessionId,jdbcType=VARCHAR},
       </if>
@@ -84,6 +91,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.jielong.core.domain.User">
     update user
     <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
       <if test="sessionId != null">
         sessionId = #{sessionId,jdbcType=VARCHAR},
       </if>
