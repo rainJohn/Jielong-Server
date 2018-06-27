@@ -21,7 +21,7 @@ public class User {
     
     private Integer id;
     
-    private Integer parent_id;
+    private Integer parentId;
     
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	protected Date createdAt;	
@@ -100,22 +100,13 @@ public class User {
 		this.state = state;
 	}
 
-	public Integer getParent_id() {
-		return parent_id;
+	public Integer getParentId() {
+		return parentId;
 	}
 
-	public void setParent_id(Integer parent_id) {
-		this.parent_id = parent_id;
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
-	
-	
-	
-	
-	
-
-  
-
-    
 }
 
    
