@@ -9,6 +9,8 @@ public class ErrorCode {
    public static final Integer UPDATE_EXCEPTION=6;     //更新数据异常
    public static final Integer DELETE_EXCEPTION=7;		//删除数据异常
    public static final Integer SMS_EXCEPTION=8;		//发送短信异常
-   public static final Integer PAY_EXCEPTION=9;		//发送短信异常
+   public static final Integer PAY_EXCEPTION=9;		//支付异常
+   public static final Integer REPERTORY_EXCEPTION=10;		//库存不足
+   
    
 }

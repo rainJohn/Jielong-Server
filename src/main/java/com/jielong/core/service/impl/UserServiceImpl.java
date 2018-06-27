@@ -94,6 +94,10 @@ public class UserServiceImpl implements UserService{
 		
    }	
    
+   @Override
+   public  User  selectById(Integer id) {
+	   return userMapper.selectByPrimaryKey(id);
+   }
    
    @Transactional
    @Override

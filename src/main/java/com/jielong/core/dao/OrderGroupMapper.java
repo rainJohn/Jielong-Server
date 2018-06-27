@@ -30,8 +30,9 @@ public interface OrderGroupMapper {
     @Select("select distinct cust_id from order_group where jielong_id = #{jielongId} and goods_id = #{goodsId} and trade_flg = 0 and order_flg = 0 ")
     List<Integer> selectByUserId(@Param("jielongId") Integer jielongId,@Param("goodsId") Integer goodsId);
     
+    //根据订单编号查询订单
     @Select("select * from order_group where order_id = #{orderId}")
-    List<OrderGroup> selectByOrderId(@Param("orderId") String orderId);
+    List<OrderGroup> selectByOrderId(@Param("orderId") String orderNum);
     
     //参与的接龙
     @Select("select * from order_group where cust_id = #{custId}")

@@ -10,7 +10,9 @@ import com.jielong.core.domain.ContactUsWebsite;
 import com.jielong.core.service.ContactUsService;
 import com.jielong.core.service.ContactUsWebsiteService;
 
+
 @RestController
+@CrossOrigin
 public class OfficialWebsiteController {
 
 	@Autowired
@@ -23,7 +25,7 @@ public class OfficialWebsiteController {
 		return contactUsService.insert(contactUs);
 	}
 	
-	@CrossOrigin(origins = "https://www.95cfun.com", maxAge = 3600)
+	
 	@RequestMapping("/website/contactUs")
 	public ResponseBean<Integer> contactUsWebsite(@RequestBody ContactUsWebsite contactUsWebsite){
 		 return contactUsWebsiteService.insert(contactUsWebsite);

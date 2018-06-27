@@ -14,7 +14,7 @@ public class OrderGroup {
     private Integer custId;
   //接龙_ID
     private Integer jielongId;
-  //订单ID
+  //订单编号
     private String orderId;
   //商品_ID
     private Integer goodsId;
@@ -36,6 +36,8 @@ public class OrderGroup {
     private Integer orderFlg;
     
     private String createdAtStr;
+    
+   
     
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="UTC-7") 
     private Date createdAt;
@@ -166,36 +168,7 @@ public class OrderGroup {
 		this.updatedAt = updatedAt;
 	}
 
-	/* public String getCreatedAt() {
-    	TimeZone timeZone = TimeZone.getDefault();  
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		simpleDateFormat.setTimeZone(timeZone);  
-		if(createdAt!=null) {
-		  return simpleDateFormat.format(createdAt);
-		}else {
-			return null;
-		}   
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-    	TimeZone timeZone = TimeZone.getDefault();  
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		simpleDateFormat.setTimeZone(timeZone);  
-		if(updatedAt!=null) {
-		  return simpleDateFormat.format(updatedAt);
-		}else {
-			return null;
-		}   
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-*/
 	
 	public Integer getAddressId() {
 		return addressId;
@@ -216,6 +189,7 @@ public class OrderGroup {
 	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;
 	}
+
     
     
 }
