@@ -19,4 +19,11 @@ public interface UserInfoService {
    ResponseBean<List<UserInfo>> selectAll();
    
    ResponseBean<List<UserInfo>> selectByConditions(UserInfo userInfo);
+
+   /**
+    * 查询该用户的专属二维码url
+    * @param userId
+    * @return
+    */
+   ResponseBean<String> selectQRcodeUrl(Integer userId);
 }

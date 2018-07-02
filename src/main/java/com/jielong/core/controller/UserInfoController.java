@@ -43,6 +43,11 @@ public class UserInfoController {
 	public ResponseBean<List<UserInfo>> selectByConditions(@RequestBody UserInfo userInfo){
 		return userInfoService.selectByConditions(userInfo);
 	}
+
+	@RequestMapping("/selectQRcode")
+	public  ResponseBean<String> selectQRcode(@RequestParam("userId") Integer userId){
+		return  userInfoService.selectQRcodeUrl(userId);
+	}
 	
 	
 	

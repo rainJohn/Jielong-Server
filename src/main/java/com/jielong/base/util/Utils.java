@@ -1,5 +1,8 @@
 package com.jielong.base.util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -65,7 +68,14 @@ public class Utils {
         String data=sb.toString();
         return data;
     }
-    
+    public static  String  getTestToken() throws JSONException {
+        StringBuilder url=new StringBuilder("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential");
+        url.append("&appid=").append(Constants.APPID).append("&secret=").append(Constants.SECRET);
+        String result=NetworkConnection.get(url.toString());
+        JSONObject jsonObject=new JSONObject(result);
+        String token=jsonObject.getString("access_token");
+        return token;
+    }
     
 
 }

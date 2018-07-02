@@ -13,10 +13,11 @@
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="qrcode_url" jdbcType="VARCHAR" property="qrcodeUrl" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, name, nick_name, avatar_url, phone_number, email, delivery_address, 
-    created_at, updated_at
+    created_at, updated_at,qrcode_url
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,16 +29,7 @@
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jielong.core.domain.UserInfo">
-    insert into user_info (id, user_id, name, 
-      nick_name, avatar_url, phone_number, 
-      email, delivery_address, created_at, 
-      updated_at)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{nickName,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{deliveryAddress,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
-  </insert>
+
   <insert id="insertSelective" parameterType="com.jielong.core.domain.UserInfo">
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -71,6 +63,9 @@
       <if test="updatedAt != null">
         updated_at,
       </if>
+      <if test="qrcodeUrl!= null">
+        qrcode_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -102,6 +97,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrcodeUrl != null">
+        #{qrcodeUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -135,22 +133,13 @@
       <if test="updatedAt != null">
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="qrcodeUrl != null">
+        qrcode_url = #{qrcodeUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jielong.core.domain.UserInfo">
-    update user_info
-    set user_id = #{userId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
   <select id="selectByConditions" parameterType="com.jielong.core.domain.UserInfo" resultMap="BaseResultMap">
     select a.*,b.state from user_info a left join user b on a.user_id=b.id
     <where>
@@ -163,7 +152,7 @@
 	  <if test="phoneNumber!=null and phoneNumber!='' ">
 	      and a.phone_number like "%"#{phoneNumber}"%"
 	  </if>
-    
+
    </where> 
     
   

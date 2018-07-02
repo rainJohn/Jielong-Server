@@ -10,6 +10,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +68,6 @@ public class NetworkConnection {
 				result = new String(response);
 				System.out.println(result);
 				is.close();
-				System.out.println("客户端执行完毕!!");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -166,5 +171,25 @@ public class NetworkConnection {
 			return is;
 		}
 	}
+
+	/*public static  InputStream getImageStream(String url,String params) throws Exception{
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+		StringEntity entity;
+		entity = new StringEntity(params);
+		entity.setContentType("image/png");
+
+		httpPost.setEntity(entity);
+		HttpResponse response;
+
+		response = httpClient.execute(httpPost);
+		InputStream inputStream = response.getEntity().getContent();
+		return inputStream;
+	}*/
+
+
+
 
 }

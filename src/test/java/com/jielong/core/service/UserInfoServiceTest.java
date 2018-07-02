@@ -68,10 +68,17 @@ public class UserInfoServiceTest {
 		
 		
 	}
+
 	
 	@Test
 	public void testDeleteAddress() {
 		ResponseBean<Integer> responseBean=addressService.deleteById(128);
 		System.out.println(responseBean);
+	}
+
+	@Test
+	public void getQrcode(){
+		ResponseBean<String> responseBean=userInfoService.selectQRcodeUrl(41);
+		Assert.assertEquals(0L,responseBean.getErrorCode().longValue());
 	}
 }

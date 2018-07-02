@@ -24,6 +24,18 @@ public class UserTest {
 
  }
 
+ @Test
+ public  void testUpdate(){
+    User user=new User();
+    user.setId(59);
+    user.setParentId(1200);
+    user.setSessionKey("10000");
+    user.setSessionValue("1565878");
+    int result=userMapper.updateByPrimaryKeySelective(user);
+    Assert.assertEquals(1L,(long)result);
+
+ }
+
 
 
 

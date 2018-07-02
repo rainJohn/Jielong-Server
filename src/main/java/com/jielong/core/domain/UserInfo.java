@@ -20,6 +20,8 @@ public class UserInfo {
     private String email;
 
     private String deliveryAddress;
+
+    private String qrcodeUrl;
     
     //用户状态
     private Integer state;
@@ -117,5 +119,12 @@ public class UserInfo {
 	public void setState(Integer state) {
 		this.state = state;
 	}
-    
+
+    public String getQrcodeUrl() {
+        return qrcodeUrl;
+    }
+
+    public void setQrcodeUrl(String qrcodeUrl) {
+        this.qrcodeUrl = qrcodeUrl;
+    }
 }
