@@ -248,7 +248,7 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 		String goodsDesc = "VanMart-景点门票";
 		// 订单总金额，要换成单位 分
 		int totalFee=buyAllMoney.multiply(new BigDecimal(100)).intValue();
-		//TODO:测试时用1分
+		//TODO:测试时可用1分
 		//int totalFee = 1;
 		Map<String, String> map = wxPayService.wxPay(openId, goodsDesc, orderNum, totalFee, 1);
 		if (null != map) {

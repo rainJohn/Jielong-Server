@@ -25,9 +25,9 @@ public class UserController {
 	
   	
    @RequestMapping("/login") 	
-   public ResponseBean<Map<String, Object>>	getSessionKey(@RequestParam("code") String code){
+   public ResponseBean<Map<String, Object>> login(@RequestParam("code") String code,@RequestParam(value="parentUserId",required = false) Integer parentId){
 	  
-	  return userService.login(code);    
+	  return userService.login(code,parentId);
 	     
    }
    

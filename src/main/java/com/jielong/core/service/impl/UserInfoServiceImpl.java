@@ -94,7 +94,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		//2、如果为不为null
 		if (StringUtils.isNotEmpty(url)){
 			responseBean.setData(url);
-		}else {  //TODO:3、如果为null，生成二维码，并保存至oss,更新用户信息
+		}else {  //3、如果为null，生成二维码，并保存至oss,更新用户信息
 			 String path="pages/index/index?parentUserId="+userId;
 			 //获取到二维码图片文件
              File imageFile=qRcodeService.getQRcodeImage(path);

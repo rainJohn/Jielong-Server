@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.jielong.base.util.Constants;
 import com.jielong.base.util.ErrorCode;
 import com.jielong.base.util.NetworkConnection;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService{
    /**
     * 获取session_key 
     */
-   public ResponseBean<Map<String,Object>> login(String code) {
+   public ResponseBean<Map<String,Object>> login(String code,Integer parentId) {
 	   
 	    ResponseBean<Map<String, Object>> responseBean=new ResponseBean<Map<String,Object>>();
    	    Map<String, Object> resultMap=new HashMap<String, Object>();
@@ -71,6 +70,10 @@ public class UserServiceImpl implements UserService{
 			user.setCreatedAt(new Date());
 			user.setUpdatedAt(new Date());
 			//user.setValidtime(7200000); 设置有效时间，单位毫秒，默认 720000
+			if (parentId!=null){
+				//第一次注册设置parentId
+				user.setParentId(parentId);
+			}
 			
 			userMapper.insertSelective(user);
 		     
@@ -83,7 +86,6 @@ public class UserServiceImpl implements UserService{
 			
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			responseBean.setErrorCode(ErrorCode.COMMON_EXCEPTION);
 			responseBean.setErrorMessage("获取session_key发生错误");

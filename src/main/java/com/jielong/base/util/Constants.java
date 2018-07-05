@@ -22,6 +22,10 @@ public class Constants {
   public static final String SERVER_IP="47.88.54.113";
   
   public static final String UPLOADED_FOLDER=System.getProperty("user.dir")+"\\uploadFiles\\"; 
-  public static final String SAVED_FOLDER=System.getProperty("user.dir")+"\\savedFiles\\"; 
+  public static final String SAVED_FOLDER=System.getProperty("user.dir")+"\\savedFiles\\";
+
+  //分销比例
+  public  static final double FIRST_DISTRIBUTION_PERCENT=0.10;  //一级分销比例 10%
+  public  static final double SECOND_DISTRIBUTION_PERCENT=0.06;  //二级分销比例 6%
 
 }

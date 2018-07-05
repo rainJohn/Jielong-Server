@@ -14,7 +14,7 @@
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, parent_id，session_id, session_value,session_key,valid_time,open_id,created_at, updated_at,state
+    id, parent_id,session_id, session_value,session_key,valid_time,open_id,created_at, updated_at,state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

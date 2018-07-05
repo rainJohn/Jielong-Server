@@ -26,26 +26,26 @@
 
 		<!-- 生成model模型 -->
 		<javaModelGenerator targetPackage="com.jielong.core.domain"
-			targetProject="baihai-jielong-server/src/main/java">
+			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!--对应的xml mapper文件 -->
 		<sqlMapGenerator targetPackage="mapper"
-			targetProject="baihai-jielong-server/src/main/resources">
+			targetProject="src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 对应的dao接口 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.jielong.core.dao" targetProject="baihai-jielong-server/src/main/java">
+			targetPackage="com.jielong.core.dao" targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
 
 
-		<table schema="" tableName="contact_us_website" domainObjectName="ContactUsWebsite"
+		<table schema="" tableName="distribution" domainObjectName="Distribution"
 			enableSelectByExample="false" enableDeleteByExample="false"
 			enableCountByExample="false" enableUpdateByExample="false"
 			selectByExampleQueryId="false">

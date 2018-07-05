@@ -43,7 +43,6 @@ public class QRcodeConrtroller {
 			 
 			  
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		    System.out.println("下载文件错误！");
 		}

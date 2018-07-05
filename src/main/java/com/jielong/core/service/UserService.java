@@ -8,7 +8,7 @@ import com.jielong.core.domain.User;
 
 public interface UserService {
 	
-	ResponseBean<Map<String, Object>> login(String code);
+	ResponseBean<Map<String, Object>> login(String code,Integer parentId);
 	
 	 /**
 	   * 更新用户状态  post
