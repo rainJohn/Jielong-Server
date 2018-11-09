@@ -21,8 +21,7 @@ public class OrderControllerTest {
 	@Autowired    
 	private WebApplicationContext wac;  	
 		
-	private MockMvc mockMvc; 
-	
+	private MockMvc mockMvc;
 	@Before    
 	public void setup() {    
 	    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();    
@@ -30,8 +29,8 @@ public class OrderControllerTest {
 	
 	@Test
 	public void testSearch() {
-		
-		
+
+
 	}
 	
 	

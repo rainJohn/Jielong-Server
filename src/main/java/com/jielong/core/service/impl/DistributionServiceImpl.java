@@ -2,16 +2,19 @@ package com.jielong.core.service.impl;
 
 import com.jielong.base.util.Constants;
 import com.jielong.core.dao.DistributionMapper;
+import com.jielong.core.dao.UserInfoMapper;
 import com.jielong.core.dao.UserMapper;
 import com.jielong.core.domain.ContactUs;
 import com.jielong.core.domain.Distribution;
 import com.jielong.core.domain.Order;
+import com.jielong.core.domain.UserInfo;
 import com.jielong.core.service.DistributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DistributionServiceImpl implements DistributionService {
@@ -21,6 +24,9 @@ public class DistributionServiceImpl implements DistributionService {
 
     @Autowired
     DistributionMapper distributionMapper;
+
+    @Autowired
+    UserInfoMapper userInfoMapper;
 
     @Transactional
     @Override
@@ -61,5 +67,25 @@ public class DistributionServiceImpl implements DistributionService {
 
         }
         return 1;
+    }
+
+    /**
+     * 查询某用户所有的提成数据
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Distribution> selectByUserId(Integer userId) {
+        List<Distribution> list=distributionMapper.selectByUserId(userId);
+        list.forEach(distribution -> {
+            UserInfo userInfo=userInfoMapper.selectByUserId(distribution.getFromUser()).get(0);
+            distribution.setFromUserInfo(userInfo);
+            Integer fee=distribution.getDistMoney();  //单位分
+            //除以100，换成元
+            BigDecimal bigDecimal=new BigDecimal(fee).divide(new BigDecimal(100));
+            distribution.setDistMoneyYuan(bigDecimal);
+        });
+
+        return list;
     }
 }

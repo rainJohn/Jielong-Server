@@ -127,4 +127,22 @@ public class UserInfo {
     public void setQrcodeUrl(String qrcodeUrl) {
         this.qrcodeUrl = qrcodeUrl;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", qrcodeUrl='" + qrcodeUrl + '\'' +
+                ", state=" + state +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

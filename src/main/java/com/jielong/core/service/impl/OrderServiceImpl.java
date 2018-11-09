@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.jielong.core.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +30,6 @@ import com.jielong.core.domain.OrderGoods;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.domain.UserMessage;
-import com.jielong.core.service.JielongService;
-import com.jielong.core.service.OrderGoodsService;
-import com.jielong.core.service.OrderService;
-import com.jielong.core.service.UserAddressService;
-import com.jielong.core.service.UserInfoService;
-import com.jielong.core.service.UserMessageService;
-import com.jielong.core.service.UserService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -68,6 +62,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	DistributionService distributionService;
 	
 	/**
 	 * 不含支付时插入订单
@@ -196,12 +193,6 @@ public class OrderServiceImpl implements OrderService {
 		
         //商品库存、参与人数、参与金额等更新信息要在微信支付的异步通知url中调用
 		
-		// 下单之后，更新接龙参与人数、参与金额等信息
-		//jielongService.updateJoin(order.getJielongId(), sumMoney);
-		
-		//给用户发送消息
-		//sendMessage(goodsInfo.toString(), order);
-		
 		return responseBean;
 	}
 	
@@ -232,6 +223,10 @@ public class OrderServiceImpl implements OrderService {
 		
 		// 下单之后，更新接龙参与人数、参与金额等信息
 		jielongService.updateJoin(order.getJielongId(), order.getSumMoney());
+
+
+		//更新分销
+		distributionService.insert(order);
 				
 		//给用户发送消息
 		sendMessage(goodsInfo.toString(), order);			

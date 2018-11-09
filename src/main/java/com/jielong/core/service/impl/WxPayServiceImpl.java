@@ -214,7 +214,7 @@ public class WxPayServiceImpl {
 		return resMap;
 		
 	} catch (Exception e) {
-		// TODO Auto-generated catch block
+
 		e.printStackTrace();
 		
 		return null;

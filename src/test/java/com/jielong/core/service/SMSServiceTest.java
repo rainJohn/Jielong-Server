@@ -67,7 +67,7 @@ public class SMSServiceTest {
 		
       ResponseBean<Integer> responseBean=smsService.sendNotificationSMS(phoneNumber, templateCode, jsonObject.toJSONString());
       
-       if (responseBean.getErrorCode() == 0) {
+        if (responseBean.getErrorCode() == 0) {
 			System.out.println("验证码发送成功，发送数量："+responseBean.getData());
 		} else {
 			System.out.println(responseBean.getErrorMessage());

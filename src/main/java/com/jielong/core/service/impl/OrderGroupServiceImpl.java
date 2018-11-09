@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.jielong.core.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +33,6 @@ import com.jielong.core.domain.OrderGroupConsole;
 import com.jielong.core.domain.UserAddress;
 import com.jielong.core.domain.UserInfo;
 import com.jielong.core.domain.UserMessage;
-import com.jielong.core.service.JielongService;
-import com.jielong.core.service.OrderGroupService;
-import com.jielong.core.service.UserAddressService;
-import com.jielong.core.service.UserInfoService;
-import com.jielong.core.service.UserMessageService;
-import com.jielong.core.service.UserService;
 
 import net.sf.jsqlparser.statement.update.Update;
 
@@ -71,6 +66,8 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	DistributionService distributionService;
 	/**
 	 * 不含支付时的下单逻辑
 	 */
@@ -278,6 +275,15 @@ public class OrderGroupServiceImpl implements OrderGroupService {
 
 		// 更新接龙（参与人数、参与金额等）
 		jielongService.updateJoin(orderGroup.getJielongId(), orderGroup.getCustBuyAllMoney());
+
+		//TODO:更新分销
+		Order order=new Order();
+		order.setUserId(orderGroup.getCustId());
+		order.setOrderNum(orderGroup.getOrderId());
+		order.setSumMoney(orderGroup.getCustBuyAllMoney());
+
+		distributionService.insert(order);
+
 
 		// 检查是否成团并发送消息
 		checkGroup(orderGroup);
